@@ -1,0 +1,235 @@
+<div class="card">
+    <p-table #dt [value]="clientes" [globalFilterFields]="['nome', 'sobrenome', 'telefone', 'cpf']"
+        selectionMode="single" [(selection)]="selectedEmpresa" dataKey="id" [rowHover]="true"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [tableStyle]="{ 'min-width': '50rem' }"
+        [rows]="10" [paginator]="true" stateStorage="session"
+        currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} clientes"
+        stateKey="statedemo-session">
+        <ng-template pTemplate="caption">
+            <div class="header-cliente">
+                <div>
+                    <p-iconField iconPosition="left">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Pesquise" />
+                    </p-iconField>
+                </div>
+                <div class="container-select-empresa">
+                    <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" optionLabel="name"
+                        placeholder="Selecione a Empresa" [style]="{'width': '350px'}" [filter]="true"
+                        emptyFilterMessage="Empresa não encontrada"
+                        emptyMessage="Nenhuma empresa vinculada a esse usuario" (onChange)="empresaSelected($event)" />
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nome" style="width:25%">
+                    Nome <p-sortIcon field="nome" />
+                </th>
+                <th pSortableColumn="telefone" style="width:25%">
+                    Telefone <p-sortIcon field="telefone" />
+                </th>
+                <th pSortableColumn="cpf" style="width:25%">
+                    CPF <p-sortIcon field="cpf" />
+                </th>
+                <th>Ações</th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr [pSelectableRow]="customer">
+                <td>
+                    <span class="p-column-title">Nome</span>
+                    {{ customer.nome +" "+ customer.sobrenome }}
+                </td>
+                <td>
+                    <span class="p-column-title">Telefone</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.telefone }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">CPF</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.cpf }}</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cliente>
+            <tr [pSelectableRow]="cliente">
+                <td>
+                    <span class="p-column-title">Nome</span>
+                    {{ cliente.nome +" "+ cliente.sobrenome }}
+                </td>
+                <td>
+                    <span class="p-column-title">Telefone</span>
+
+                    <span class="ml-1 vertical-align-middle">{{ cliente.telefone }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">CPF</span>
+                    <span class="ml-1 vertical-align-middle">@if(cliente.cpf){
+                        {{ cliente.cpf }}
+                        }@else {
+                        Sem informação do CPF
+                        }
+                    </span>
+                </td>
+                <td>
+                    <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        severity="success" (click)="editProduct(cliente)" />
+                    <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (onClick)="deleteClient($event, cliente)" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">Clientes não encontrado!</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <p-dialog [(visible)]="productDialog" [style]="{ width: '550px' }" header="Editar Cliente" [modal]="true"
+            styleClass="p-fluid">
+            <ng-template pTemplate="content">
+
+                <div class="field container-input">
+                    <div class="width-275px">
+                        <label for="name">Nome</label>
+                        <input type="text" pInputText pKeyFilter="alpha" formControlName="nome" autofocus />
+                        <small class="p-error" *ngIf="form.controls.nome.invalid">
+                            O nome é obrigatório.
+                        </small>
+                    </div>
+                    <div class="ml-3 width-300px">
+                        <label for="name">Sobrenome</label>
+                        <input type="text" pInputText formControlName="sobrenome" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.sobrenome.invalid">
+                            O sobrenome é obrigatório.
+                        </small>
+                    </div>
+                </div>
+                <div class="field container-input">
+                    <div class="width-275px">
+                        <label for="name">CPF</label>
+                        <p-inputMask mask="999.999.999-99" formControlName="cpf" />
+                    </div>
+                    <div class="ml-3 display-flex">
+                        <div class="div-button-tel">
+                            <p-toggleButton onLabel="Fixo" offLabel="Celular"
+                                (onChange)="modifyInputTel()"></p-toggleButton>
+                        </div>
+                        <div *ngIf="typeTel" class="div-input-tel">
+                            <label for="telefone">Fixo</label>
+                            <p-inputMask mask="(99) 9999-9999" formControlName="telefone" placeholder="" required
+                                autofocus></p-inputMask>
+                            <small class="p-error"
+                                *ngIf="form.controls.telefone.invalid && form.controls.telefone.touched">
+                                O telefone é obrigatório.
+                            </small>
+                        </div>
+
+                        <div *ngIf="!typeTel" class="div-input-tel">
+                            <label for="telefone">Celular</label>
+                            <p-inputMask mask="(99) 99999-9999" formControlName="telefone" placeholder="" required
+                                autofocus></p-inputMask>
+                            <small class="p-error"
+                                *ngIf="form.controls.telefone.invalid && form.controls.telefone.touched">
+                                O telefone é obrigatório.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-input">
+                    <div style="width: 100%;">
+                        <label for="name">Email</label>
+                        <input type="email" pInputText formControlName="email" autofocus />
+                        <small class="p-error" *ngIf="form.controls.email.invalid">
+                            Email Invalído!
+                        </small>
+                    </div>
+                </div>
+                <hr>
+                <h2>Vinculo de empresa</h2>
+                <div>
+                    <p-multiSelect [options]="empresas" formControlName="empresas" optionLabel="name"
+                        placeholder="Vincule a(s) empresas" />
+                </div>
+                <hr>
+                <h2>Endereço</h2>
+                <div class="field container-input">
+                    <div class="width-input-small">
+                        <label for="cep">CEP</label>
+                        <p-inputMask mask="99999-999" formControlName="cep" (onBlur)="searchAddress()" />
+                        <small class="p-error" *ngIf="form.controls.cep.invalid">
+                            O CEP é obrigatório.
+                        </small>
+                    </div>
+                    <div class="ml-3 width-input-100">
+                        <label for="name">Endereço</label>
+                        <input type="text" pInputText formControlName="endereco" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.endereco.invalid">
+                            O endereço é obrigatório.
+                        </small>
+                    </div>
+                </div>
+                <div class="field container-input">
+                    <div class="width-input-small">
+                        <label for="name">Numero</label>
+                        <input type="text" pInputText pKeyFilter="int" formControlName="numero" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.numero.invalid">
+                            O numero é obrigatório.
+                        </small>
+                    </div>
+                    <div class="ml-3 width-input-100">
+                        <label for="name">Bairro</label>
+                        <input type="text" pInputText formControlName="bairro" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.bairro.invalid">
+                            O bairro é obrigatório.
+                        </small>
+                    </div>
+                </div>
+                <div class="field container-input">
+                    <div class="width-input-small">
+                        <label for="name">UF</label>
+                        <input type="text" pInputText formControlName="uf" required autofocus />
+                        <small class="p-error"
+                            *ngIf="!form.controls.uf.value && !form?.controls?.uf?.errors?.['invalidUF']">
+                            A UF é obrigatório.
+                        </small>
+                        <small class="p-error"
+                            *ngIf="form?.controls?.uf?.errors?.['invalidUF'] == false && this.form.controls.uf.value">
+                            UF incorreta.
+                        </small>
+
+                    </div>
+                    <div class="ml-3 width-input-100">
+                        <label for="name">Cidade</label>
+                        <input type="text" pInputText formControlName="cidade" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.cidade.invalid">
+                            A cidade é obrigatório.
+                        </small>
+                    </div>
+                </div>
+                <div class="" style="margin-top: 20px;">
+                    <label for="name">Complemento</label>
+                    <input type="text" pInputText formControlName="complemento" autofocus />
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <p-button pRipple label="Cancelar" icon="pi pi-times" [text]="true" (click)="hideDialog()" />
+                <p-button pRipple label="Salvar" icon="pi pi-check" [text]="true" (click)="onSubmit()" />
+            </ng-template>
+
+        </p-dialog>
+    </form>
+    <p-confirmDialog [style]="{ width: '550px' }" />
+
+</div>

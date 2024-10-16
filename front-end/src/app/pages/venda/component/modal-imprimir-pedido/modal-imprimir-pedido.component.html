@@ -1,0 +1,34 @@
+<p-dialog header="Pedido Finalizado" [(visible)]="visible" [modal]="true"
+    [breakpoints]="{ '1199px': '50vw', '675px': '80vw' }" [style]="{ width: '35vw' }" [draggable]="false"
+    [resizable]="false" (onHide)="onHide()">
+
+    <div class="modal-content">
+        <i class="pi pi-check-circle modal-icon"></i>
+        <h2 class="modal-title">Pedido #{{pedidoInput()?.pedido_id}}</h2>
+        <p class="modal-message">Seu pedido foi realizado com sucesso!</p>
+
+        @if(pedidoInput()?.resultEtiqueta?.status !== 'skip'){
+            <div class="modal-status">
+                @if (pedidoInput()?.resultEtiqueta?.status === 'success') {
+                <p class="status-success">
+                    <i class="pi pi-tag"></i> Etiqueta criada com sucesso.
+                </p>
+                }@else {
+                <p class="status-warning">
+                    <i class="pi pi-exclamation-triangle"></i> A etiqueta não foi criada. Crie manualmente.
+                </p>
+                }
+            </div>
+        }
+        
+        <div class="modal-signature-option">
+            <p-checkbox [(ngModel)]="comAssinatura" binary="true" inputId="binary"></p-checkbox>
+            <label for="signatureCheckbox" class="checkbox-label">Imprimir com assinatura?</label>
+          </div>
+
+        <div class="modal-actions">
+            <button pButton type="button" label="Imprimir" icon="pi pi-print" class="p-button-primary" (click)="imprimirEtiqueta()"></button>
+            <button pButton type="button" label="Fechar" icon="pi pi-times" class="p-button-secondary" (click)="closeDialog()"></button>
+        </div>
+    </div>
+</p-dialog>

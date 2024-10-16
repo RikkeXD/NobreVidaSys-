@@ -1,0 +1,80 @@
+<div class="card flex justify-content-center">
+    <p-panel header="Cliente" iconPos="end" collapseIcon="" [toggleable]="true" [collapsed]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-user" [style]="{'font-size': '1.5rem', 'padding-right':'7px'}"></i>
+        </ng-template>
+        <div class="container-base">
+            <div>
+                <div class="container-button-modal">
+                    <p-button label="Selecionar cliente" [text]="true" [raised]="true" [style]="{'border-radius': '10px' }" (onClick)="abrirModal()"/>
+                    <app-modal-select-cliente [showModal]="showModal" (close)="fecharModal()" [empresaId]="empresaId()" (clientEmit)="selectClient($event)"/>
+                </div>
+                @if (client) {
+                    <div class="container-client">
+                        <div class="section">
+                            <h3 class="section-title">
+                                <mat-icon>person</mat-icon> <strong>Dados do Cliente</strong>
+                            </h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <mat-icon>badge</mat-icon>
+                                    <span class="list-text"><strong>Nome:</strong> {{client.nome + " " + client.sobrenome}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <mat-icon>email</mat-icon>
+                                    <span class="list-text"><strong>Email:</strong> {{client.email}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <mat-icon>credit_card</mat-icon>
+                                    <span class="list-text"><strong>CPF:</strong> {{client.cpf}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <mat-icon>phone</mat-icon>
+                                    <span class="list-text"><strong>Telefone:</strong> {{client.telefone}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="section">
+                            <h3 class="section-title">
+                                <mat-icon>location_on</mat-icon> <strong>Endereço do Cliente</strong>
+                            </h3>
+                           
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <mat-icon>home</mat-icon>
+                                        <span class="list-text"><strong>Rua:</strong> {{client.endereco.endereco}}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <mat-icon>location_searching</mat-icon>
+                                        <span class="list-text"><strong>CEP:</strong> {{client.endereco.cep}}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <mat-icon>pin_drop</mat-icon>
+                                        <span class="list-text"><strong>Número:</strong> {{client.endereco.numero}}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <mat-icon>apartment</mat-icon>
+                                        <span class="list-text"><strong>Bairro:</strong> {{client.endereco.bairro}}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <mat-icon>add_location</mat-icon>
+                                        <span class="list-text"><strong>Complemento:</strong> {{client.endereco.complemento}}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <mat-icon>location_city</mat-icon>
+                                        <span class="list-text"><strong>Cidade:</strong> {{client.endereco.cidade}}</span>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                    </div>
+                }@else {
+                    <div class="container-client">
+                        <p>Nenhum cliente selecionado.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </p-panel>
+</div>

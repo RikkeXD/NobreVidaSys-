@@ -1,0 +1,86 @@
+.modal-content {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .modal-icon {
+    font-size: 4rem;
+    color: var(--green-500);
+    margin-bottom: 10px;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+  }
+  
+  .modal-message {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .modal-status {
+    margin-bottom: 20px;
+  }
+  
+  .status-success {
+    color: var(--green-600);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .status-warning {
+    color: var(--orange-500);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .status-success i, .status-warning i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+  }
+  
+  .modal-signature-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .checkbox-label {
+    margin-left: 10px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .p-button-primary {
+    background-color: var(--blue-500);
+    border-color: var(--blue-500);
+  }
+  
+  .p-button-secondary {
+    background-color: var(--gray-500);
+    border-color: var(--gray-500);
+  }
+  
+  .p-button-primary:hover {
+    background-color: var(--blue-600);
+  }
+  
+  .p-button-secondary:hover {
+    background-color: var(--gray-600);
+  }
+  

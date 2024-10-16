@@ -1,0 +1,147 @@
+<div class="card">
+    <p-table #dt [value]="products" [globalFilterFields]="['nome', 'fornecedor', 'cod_barras']" selectionMode="single"
+        [(selection)]="selectedProduct" dataKey="id" [rowHover]="true" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50]" [tableStyle]="{ 'min-width': '50rem' }" [rows]="10" [paginator]="true"
+        stateStorage="session" currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} produtos"
+        stateKey="statedemo-session">
+        <ng-template pTemplate="caption">
+            <div class="header-produto">
+                <div>
+                    <p-iconField iconPosition="left">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Pesquise" />
+                    </p-iconField>
+                </div>
+                <div class="container-select-empresa">
+                    <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" optionLabel="name"
+                        placeholder="Select a City" [style]="{'width': '350px'}" [filter]="true"
+                        emptyFilterMessage="Empresa não encontrada"
+                        emptyMessage="Nenhuma empresa vinculada a esse usuario" (onChange)="empresaSelected($event)" />
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nome" style="width:25%">
+                    Nome <p-sortIcon field="nome" />
+                </th>
+                <th pSortableColumn="fornecedor" style="width:25%">
+                    Fornecedor <p-sortIcon field="fornecedor" />
+                </th>
+                <th pSortableColumn="cod_barras" style="width:25%">
+                    Código de barras <p-sortIcon field="cod_barras" />
+                </th>
+                <th>Ações</th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr [pSelectableRow]="product">
+                <td>
+                    <span class="p-column-title">Nome</span>
+                    {{ product.nome }}
+                </td>
+                <td>
+                    <span class="p-column-title">Fornecedor</span>
+                    <span class="ml-1 vertical-align-middle">{{ product.fornecedor }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Código de barras</span>
+                    <span class="ml-1 vertical-align-middle">{{ product.cod_barras }}</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr [pSelectableRow]="product">
+                <td>
+                    <span class="p-column-title">Nome</span>
+                    {{ product.nome }}
+                </td>
+                <td>
+                    <span class="p-column-title">Fornecedor</span>
+
+                    <span class="ml-1 vertical-align-middle">{{ product.fornecedor }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Código de barras</span>
+                    <span class="ml-1 vertical-align-middle">{{product.cod_barras}}
+                    </span>
+                </td>
+                <td>
+                    <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        severity="success" (click)="editProduct(product)" />
+                    <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (onClick)="deleteProduct($event ,product)" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">Produto não cadastrado!</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <p-dialog [(visible)]="productDialog" [style]="{ width: '550px' }" header="Editar produto" [modal]="true"
+            styleClass="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field container-input">
+                    <div class="container-input">
+                        <div class="">
+                            <label for="name">Nome</label>
+                            <input type="text" pInputText pKeyFilter="alpha" formControlName="nome" autofocus />
+                            <small class="p-error" *ngIf="form.controls.nome.invalid">
+                                O nome é obrigatório.
+                            </small>
+                        </div>
+                        <div class="ml">
+                            <label for="name">Fornecedor</label>
+                            <input type="text" pInputText formControlName="fornecedor" required autofocus />
+                            <small class="p-error" *ngIf="form.controls.fornecedor.invalid">
+                                O fornecedor é obrigatório.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-input mt-3">
+                    <div class="">
+                        <label for="name">Peso</label>
+                        <input type="text" pInputText formControlName="peso" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.peso.invalid">
+                            O peso é obrigatório.
+                        </small>
+                    </div>
+                    <div>
+                        <div class="ml">
+                            <label for="name">Código de barras</label>
+                            <input type="text" pInputText formControlName="cod_barras" autofocus />
+                            <small class="p-error" *ngIf="form.controls.cod_barras.invalid">
+                                O código de barras é obrigatório.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <label for="">Vinculos de empresas</label>
+                    <p-multiSelect [options]="empresas" formControlName="empresas" optionLabel="name"
+                        placeholder="Vincule a(s) empresas" appendTo="body" />
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <p-button pRipple label="Cancelar" icon="pi pi-times" [text]="true" (click)="hideDialog()" />
+                <p-button pRipple label="Salvar" icon="pi pi-check" [text]="true" (click)="onSubmit()" />
+            </ng-template>
+
+        </p-dialog>
+    </form>
+    <p-confirmDialog [style]="{ width: '550px' }" />
+
+</div>

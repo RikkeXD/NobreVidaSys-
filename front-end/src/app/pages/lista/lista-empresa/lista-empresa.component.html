@@ -1,0 +1,254 @@
+<div class="card">
+    <p-table #dt [value]="empresas" [globalFilterFields]="['razao_social', 'email', 'telefone', 'cnpj']"
+        selectionMode="single" [(selection)]="selectedEmpresa" dataKey="id" [rowHover]="true"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [tableStyle]="{ 'min-width': '50rem' }"
+        [rows]="10" [paginator]="true" stateStorage="session"
+        currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} empresas"
+        stateKey="statedemo-session">
+        <ng-template pTemplate="caption">
+            <p-iconField iconPosition="left">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                    placeholder="Pesquise" />
+            </p-iconField>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="razao_social" style="width:20%">
+                    Razão Social <p-sortIcon field="razao_social" />
+                </th>
+                <th pSortableColumn="email" style="width:20%">
+                    E-mail <p-sortIcon field="email" />
+                </th>
+                <th pSortableColumn="telefone" style="width:20%">
+                    Telefone <p-sortIcon field="telefone" />
+                </th>
+                <th pSortableColumn="cnpj" style="width:20%">
+                    CNPJ <p-sortIcon field="cnpj" />
+                </th>
+                <th style="width: 15%;">Ações</th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr [pSelectableRow]="customer">
+                <td>
+                    <span class="p-column-title">Razão Social</span>
+                    {{ customer.razao_social }}
+                </td>
+                <td>
+                    <span class="p-column-title">E-mail</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.email }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Telefone</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.telefone }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">CNPJ</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.cnpj }}</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-empresa>
+            <tr [pSelectableRow]="empresa">
+                <td>
+                    <span class="p-column-title">Razão Social</span>
+                    {{ empresa.razao_social }}
+                </td>
+                <td>
+                    <span class="p-column-title">E-mail</span>
+                    <span class="ml-1 vertical-align-middle">{{ empresa.email }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Telefone</span>
+                    <span class="ml-1 vertical-align-middle">
+                        {{ empresa.telefone }}
+                    </span>
+                </td>
+                <td>
+                    <span class="p-column-title">CNPJ</span>
+                    <span class="ml-1 vertical-align-middle">{{ empresa.cnpj }}</span>
+                </td>
+                <td>
+                    <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        severity="success" (click)="editEmpresa(empresa)" />
+                    <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (onClick)="deleteEmpresa($event ,empresa)" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">Empresa não encontrado!</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <p-dialog [(visible)]="userDialog" [style]="{ width: '550px' }" header="Editar empresa" [modal]="true"
+            styleClass="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field mb-3">
+                    <div class="">
+                        <label for="name">Razão Social</label>
+                        <input type="text" pInputText pKeyFilter="alpha" formControlName="razao_social" autofocus />
+                        <small class="p-error" *ngIf="form.controls.razao_social.invalid">
+                            O Razão social é obrigatório.
+                        </small>
+                    </div>
+
+                </div>
+                <div class="">
+                    <label for="name">CNPJ</label>
+                    <p-inputMask mask="99.999.999.9999-99" formControlName="cnpj" />
+                    <small class="p-error" *ngIf="form.controls.cnpj.invalid">
+                        O CNPJ é obrigatório.
+                    </small>
+                </div>
+                <div class="container-input">
+                    <div style="width: 100%;">
+                        <label for="name">Email</label>
+                        <input type="email" pInputText formControlName="email" autofocus />
+                        <small class="p-error" *ngIf="form.controls.email.invalid">
+                            Email invalído!
+                        </small>
+                    </div>
+                    <div class="ml-3 display-flex">
+                        <div class="div-button-tel">
+                            <p-toggleButton onLabel="Fixo" offLabel="Celular"
+                                (onChange)="modifyInputTel()"></p-toggleButton>
+                        </div>
+                        <div *ngIf="typeTel" class="div-input-tel">
+                            <label for="telefone">Fixo</label>
+                            <p-inputMask mask="(99) 9999-9999" formControlName="telefone" placeholder="" required
+                                autofocus></p-inputMask>
+                            <small class="p-error"
+                                *ngIf="form.controls.telefone.invalid && form.controls.telefone.touched">
+                                O telefone é obrigatório.
+                            </small>
+                        </div>
+
+                        <div *ngIf="!typeTel" class="div-input-tel">
+                            <label for="telefone">Celular</label>
+                            <p-inputMask mask="(99) 99999-9999" formControlName="telefone" placeholder="" required
+                                autofocus></p-inputMask>
+                            <small class="p-error"
+                                *ngIf="form.controls.telefone.invalid && form.controls.telefone.touched">
+                                O telefone é obrigatório.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h2>Endereço</h2>
+                <div class="field container-input">
+                    <div class="width-input-small">
+                        <label for="cep">CEP</label>
+                        <p-inputMask mask="99999-999" formControlName="cep" (onBlur)="searchAddress()" />
+                        <small class="p-error" *ngIf="form.controls.cep.invalid">
+                            O CEP é obrigatório.
+                        </small>
+                    </div>
+                    <div class="ml-3 width-input-100">
+                        <label for="name">Endereço</label>
+                        <input type="text" pInputText formControlName="endereco" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.endereco.invalid">
+                            O endereço é obrigatório.
+                        </small>
+                    </div>
+                </div>
+                <div class="field container-input">
+                    <div class="width-input-small">
+                        <label for="name">Numero</label>
+                        <input type="text" pInputText pKeyFilter="int" formControlName="numero" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.numero.invalid">
+                            O numero é obrigatório.
+                        </small>
+                    </div>
+                    <div class="ml-3 width-input-100">
+                        <label for="name">Bairro</label>
+                        <input type="text" pInputText formControlName="bairro" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.bairro.invalid">
+                            O bairro é obrigatório.
+                        </small>
+                    </div>
+                </div>
+                <div class="field container-input">
+                    <div class="width-input-small">
+                        <label for="name">UF</label>
+                        <input type="text" pInputText formControlName="uf" required autofocus />
+                        <small class="p-error"
+                            *ngIf="!form.controls.uf.value && !form?.controls?.uf?.errors?.['invalidUF']">
+                            A UF é obrigatório.
+                        </small>
+                        <small class="p-error"
+                            *ngIf="form?.controls?.uf?.errors?.['invalidUF'] == false && this.form.controls.uf.value">
+                            UF incorreta.
+                        </small>
+
+                    </div>
+                    <div class="ml-3 width-input-100">
+                        <label for="name">Cidade</label>
+                        <input type="text" pInputText formControlName="cidade" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.cidade.invalid">
+                            A cidade é obrigatório.
+                        </small>
+                    </div>
+                </div>
+                <div class="" style="margin-top: 20px;">
+                    <label for="name">Complemento</label>
+                    <input type="text" pInputText formControlName="complemento" autofocus />
+                </div>
+                <hr>
+                <div>
+                    <div class="container-header-logo">
+                        <div>
+                            <h2>Logo</h2>
+                        </div>
+                        <div class="container-button">
+                            <p-button [label]="form.value.image ? 'Trocar imagem': 'Adicionar imagem'" severity="secondary" [style]="{width: '190px', height: '30px'}"
+                            (onClick)="modifyImg()"
+                            />
+                        </div>
+                    </div>
+                    <div class="container-img-logo">
+                        @if (imageUpload) {
+                            <div>
+                                <p-fileUpload #fileUpload name="demo[]" chooseIcon="pi pi-upload" accept="image/*"
+                                    maxFileSize="1000000"
+                                    (onSelect)="loadImage($event)" 
+                                    (onClear)="removeImage()"
+                                    (onRemove)="removeImage()"
+                                    [multiple]="false" chooseLabel="Carregar Logo"
+                                    [showUploadButton]="false" cancelLabel="Cancelar">
+                                </p-fileUpload>
+                            </div>
+                        }
+                        @else {
+                            <div>
+                                @if(!form.value.image){
+                                    <h3>Empresa sem imagem</h3>
+                                }@else {
+                                    <p-image [src]="form.value.image" alt="Image" width="150" />
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <p-button pRipple label="Cancelar" icon="pi pi-times" [text]="true" (click)="hideDialog()" />
+                <p-button pRipple label="Salvar" icon="pi pi-check" [text]="true" (click)="onSubmit()" />
+            </ng-template>
+
+        </p-dialog>
+    </form>
+    <p-confirmDialog [style]="{ width: '550px' }" />
+
+</div>

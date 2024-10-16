@@ -1,0 +1,59 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()" id="menuIcon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span id="menuTitle">Address Book</span>
+    @for (item of navegation; track $index) {
+    <button mat-button [matMenuTriggerFor]="navMenu"
+        class="top-menu-item"><mat-icon>{{item.icon}}</mat-icon>{{item.category}}</button>
+    <mat-menu #navMenu="matMenu">
+        @for (menu of item.navegation; track $index){
+        <button mat-menu-item [routerLink]="menu.router">{{menu.name}}</button>
+        }
+    </mat-menu>
+    }
+    <div class="user-name">
+        <a mat-button [matMenuTriggerFor]="menu" class="name-menu-item"><mat-icon
+                fontIcon="account_circle"></mat-icon>{{userName}}</a>
+    </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="60" mode="side">
+        <div class="side-nav-items">
+            @for (item of navegation; track $index) {
+            <div>
+                <button mat-button class="side-menu-item" [matMenuTriggerFor]="navMenu">
+                    <mat-icon>{{item.icon}}</mat-icon>{{item.category}}
+                </button>
+            </div>
+            <mat-menu #navMenu="matMenu">
+                @for (menu of item.navegation; track $index) {
+                    <button (click)="sidenav.close()" mat-menu-item [routerLink]="menu.router">{{menu.name}}
+                    </button>
+                }
+            </mat-menu>
+            }
+        </div>
+        <div class="sidenav-footer">
+            <a mat-button [matMenuTriggerFor]="menu" class="side-menu-item"><mat-icon>account_circle</mat-icon>Rikelmi
+                Alves</a>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>settings_applications</mat-icon>
+                    <span>Configuração</span>
+                </button>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Sair</span>
+                </button>
+            </mat-menu>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="main-content">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

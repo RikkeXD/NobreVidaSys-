@@ -1,0 +1,43 @@
+<form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="main">
+    <div class="container">
+        <div class="div-one">
+        </div>
+        <div class="div-two">
+            <div class="component-login">
+                <div class="title">
+                    <h2 class="fs-1">Bem Vindo!</h2>
+                </div>
+                <div class="inputs">
+                    <div class="login">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Digite seu E-mail</mat-label>
+                            <input matInput placeholder="" formControlName="email">
+                            <mat-icon matSuffix>person</mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="password">
+                        <mat-form-field class="full-width">
+                            <mat-label>Digite sua senha</mat-label>
+                            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <div class="link-senha">
+                        <a>Esqueceu a Senha ?</a>
+                    </div>
+                    <div class="btn-login">
+                        <button mat-raised-button class="full-width">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</form>

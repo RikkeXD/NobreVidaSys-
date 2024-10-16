@@ -1,0 +1,99 @@
+.payment-summary {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
+
+.payment-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #444;
+}
+
+.payment-summary-row span {
+    color: #888;
+}
+
+.payment-summary-row strong {
+    color: #333;
+    font-weight: 500;
+}
+
+.payment-summary-discount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 20px;
+}
+
+.payment-summary-discount label {
+    display: flex;
+    align-items: center;
+}
+
+.payment-summary-discount input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.payment-summary-discount .discount-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #007bff;
+}
+
+.payment-summary-row.total {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 10px;
+}
+
+.btn-confirmar {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-confirmar:hover {
+    background-color: #218838;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .payment-summary {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    .payment-summary-row {
+        font-size: 14px;
+    }
+
+    .payment-summary-discount .discount-value {
+        font-size: 14px;
+    }
+
+    .btn-confirmar {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

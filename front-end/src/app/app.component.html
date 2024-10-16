@@ -1,0 +1,8 @@
+
+<p-toast />
+@if (!verificarToken()) {
+  <app-login></app-login>
+}@else {
+  <app-side-nav-bar></app-side-nav-bar>
+  <router-outlet></router-outlet>
+}

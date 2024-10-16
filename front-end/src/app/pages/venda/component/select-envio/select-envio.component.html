@@ -1,0 +1,49 @@
+<div class="card flex justify-content-center">
+    <p-panel header="Tipo de Envio" iconPos="end" collapseIcon="" [toggleable]="true" [collapsed]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-user" [style]="{'font-size': '1.5rem', 'padding-right':'7px'}"></i>
+        </ng-template>
+        <app-modal-select-envio [showModal]="showModal" (close)="fecharModal()" [clienteId]="clienteId()" [embalagem_id]="form.value.embalagem_id!" 
+        [peso]="totalPesoProdutos()" (freteEmit)="atualizarEnvio($event)"/>
+        <form [formGroup]="form">
+        <div class="mb-3">
+            <div>
+                <div>
+                    <label for="" class="mb-2">Tipo de Embalagem</label>
+                </div>
+                <div>
+                    <p-dropdown [options]="listaEmbalagem" formControlName="embalagem_id" optionLabel="nome" optionValue="id"
+                    (onChange)="abrirModal()" placeholder="Selecione uma embalagem" 
+                    emptyMessage="Nenhuma embalagem encontrada nessa empresa" emptyFilterMessage="Embalagem encontrada"
+                    [style]="{'width': '400px'}" appendTo="body" [filter]="true" filterBy="nome" />
+                </div>
+            </div>
+        </div>
+        @if (form.value.embalagem_id) {
+        <div class="container-envio">
+            <div>
+                <div>
+                    <label for="" class="mb-2">Tipo de Envio</label>
+                </div>
+                <div>
+                    <p-dropdown [options]="listaEnvios" formControlName="nome" optionLabel="nome" optionValue="nome"
+                    (onChange)="abrirModal()" placeholder="Selecione uma forma de pagamento"
+                    [style]="{'width': '400px'}" appendTo="body" />
+                </div>
+            </div>
+            @if( form.value.nome === 'Correios' || form.value.nome === 'Motoboy'){
+            <div class="ml">
+                <div>
+                    <label for="" class="mb-2">Valor do Envio</label>
+                </div>
+                <div>
+                    <p-inputNumber formControlName="vlr_envio" inputId="currency-us" mode="currency" currency="BRL"
+                        locale="pt-BR" size="10" />
+                </div>
+            </div>
+            }
+        </div>
+    }
+</form>
+    </p-panel>
+</div>

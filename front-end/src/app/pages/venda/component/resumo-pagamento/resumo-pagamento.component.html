@@ -1,0 +1,38 @@
+<p-panel header="Resumo de pagamento">
+    <div class="payment-summary-row">
+        <span>Valor dos Produtos:</span>
+        <strong>{{valorTotalProduto() | currency : 'BRL'}}</strong>
+    </div>
+
+    <!-- Valor do envio -->
+    <div class="payment-summary-row">
+        <span>Valor do Envio:</span>
+        <strong>{{valorEnvio()?.vlr_envio | currency: 'BRL'}}</strong>
+    </div>
+
+    <!-- Valor das parcelas (se parcelado) -->
+    @if(parcela() && parcela()!.qntd_parcela! > 1 ){
+    <div class="payment-summary-row">
+        <span>Parcelas ({{parcela()?.qntd_parcela}}x):</span>
+        <strong>{{ valorParcela | currency: 'BRL'}} / mês</strong>
+    </div>
+    }
+
+    <!-- Checkbox para aplicar desconto -->
+    <div class="payment-summary-discount">
+        <label>
+            <input type="checkbox" [(ngModel)]="statusDesconto" (click)="calcularTotal()"/>
+            <span>Aplicar Desconto</span>
+        </label>
+        @if(statusDesconto){
+        <div class="discount-value">Desconto: <p-inputNumber [(ngModel)]="desconto"
+                mode="currency" currency="BRL" locale="pt-BR" size="5" (onInput)="calcularTotal()"/> </div>
+        }
+    </div>
+
+    <!-- Valor Total -->
+    <div class="payment-summary-row total">
+        <span>Total a Pagar:</span>
+        <strong>{{ valorTotal | currency: 'BRL' }}</strong>
+    </div>
+</p-panel>

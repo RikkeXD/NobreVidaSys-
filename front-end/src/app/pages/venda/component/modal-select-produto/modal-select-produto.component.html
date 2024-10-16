@@ -1,0 +1,38 @@
+<p-dialog header="Produtos" [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+   [style]="{ width: '60vw' }" [draggable]="false" [resizable]="true" (onHide)="onHide()" >
+   <div class="card">
+      <p-table #dt2 [value]="produtos" selectionMode="single" [(selection)]="product"
+         dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" (onRowSelect)="selectProduct($event.data)"
+         [globalFilterFields]="['nome', 'fornecedor', 'cod_barras']">
+
+         <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input 
+                        pInputText 
+                        type="text" 
+                        (input)="dt2.filterGlobal($any($event.target).value, 'contains')" 
+                        placeholder="Digite sua Pesquisa" />
+                </p-iconField>
+            </div>
+        </ng-template>
+         <ng-template pTemplate="header">
+            <tr>
+               <th>Nome</th>
+               <th>Fornecedor</th>
+               <th>Codigo de barras</th>
+            </tr>
+         </ng-template>
+         <ng-template pTemplate="body" let-product>
+            <tr [pSelectableRow]="product">
+               <td>{{ product.nome }}</td>
+               <td>{{ product.fornecedor }}</td>
+               <td>{{ product.cod_barras }}</td>
+            </tr>
+         </ng-template>
+      </p-table>
+   </div>
+</p-dialog>

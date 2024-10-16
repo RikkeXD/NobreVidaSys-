@@ -1,0 +1,108 @@
+<div class="container">
+    <div class="row">
+        <div class="title">
+            <div class="top">
+                <h1>CADASTRO DE EMPRESA</h1>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="header">
+                    <div class="container-inputs">
+                        <p-floatLabel>
+                            <input pInputText id="razao_social" formControlName="razao_social" />
+                            <label for="razao_social">Razão Social</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="container-inputs">
+                        <p-floatLabel>
+                            <p-inputMask mask="99.999.999.9999-99" formControlName="cnpj" [style]="style" />
+                            <label for="cnpj">CNPJ</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="container-inputs">
+                        <div class="input-email">
+                            <p-floatLabel>
+                                <input pInputText id="email" formControlName="email" [style]="styleEmail" />
+                                <label for="email">E-mail</label>
+                            </p-floatLabel>
+                        </div>
+                        <div class="button-tel">
+                            <p-button icon="pi pi-sync" [text]="true" class="button-tel"
+                                (onClick)="typeTel = !typeTel" />
+                        </div>
+                        <div class="input-tel">
+                            <p-floatLabel>
+                                @if (typeTel) {
+                                <p-inputMask mask="(99) 99999-9999" formControlName="telefone"
+                                    placeholder="(11) 91234-5678" [style]="styleTel" />
+                                <label for="telefone">Celular</label>
+                                }@else {
+                                <p-inputMask mask="(99) 9999-9999" formControlName="telefone"
+                                    placeholder="(11) 5666-6666" [style]="styleTel" />
+                                <label for="telefone">Telefone</label>
+                                }
+
+                            </p-floatLabel>
+                        </div>
+                    </div>
+
+                    <div class="container-endereco">
+                        <p-floatLabel>
+                            <p-inputMask mask="99999-999" formControlName="cep" placeholder="01234-567"
+                                [style]="styleCep" (onBlur)="searchAddress()" />
+                            <label for="cep">CEP</label>
+                        </p-floatLabel>
+                        <p-floatLabel class="input-margin-left-end">
+                            <input pInputText id="endereco" formControlName="endereco" class=" width-input-large" />
+                            <label for="email">Endereço</label>
+                        </p-floatLabel>
+                    </div>
+
+                    <div class="container-endereco">
+                            <p-floatLabel >
+                                <input pInputText pKeyFilter="int" formControlName="numero" class="width-input-small"/>
+                                <label for="numero">Numero</label>
+                            </p-floatLabel>
+                        <p-floatLabel class="input-margin-left-end">
+                            <input pInputText id="bairro" formControlName="bairro" class=" width-input-large" />
+                            <label for="bairro">Bairro</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="container-endereco">
+                        <p-floatLabel>
+                            <input pInputText id="uf" formControlName="uf" class="width-input-small" />
+                            <label for="uf">UF</label>
+                        </p-floatLabel>
+
+                        <p-floatLabel class="input-margin-left-end">
+                            <input pInputText id="cidade" formControlName="cidade" class=" width-input-large" />
+                            <label for="cidade">Cidade</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="container-complemento">
+                        <p-floatLabel>
+                            <input pInputText id="complemento" formControlName="complemento" />
+                            <label for="complemento">Complemento</label>
+                        </p-floatLabel>
+                    </div>
+
+                </div>
+                <div class="">
+                    <p-fileUpload #fileUpload name="demo[]" chooseIcon="pi pi-upload" accept="image/*"
+                        maxFileSize="1000000" (onSelect)="loadImage($event)" (onClear)="removeImage()"
+                        (onRemove)="removeImage()" [multiple]="false" chooseLabel="Carregar Logo"
+                        [showUploadButton]="false" cancelLabel="Cancelar">
+                    </p-fileUpload>
+
+                </div>
+                <div class="button-add">
+                    <button mat-stroked-button color="primary" type="submit">Adicionar Empresa</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

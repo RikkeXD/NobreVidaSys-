@@ -1,0 +1,106 @@
+<div class="card flex justify-content-center">
+    <p-panel header="Produto" iconPos="end" collapseIcon="" [toggleable]="true" [collapsed]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-cart-plus" [style]="{'font-size': '1.5rem', 'padding-right':'7px'}"></i>
+        </ng-template>
+        <p-button label="Adicionar Produto" [text]="true" [raised]="true" [style]="{'border-radius': '10px'}"
+            (onClick)="abrirModal()" />
+        <app-modal-select-produto [showModal]="showModal" (close)="fecharModal()" [empresaId]="empresaId()"
+            (productEmit)="adicionarListaProduto($event)" />
+        @if (products) {
+        <div class="mt-4">
+            <p-table [value]="products" dataKey="id" [tableStyle]="{ 'min-width': '30rem', 'font-size': '0.8rem'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:20%">
+                            Nome
+                        </th>
+                        <th style="width:15%">
+                            Qntd
+                        </th>
+                        <th style="width:15%">
+                            Vlr Uni
+                        </th>
+                        <th style="width:15%">
+                            Desc
+                        </th>
+                        <th style="width:20%">
+                            Total
+                        </th>
+                        <th style="width:20%">
+
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-editing="editing" let-i="rowIndex">
+                    <tr>
+                        <td>
+                            {{ product.nome }}
+                        </td>
+                        <td [pEditableColumn]="product.name" pEditableColumnField="qntd">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-inputNumber inputId="withoutgrouping" mode="decimal" [useGrouping]="false"
+                                        [(ngModel)]="productSales[i].qntd"
+                                        (ngModelChange)="atualizarValoresProduto(i, 'qntd', $event)" size="1"
+                                        required />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ productSales[i].qntd }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td [pEditableColumn]="product.inventoryStatus" pEditableColumnField="vlr_uni">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-inputNumber mode="currency" currency="BRL" locale="pt-BR"
+                                        [(ngModel)]="productSales[i].vlr_uni"
+                                        (ngModelChange)="atualizarValoresProduto(i, 'vlr_uni', $event)" size="5"
+                                        required />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ productSales[i].vlr_uni | currency: 'BRL' }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td [pEditableColumn]="product.inventoryStatus" pEditableColumnField="vlr_uni">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-inputNumber mode="currency" currency="BRL" locale="pt-BR"
+                                        [(ngModel)]="productSales[i].vlr_desc"
+                                        (ngModelChange)="atualizarValoresProduto(i, 'vlr_desc', $event)" size="5" />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ productSales[i].vlr_desc | currency: 'BRL' }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td [pEditableColumn]="product.price" pEditableColumnField="price">
+                            {{ productSales[i].vlr_uni*productSales[i].qntd-productSales[i].vlr_desc | currency: 'BRL'
+                            }}
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-trash" severity="danger" (onClick)="removerProduto(i)"
+                                [style]="{'width': '35px', 'height': '35px', 'border-radius': '5px'}" />
+                        </td>
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <td colspan="3" class="text-right"></td>
+                        <td>Total</td>
+                        <td>{{calcularTotal()| currency: 'BRL'}}</td>
+                        <td></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        }@else {
+            <div class="container-product">
+                <p>Nenhum produto adicionado.</p>
+            </div>
+        }
+
+    </p-panel>
+</div>

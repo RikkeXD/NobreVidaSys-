@@ -1,0 +1,58 @@
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+    margin-left: 8px;
+  }
+
+  .container-inputs{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 25px;
+    margin-top: 10px;
+  }
+  .container-inputs-tel{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 25px;
+    margin-top: 10px;
+  }
+  .button-tel{
+    margin-right: 10px;
+  }
+
+  .container-inputs input{
+    width: 160%
+  }
+  
+  .input-cpf-margin-left{
+    margin-left: 10.7%;
+  }
+  .input-margin-left{
+    margin-left: 20%;
+  }
+
+  .container-endereco{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 25px;
+    margin-top: 10px;
+  }
+
+  .width-input-small{
+    width: 120%
+  }
+
+  .width-input-large{
+    width: 190%
+  }
+
+  .input-margin-left-end{
+    margin-left: 8%;
+  }
+
+  .container-complemento input{
+    width: 95.5%;
+  }

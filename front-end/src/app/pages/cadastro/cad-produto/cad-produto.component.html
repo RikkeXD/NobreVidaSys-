@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="row">
+        <div class="title">
+            <div class="top">
+                <h1>CADASTRO DE PRODUTO</h1>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="header">
+                    <div class="container-inputs">
+                        <div class="container-input mt-3">
+                            
+                            <p-floatLabel>
+                                <input pInputText id="nome" formControlName="nome" />
+                                <label for="nome">Nome</label>
+                            </p-floatLabel>
+                            <div class="margin-left-end">
+                            <p-floatLabel>
+                                <input pInputText id="fornecedor" formControlName="fornecedor" />
+                                <label for="fornecedor">Fornecedor</label>
+                            </p-floatLabel>
+                        </div>
+                        </div>
+                        <div class="container-input">
+                            <p-floatLabel>
+                                <input pInputText pKeyFilter="int" formControlName="cod_barras" class="width-input-small" />
+                                <label for="cod_barras">Código de barras</label>
+                            </p-floatLabel>
+                            <div class="margin-left-end">
+                                <p-floatLabel>
+                                    <input pInputText pKeyFilter="int" formControlName="peso" class="width-input-small" />
+                                    <label for="peso">Peso (g)</label>
+                                    
+                                </p-floatLabel>
+                                <label for="" [style]="{'font-size': '12px', 'font-weight': 'lighter', 'margin-left': '85%'}">Gramas</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p-multiSelect 
+                                [options]="empresas" 
+                                formControlName="empresas"
+                                appendTo="body"
+                                optionLabel="name" 
+                                [style]="{'width': '94%'}"
+                                placeholder="Vincule a(s) empresas" />
+                                
+                        </div>
+                    </div>
+                </div>
+                <div class="button-add">
+                    <button mat-stroked-button color="primary" type="submit">Adicionar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+<form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Dados Pessoal
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Informe os dados pessoais do cliente
+                                <mat-icon>account_circle</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="container-inputs">
+                            <p-floatLabel>
+                                <input pInputText id="nome" pKeyFilter="alpha" formControlName="nome" />
+                                <label for="nome">Nome</label>
+                            </p-floatLabel>
+
+                            <p-floatLabel class="input-margin-left">
+                                <input pInputText id="sobrenome" formControlName="sobrenome" />
+                                <label for="sobrenome">Sobrenome</label>
+                            </p-floatLabel>
+                        </div>
+
+                        <div class="container-inputs-tel">
+                            <p-button icon="pi pi-sync" [text]="true" class="button-tel" (onClick)="modifyTipeTel()"/>
+                            <p-floatLabel>
+                                @if (typeTel) {
+                                    <p-inputMask mask="(99) 99999-9999" formControlName="telefone"
+                                    placeholder="(11) 91234-5678" [style]="styleTel" />
+                                <label for="telefone">Celular</label>
+                                }@else {
+                                    <p-inputMask mask="(99) 9999-9999" formControlName="telefone"
+                                    placeholder="(11) 5666-6666" [style]="styleTel" />
+                                <label for="telefone">Telefone</label>
+                                }
+                                
+                            </p-floatLabel>
+                            
+                            <p-floatLabel class="input-cpf-margin-left">
+                                <p-inputMask mask="999.999.999-99" formControlName="cpf" placeholder="123.456.789-99"
+                                    [style]="style" />
+                                <label for="cpf">CPF</label>
+                            </p-floatLabel>
+                        </div>
+
+                        <div class="container-inputs">
+                            <p-floatLabel>
+                                <input pInputText id="email" formControlName="email" />
+                                <label for="email">E-mail</label>
+                            </p-floatLabel>
+                        </div>
+                        <div>
+                            <p-multiSelect 
+                            [options]="empresas" 
+                            formControlName="empresa"
+                            [style]="{'width': '100%'}"
+                            optionLabel="name" 
+                            placeholder="Vincule a(s) empresas a esse cliente" 
+                            appendTo="body"
+                            />
+                        </div>
+                        <mat-action-row>
+                            <button type="button" mat-button color="primary" (click)="nextStep()">Proximo</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Endereço
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Informe os dados de endereço do cliente
+                                <mat-icon>map</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="container-endereco">
+
+                            <p-floatLabel>
+                                <p-inputMask mask="99999-999" formControlName="cep" placeholder="01234-567"
+                                    [style]="styleCep" (onBlur)="searchAddress()" />
+                                <label for="cep">CEP</label>
+                            </p-floatLabel>
+                            <p-floatLabel class="input-margin-left-end">
+                                <input pInputText id="endereco" formControlName="endereco" class=" width-input-large" />
+                                <label for="email">Endereço</label>
+                            </p-floatLabel>
+                        </div>
+
+                        <div class="container-endereco">
+                            <p-floatLabel>
+                                <input pInputText id="numero" formControlName="numero" class="width-input-small" />
+                                <label for="numero">Numero</label>
+                            </p-floatLabel>
+
+                            <p-floatLabel class="input-margin-left-end">
+                                <input pInputText id="bairro" formControlName="bairro" class=" width-input-large" />
+                                <label for="bairro">Bairro</label>
+                            </p-floatLabel>
+                        </div>
+                        <div class="container-endereco">
+                            <p-floatLabel>
+                                <input pInputText id="uf" formControlName="uf" class="width-input-small" />
+                                <label for="uf">UF</label>
+                            </p-floatLabel>
+
+                            <p-floatLabel class="input-margin-left-end">
+                                <input pInputText id="cidade" formControlName="cidade" class=" width-input-large" />
+                                <label for="cidade">Cidade</label>
+                            </p-floatLabel>
+                        </div>
+                        <div class="container-complemento">
+                            <p-floatLabel>
+                                <input pInputText id="complemento" formControlName="complemento" />
+                                <label for="complemento">Complemento</label>
+                            </p-floatLabel>
+                        </div>
+                        <mat-action-row>
+                            <button type="button" mat-button color="warn" (click)="prevStep()">Voltar</button>
+                            <button type="button" mat-button color="primary" (click)="onSubmit()">Cadastrar</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,32 @@
+<p-dialog header="Cálculo de fretes" [(visible)]="visible" [modal]="true"
+   [breakpoints]="{ '1199px': '85vw', '675px': '100vw' }" [style]="{ width: '80vw' }" [draggable]="false"
+   [resizable]="true" (onHide)="onHide()" >
+   <div class="card">
+      @if(isLoading){
+      <div class="card-loading">
+         <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+      </div>
+      }
+      @if (!isLoading) {
+      <div class="card">
+         <p-table [value]="fretes" selectionMode="single" [(selection)]="freteSelecionado" dataKey="nome"
+            [tableStyle]="{ 'min-width': '50rem' }" (onRowSelect)="selectFrete($event.data)">
+            <ng-template pTemplate="header">
+               <tr>
+                  <th>Tipo</th>
+                  <th>Prazo</th>
+                  <th>Valor</th>
+               </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-frete>
+               <tr [pSelectableRow]="frete">
+                  <td>{{ frete.nome }}</td>
+                  <td>{{ frete.prazo }} Dias</td>
+                  <td>{{ frete.vlr_envio | currency: 'BRL'}}</td>
+               </tr>
+            </ng-template>
+         </p-table>
+      </div>
+      }
+   </div>
+</p-dialog>

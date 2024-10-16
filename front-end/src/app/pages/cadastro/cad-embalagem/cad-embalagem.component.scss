@@ -1,0 +1,45 @@
+.con{
+    display: flex;
+    flex-direction: column;
+}
+
+.t1{width: 100px;
+    height: 100px;
+
+}
+
+.t1 mat-form-field{
+    width: 355px;
+    padding-top: 35px;
+}
+.container-inputs{
+    display: flex;
+    width: 300px;
+ 
+}
+
+.container-inputs mat-form-field{
+    margin-top: 30px;
+    width: 160px;
+}
+
+.input-margin-left{
+    margin-left: 35px;
+}
+
+.container-inputs img {
+    padding-bottom: 20px;
+    padding-left: 30px;
+    width: 250px;
+}
+
+.input-number::-webkit-inner-spin-button,
+.input-number::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.container-empresas{
+    display: inline-block;
+}
+

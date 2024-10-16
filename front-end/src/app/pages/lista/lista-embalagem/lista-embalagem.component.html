@@ -1,0 +1,187 @@
+<div class="card">
+    <p-table #dt [value]="embalagens" [globalFilterFields]="['nome', 'altura', 'largura', 'comprimento', 'peso']"
+        selectionMode="single" [(selection)]="selectedEmbalagem" dataKey="id" [rowHover]="true"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [tableStyle]="{ 'min-width': '50rem' }"
+        [rows]="10" [paginator]="true" stateStorage="session"
+        currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} embalagens"
+        stateKey="statedemo-session">
+        <ng-template pTemplate="caption">
+            <div class="header-embalagem">
+                <div>
+                    <p-iconField iconPosition="left">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Pesquise" />
+                    </p-iconField>
+                </div>
+                <div class="container-select-empresa">
+                    <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" optionLabel="name"
+                        placeholder="Selecione a Empresa" [style]="{'width': '350px'}" [filter]="true"
+                        emptyFilterMessage="Empresa não encontrada"
+                        emptyMessage="Nenhuma empresa vinculada a esse usuario" (onChange)="empresaSelected($event)" />
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nome" style="width:20%">
+                    Nome <p-sortIcon field="nome" />
+                </th>
+                <th pSortableColumn="altura" style="width:15%">
+                    Altura <p-sortIcon field="altura" />
+                </th>
+                <th pSortableColumn="largura" style="width:15%">
+                    Largura <p-sortIcon field="largura" />
+                </th>
+                <th pSortableColumn="comprimento" style="width:15%">
+                    Comprimento <p-sortIcon field="comprimento" />
+                </th>
+                <th pSortableColumn="peso" style="width:15%">
+                    Peso <p-sortIcon field="peso" />
+                </th>
+                <th>Ações</th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr [pSelectableRow]="customer">
+                <td>
+                    <span class="p-column-title">Nome</span>
+                    {{ customer.nome}}
+                </td>
+                <td>
+                    <span class="p-column-title">Altura</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.altura }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Largura</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.largura }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">comprimento</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.comprimento }}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">peso</span>
+                    <span class="ml-1 vertical-align-middle">{{ customer.peso }} cm</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-embalagem>
+            <tr [pSelectableRow]="embalagem">
+                <td>
+                    <span class="p-column-title">Nome</span>
+                    {{ embalagem.nome }}
+                </td>
+                <td>
+                    <span class="p-column-title">Altura</span>
+                    <span class="ml-1 vertical-align-middle">{{ embalagem.altura }} cm</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Largura</span>
+                    <span class="ml-1 vertical-align-middle">
+                        {{ embalagem.largura }} cm
+                    </span>
+                </td>
+                <td>
+                    <span class="p-column-title">Comprimento</span>
+                    <span class="ml-1 vertical-align-middle">
+                        {{ embalagem.comprimento }} cm
+                    </span>
+                </td>
+                <td>
+                    <span class="p-column-title">Peso</span>
+                    <span class="ml-1 vertical-align-middle">
+                        {{ embalagem.peso }} g
+                    </span>
+                </td>
+                <td>
+                    <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                        severity="success" (click)="editProduct(embalagem)" />
+                    <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (onClick)="deleteClient($event, embalagem)" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Embalagens não encontrado!</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <p-dialog [(visible)]="embalagemDialog" [style]="{ width: '550px' }" header="Editar Embalagem" [modal]="true"
+            styleClass="p-fluid">
+            <ng-template pTemplate="content">
+
+                <div class="field">
+                    <div class="">
+                        <label for="name">Nome</label>
+                        <input type="text" pInputText formControlName="nome" autofocus />
+                        <small class="p-error" *ngIf="form.controls.nome.invalid">
+                            O nome é obrigatório.
+                        </small>
+                    </div>
+                    
+                </div>
+                <div class="field container-input">
+                    <div class="width-245px">
+                        <label for="name">Altura</label>
+                        <input type="text" pInputText pKeyFilter="num" formControlName="altura" required autofocus />
+                        <small class="p-error" *ngIf="form.controls.altura.invalid && form.controls.altura.touched">
+                            A altura é obrigatório.
+                        </small>
+                    </div>
+                    <div class="width-245px ml-3">
+                        <label for="largura">Largura</label>
+                            <input pInputText formControlName="largura" pKeyFilter="num"/>
+                            <small class="p-error"
+                                *ngIf="form.controls.largura.invalid && form.controls.largura.touched">
+                                A largura é obrigatório.
+                            </small>
+                    </div>
+                </div>
+                <div class="container-input">
+                    <div class=" display-flex">
+                        <div class="width-245px">
+                            <label for="comprimento">Comprimento</label>
+                            <input pInputText pKeyFilter="num" formControlName="comprimento" />
+                            <small class="p-error"
+                                *ngIf="form.controls.comprimento.invalid && form.controls.comprimento.touched">
+                                O comprimento é obrigatório.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="ml-3 width-245px">
+                        <label for="peso">Peso</label>
+                        <input type="peso" pInputText formControlName="peso" pKeyFilter="num" autofocus />
+                        <small class="p-error" *ngIf="form.controls.peso.invalid">
+                           O peso é obrigatório!
+                        </small>
+                    </div>
+                </div>
+                <hr>
+                <h2>Vinculo de empresa</h2>
+                <div>
+                    <p-multiSelect [options]="empresas" formControlName="empresas" optionLabel="name"
+                        placeholder="Vincule a(s) empresas" />
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <p-button pRipple label="Cancelar" icon="pi pi-times" [text]="true" (click)="hideDialog()" />
+                <p-button pRipple label="Salvar" icon="pi pi-check" [text]="true" (click)="onSubmit()" />
+            </ng-template>
+
+        </p-dialog>
+    </form>
+    <p-confirmDialog [style]="{ width: '550px' }" />
+
+</div>

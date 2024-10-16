@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="row">
+        <div class="title">
+            <div class="top">
+                <h1>CADASTRO DE USUARIOS</h1>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="header">
+                    <div class="container-nome">
+                        <mat-form-field class="input-nome">
+                            <mat-label>Nome</mat-label>
+                            <input matInput type="text" formControlName="nome" (keydown)="verificarTecla($event)">
+                            @if (form.controls.nome.value) {
+                            <button type="button" matSuffix mat-icon-button aria-label="Limpar" (click)="form.patchValue({nome:''})">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            }
+                        </mat-form-field>
+                        <mat-form-field class="input-sobrenome">
+                            <mat-label>Sobrenome</mat-label>
+                            <input matInput type="text" formControlName="sobrenome">
+                            @if (form.controls.sobrenome.value) {
+                            <button type="button" matSuffix mat-icon-button aria-label="Limpar"
+                                (click)="form.patchValue({sobrenome:''})">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            }
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field class="example-form-field">
+                        <mat-label>E-mail</mat-label>
+                        <input matInput type="email" formControlName="email">
+                        @if (form.controls.email.value) {
+                        <button type="button" matSuffix mat-icon-button aria-label="Limpar" (click)="form.patchValue({email:''})">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Senha</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="senha">
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Confirme sua Senha</mat-label>
+                        <input matInput [type]="hide2 ? 'password' : 'text'" formControlName="senhaConfirm">
+                        <button type="button" mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide2">
+                            <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+
+                    <div class="mb-3">
+                        <p-multiSelect 
+                            [options]="empresas" 
+                            [(ngModel)]="selectedEmpresas" 
+                            [ngModelOptions]="{standalone: true}"
+                            
+                            optionLabel="name" 
+                            placeholder="Vincule a(s) empresas" />
+                    </div>
+                    
+                    <div class="select-permissao">
+                        <mat-radio-group aria-label="Selecione a opção de usuario" formControlName="permissao">
+                            <mat-radio-button value="1">Usuario Padrão</mat-radio-button>
+                            <mat-radio-button value="2">Administrador</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    
+                </div>
+                <div class="button-add">
+                    <button mat-stroked-button color="primary" type="submit">Adicionar Usuario</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

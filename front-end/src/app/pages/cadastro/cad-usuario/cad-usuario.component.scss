@@ -1,0 +1,33 @@
+
+@media(max-width: 767px){
+    .example-form-field {
+        width: 100%;
+      }
+}
+
+.example-form-field{
+  width: 80%;
+  margin-bottom: 15px;
+}
+
+.button-add{
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.input-nome {
+    margin-right: 10px;
+    width: 39%;
+}
+.input-sobrenome {
+    width: 39%;
+}
+
+.header{
+  text-align: center;
+}
+
+.select-permissao{
+    margin-bottom: 35px;
+}

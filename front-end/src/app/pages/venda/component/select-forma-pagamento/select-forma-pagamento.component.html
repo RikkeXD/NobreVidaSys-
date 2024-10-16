@@ -1,0 +1,23 @@
+<div class="card flex justify-content-center">
+    <p-panel header="Forma de pagamento" iconPos="end" collapseIcon="" [toggleable]="true" [collapsed]="true">
+        <ng-template pTemplate="header">
+            <i class="pi pi-user" [style]="{'font-size': '1.5rem', 'padding-right':'7px'}"></i>
+        </ng-template>
+        <form [formGroup]="form">
+        <div class="container-pagamento">
+            <div class="div-forma-pagamento">
+                <label for="" class="mb-2">Forma de pagamento</label>
+                <p-dropdown [options]="pagamentos" formControlName="id" optionLabel="nome" optionValue="id"
+                placeholder="Selecione uma forma de pagamento" [style]="{'width': '400px'}" appendTo="body"/>
+            </div>
+            @if (form.controls.id.value === 1 || form.controls.id.value === 2) {
+                    <div class="ml">
+                        <label for="" class="mb-2">Parcela</label>
+                        <p-dropdown [options]="parcelas" formControlName="qntd_parcela" optionLabel="label" optionValue="value"
+                        placeholder="Qntd Parcela" [style]="{'width': '200px'}" appendTo="body"/>
+                    </div>
+            }
+        </div>
+    </form>
+    </p-panel>
+</div>
