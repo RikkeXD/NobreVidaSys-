@@ -61,8 +61,8 @@ export class LoginComponent {
       }
     ).subscribe({
       next: (response) => {
-        const { token, id, nome } = response as { token: string, id: number, nome: string };
-        this.tokenService.setToken(token, id.toString(), nome)
+        const { token, id, nome, sobrenome, permissao } = response as { token: string, id: number, nome: string, sobrenome: string, permissao: number };
+        this.tokenService.setToken(token, id.toString(), nome, sobrenome, permissao.toString())
         window.location.reload()
       },
       error: (error) => {

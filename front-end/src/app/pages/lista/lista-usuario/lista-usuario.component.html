@@ -1,95 +1,97 @@
 <div class="card">
-    <p-table #dt [value]="usuarios" [globalFilterFields]="['nome', 'sobrenome', 'email', 'permissao']"
-        selectionMode="single" [(selection)]="selectedCustomers" dataKey="id" [rowHover]="true"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [tableStyle]="{ 'min-width': '50rem' }"
-        [rows]="10" [paginator]="true" stateStorage="session"
-        currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} clientes"
-        stateKey="statedemo-session">
-        <ng-template pTemplate="caption">
-            <p-iconField iconPosition="left">
-                <p-inputIcon>
-                    <i class="pi pi-search"></i>
-                </p-inputIcon>
-                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                    placeholder="Pesquise" />
-            </p-iconField>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th pSortableColumn="nome" style="width:25%">
-                    Nome <p-sortIcon field="nome" />
-                </th>
-                <th pSortableColumn="email" style="width:25%">
-                    E-mail <p-sortIcon field="email" />
-                </th>
-                <th pSortableColumn="permissao" style="width:25%">
-                    Permissão <p-sortIcon field="permissao" />
-                </th>
-                <th>Ações</th>
+    <div class="container-table">
+        <p-table #dt [value]="usuarios" [globalFilterFields]="['nome', 'sobrenome', 'email', 'permissao']"
+            selectionMode="single" [(selection)]="selectedCustomers" dataKey="id" [rowHover]="true"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
+            [tableStyle]="{ 'min-width': '50rem'}" [rows]="10" [paginator]="true"
+            stateStorage="session" currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} clientes"
+            stateKey="statedemo-session">
+            <ng-template pTemplate="caption">
+                <p-iconField iconPosition="left">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Pesquise" />
+                </p-iconField>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nome" style="width:25%">
+                        Nome <p-sortIcon field="nome" />
+                    </th>
+                    <th pSortableColumn="email" style="width:25%">
+                        E-mail <p-sortIcon field="email" />
+                    </th>
+                    <th pSortableColumn="permissao" style="width:25%">
+                        Permissão <p-sortIcon field="permissao" />
+                    </th>
+                    <th>Ações</th>
 
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-customer>
-            <tr [pSelectableRow]="customer">
-                <td>
-                    <span class="p-column-title">Nome</span>
-                    {{ customer.nome +" "+ customer.sobrenome }}
-                </td>
-                <td>
-                    <span class="p-column-title">E-mail</span>
-                    <span class="ml-1 vertical-align-middle">{{ customer.email }}</span>
-                </td>
-                <td>
-                    <span class="p-column-title">Permissão</span>
-                    <span class="ml-1 vertical-align-middle">{{ customer.permissao }}</span>
-                </td>
-                <td>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-usuario>
-            <tr [pSelectableRow]="usuario">
-                <td>
-                    <span class="p-column-title">Nome</span>
-                    {{ usuario.nome +" "+ usuario.sobrenome }}
-                </td>
-                <td>
-                    <span class="p-column-title">E-mail</span>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+                <tr [pSelectableRow]="customer">
+                    <td>
+                        <span class="p-column-title">Nome</span>
+                        {{ customer.nome +" "+ customer.sobrenome }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">E-mail</span>
+                        <span class="ml-1 vertical-align-middle">{{ customer.email }}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Permissão</span>
+                        <span class="ml-1 vertical-align-middle">{{ customer.permissao }}</span>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-usuario>
+                <tr [pSelectableRow]="usuario">
+                    <td>
+                        <span class="p-column-title">Nome</span>
+                        {{ usuario.nome +" "+ usuario.sobrenome }}
+                    </td>
+                    <td>
+                        <span class="p-column-title">E-mail</span>
 
-                    <span class="ml-1 vertical-align-middle">{{ usuario.email }}</span>
-                </td>
-                <td>
-                    <span class="p-column-title">Permissão</span>
-                    <span class="ml-1 vertical-align-middle">@if(usuario.permissao === 0){
-                        Usuario administrador
-                        }@else {
-                        Usuario padrão
-                        }
-                    </span>
-                </td>
-                <td>
-                    <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
-                        severity="success" (click)="editUser(usuario)" />
-                    <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
-                        (onClick)="deleteUser($event ,usuario)" />
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="4">Usuarios não encontrado!</td>
-            </tr>
-        </ng-template>
-    </p-table>
+                        <span class="ml-1 vertical-align-middle">{{ usuario.email }}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Permissão</span>
+                        <span class="ml-1 vertical-align-middle">@if(usuario.permissao === 0){
+                            Usuario administrador
+                            }@else {
+                            Usuario padrão
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        <p-button pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                            severity="success" (click)="editUser(usuario)" />
+                        <p-button pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                            (onClick)="deleteUser($event ,usuario)" />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">Usuarios não encontrado!</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <p-dialog [(visible)]="userDialog" [style]="{ width: '550px' }" header="Editar usuario"
-            [modal]="true" styleClass="p-fluid">
+        <p-dialog [(visible)]="userDialog" [style]="{ width: '550px' }" header="Editar usuario" [modal]="true"
+            styleClass="p-fluid">
             <ng-template pTemplate="content">
                 <div>
                     <label for="name">Empresa(s) vinculada(s)</label>
-                    <p-multiSelect [options]="empresas" formControlName="empresas"
-                        optionLabel="name" placeholder="Vincule a(s) empresas"/>
+                    <p-multiSelect [options]="empresas" formControlName="empresas" optionLabel="name"
+                        placeholder="Vincule a(s) empresas" />
                 </div>
 
                 <div class="field container-input">

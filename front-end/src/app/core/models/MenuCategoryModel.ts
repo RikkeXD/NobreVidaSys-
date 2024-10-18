@@ -1,7 +1,8 @@
 import { Navegation } from "./NavegationModel";
 
 export interface MenuCategory {
-    category: string,
-    icon?: string,
-    navegation: Navegation[]
-}
+    title: string;
+    icon: string;
+    route?: string; // Para links diretos
+    subMenu?: Array<{ title: string; route: string }>; // Para submenus
+  }

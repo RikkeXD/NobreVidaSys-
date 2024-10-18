@@ -6,12 +6,60 @@ import { CadProdutoComponent } from "./pages/cadastro/cad-produto/cad-produto.co
 import { authGuard } from "./core/auth/guard/auth.guard";
 import { ListaClienteComponent } from "./pages/lista/lista-cliente/lista-cliente.component";
 import { ListaUsuarioComponent } from "./pages/lista/lista-usuario/lista-usuario.component";
-import {ListaProdutoComponent } from "./pages/lista/lista-produto/lista-produto.component"
+import { ListaProdutoComponent } from "./pages/lista/lista-produto/lista-produto.component"
 import { CadEmpresaComponent } from "./pages/cadastro/cad-empresa/cad-empresa.component";
 import { CriarVendaComponent } from "./pages/venda/criar-venda/criar-venda.component";
 import { ListaPedidoComponent } from "./pages/venda/lista-pedido/lista-pedido.component";
 
-let menu: MenuCategory[] = []
+const navegationMenu: MenuCategory[] = [
+    {
+    title: "Cliente",
+    icon: "bx bxs-group",
+    subMenu: [
+        { title: "Lista de Cliente", route: "lista/cliente" },
+        { title: "Cadastro de Cliente", route: "cadastro/cliente" },
+    ]},
+    {
+        title: "Usuario",
+        icon: "bx bx-user",
+        subMenu: [
+            { title: "Lista de Usuario", route: "lista/usuario" },
+            { title: "Cadastro de Usuario", route: "cadastro/usuario" },
+        ]
+    },
+    {
+        title: "Empresa",
+        icon: "bx bx-store-alt",
+        subMenu: [
+            { title: "Lista de Empresa", route: "lista/empresa" },
+            { title: "Cadastro de Empresa", route: "cadastro/empresa" },
+        ]
+    },
+    {
+        title: "Pedido",
+        icon: "bx bxs-cart",
+        subMenu: [
+            { title: "Criar Pedido", route: "venda/criar-venda" },
+            { title: "Lista de Pedidos", route: "lista/pedido" },
+        ]
+    },
+    {
+        title: "Produto",
+        icon: "bx bxs-basket",
+        subMenu: [
+            { title: "Lista de Produto", route: "lista/produto" },
+            { title: "Cadastro de Produto", route: "cadastro/produto" },
+        ]
+    },
+    {
+        title: "Embalagem",
+        icon: "bx bxs-package",
+        subMenu: [
+            { title: "Lista de Embalagem", route: "lista/embalagem" },
+            { title: "Cadastro de Embalagem", route: "cadastro/embalagem" },
+        ]
+    }
+]
 
 const cadastro: Navegation[] = [
     {
@@ -25,7 +73,7 @@ const cadastro: Navegation[] = [
         name: "Cadastro de usuario",
         component: CadUsuarioComponent,
         canActivate: [authGuard]
-    },{
+    }, {
         router: "cadastro/produto",
         name: "Cadastro de produto",
         component: CadProdutoComponent,
@@ -81,17 +129,6 @@ const lista: Navegation[] = [
     }
 ]
 
-const venda: Navegation[] = [
-    {
-        router: "criar/venda",
-        name: "Criar Venda",
-        component: CriarVendaComponent,
-        canActivate: [authGuard]
-    }
-]
 
-menu.push({ category: "Cadastro", icon:"add_circle", navegation: cadastro });
-menu.push({ category: "Lista", icon:"add_circle", navegation: lista });
-menu.push({ category: "Venda", icon:"add_circle", navegation: venda });
 
-export { menu }
+export { navegationMenu }
