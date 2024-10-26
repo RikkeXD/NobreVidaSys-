@@ -4,8 +4,6 @@ const bodyParser = require('body-parser') //Coletar os dados do HTML e transform
 const flash = require('connect-flash') //Biblioteca para mensagens temporarias
 const session = require('express-session') //Biblioteca para realizar configuração de sessão para a aplicação
 const Sequelize = require('sequelize') //Sequelize Banco de Dados SQL
-const exphbs = require('express-handlebars')//Engine para o Front-End 
-const handlebars = require('handlebars')
 const path = require('path')//Realizar caminho padrão para alguns recursos
 const usuarios = require('./routes/usuarios')//Importando as Rotas do usuario
 const home = require('./routes/home')//Importando as Rotas do usuario
@@ -33,31 +31,6 @@ const task = require('./cron-tasks/task')
 require('./database')
 //Configurando para utilizar JSON
 app.use(express.json({ limit: '50mb' }))
-
-//Handlebars
-const hbs = exphbs.create({
-    defaultLayout: 'main',
-    helpers: {
-        stringify: (obj) => {
-            return JSON.stringify(obj)
-        },
-        eq: function (a, b, options) {
-            if (a === b) {
-                if (typeof options.fn === 'function') {
-                    return options.fn(this)
-                }
-            } else {
-                if (typeof options.inverse === 'function') {
-                    return options.inverse(this)
-                }
-                return ''
-            }
-        }
-    }
-})
-
-app.engine('handlebars', hbs.engine)
-app.set('view engine', 'handlebars')
 
 // Public
 app.use(express.static(path.join(__dirname, 'public')))
