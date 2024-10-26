@@ -80,6 +80,7 @@ export class ListaEmbalagemComponent implements OnInit {
           this.empresaIdSelected = this.selectedEmpresa.code
         } else {
           this.selectedEmpresa = this.empresas[0];
+          this.empresaIdSelected = this.selectedEmpresa.code
         }
         this.searchEmbalagem()
   })

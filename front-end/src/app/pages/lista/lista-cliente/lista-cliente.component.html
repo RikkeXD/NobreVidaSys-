@@ -1,6 +1,6 @@
 <div class="card">
     <p-table #dt [value]="clientes" [globalFilterFields]="['nome', 'sobrenome', 'telefone', 'cpf']"
-        selectionMode="single" [(selection)]="selectedEmpresa" dataKey="id" [rowHover]="true"
+        selectionMode="single" [rowHover]="true"
         [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [tableStyle]="{ 'min-width': '50rem' }"
         [rows]="10" [paginator]="true" stateStorage="session"
         currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} clientes"

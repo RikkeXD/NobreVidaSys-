@@ -69,6 +69,7 @@ export class ListaProdutoComponent {
           this.empresaIdSelected = this.selectedEmpresa.code
         } else {
           this.selectedEmpresa = this.empresas[0];
+          this.empresaIdSelected = this.selectedEmpresa.code
         }
         this.searchProduct()
   })

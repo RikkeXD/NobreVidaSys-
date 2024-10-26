@@ -88,14 +88,16 @@ export class ListaClienteComponent implements OnInit {
                 name: empresa.razao_social,
                 code: empresa.id
             }))
-
+            console.log(empresas)
             if (empresas.empresaPrincipalId) {
+                
                 this.selectedEmpresa = this.empresas.find(
                   (empresa) => empresa.code === empresas.empresaPrincipalId
                 )!;
                 this.empresaIdSelected = this.selectedEmpresa.code
               } else {
                 this.selectedEmpresa = this.empresas[0];
+                this.empresaIdSelected = this.selectedEmpresa.code
               }
               this.searchClient()
         })
@@ -130,7 +132,6 @@ export class ListaClienteComponent implements OnInit {
             },
             error: (error) => {
                 this.clientes = []
-                this.messageService.add({ severity: 'error', summary: 'Erro', detail: error.error.message })
             }
         })
     }

@@ -62,7 +62,7 @@ module.exports = {
   },
 
   down (queryInterface, Sequelize) {
-    return queryInterface.dropTable('users')
+    return queryInterface.dropTable('usuarios')
   }
 };
 //Para rodar a migration só utilizar o comando: npx sequelize db:migrate

@@ -179,6 +179,7 @@ export class ListaPedidoComponent {
   }
 
   confirmarCancelamento(event: MenuItemCommandEvent, pedido_id: number) {
+    this.inputRastreio = false
     this.confirmationService.confirm({
       target: event.originalEvent?.target as EventTarget,
       message: 'Deseja confirmar o Cancelamento do pedido ?',

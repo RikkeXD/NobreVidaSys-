@@ -21,6 +21,10 @@ module.exports = {
       cod_barras:{
         type:Sequelize.STRING(40)
       },
+      peso:{
+        allowNull:false,
+        type:Sequelize.DOUBLE
+      },
       ativo: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,

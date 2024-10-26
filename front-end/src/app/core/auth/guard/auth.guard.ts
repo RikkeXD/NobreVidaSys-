@@ -9,12 +9,12 @@ export const authGuard: CanActivateFn = (route, state) => {
   const messageService = inject(GlobalMessageService);
   
   if (!token) {
+    router.navigate(["/"])
     messageService.sendMessage({
       severity: 'warn',
       summary: 'Atenção',
       detail: 'Você precisa estar logado para acessar essa página',
     });
-    router.navigate(["/"])
     return false;
   }
   return true;
