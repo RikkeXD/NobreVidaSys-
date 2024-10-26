@@ -1,4 +1,4 @@
-import { Enterprise_RazaoSocial } from "./EnterpriseModel"
+import { EnterpriseRazaoSocial } from "./EnterpriseModel"
 
 export interface Product {
     id: number,
@@ -6,7 +6,7 @@ export interface Product {
     fornecedor: string,
     cod_barras: string,
     peso: string
-    empresas: Enterprise_RazaoSocial[]
+    empresas: EnterpriseRazaoSocial[]
 }
 
 export interface ProductSale{

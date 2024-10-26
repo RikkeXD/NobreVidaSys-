@@ -1,0 +1,101 @@
+<div class="filters">
+    <div class="date-filters">
+        <div class="container-calendar">
+            <div class="flex-calendar">
+                <label for="">Data Inicial</label>
+                <p-calendar [(ngModel)]="startDate" placeholder="Data de Início" dateFormat="dd/mm/yy"
+                    (ngModelChange)="buscarData()"></p-calendar>
+            </div>
+
+
+        </div>
+        <div class="container-calendar">
+            <div class="flex-calendar margin-left-calendar">
+                <label for="">Data Final</label>
+                <p-calendar [(ngModel)]="endDate" placeholder="Data de Fim" dateFormat="dd/mm/yy"
+                    (ngModelChange)="buscarData()"></p-calendar>
+            </div>
+        </div>
+    </div>
+    <div class="container-select-empresa">
+        <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" optionLabel="name"
+            placeholder="Selecione a Empresa" [style]="{'width': '350px'}" [filter]="true"
+            emptyFilterMessage="Empresa não encontrada" emptyMessage="Nenhuma empresa vinculada a esse usuario"
+            (onChange)="buscarData()" />
+    </div>
+</div>
+
+<div class="dashboard-container">
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <span class="title">Valor de Vendas</span>
+                <div class="value">{{resumoVendas.valorTotalVendas | currency: 'BRL'}}</div>
+            </div>
+            <div class="icon-container" style="background-color: #e0f7fa;">
+                <i class="pi pi-dollar icon" style="color: #00796b;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <span class="title">Pedidos</span>
+                <div class="value">{{resumoVendas.quantidadePedidos}}</div>
+            </div>
+            <div class="icon-container" style="background-color: #bbdefb;">
+                <i class="pi pi-shopping-cart icon" style="color: #1976d2;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <span class="title">Produtos Vendidos</span>
+                <div class="value">{{resumoVendas.quantidadeProdutosVendidos}}</div>
+            </div>
+            <div class="icon-container" style="background-color: #c8e6c9;">
+                <i class="pi pi-box icon" style="color: #388e3c;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <span class="title">Pedidos em Trânsito</span>
+                <div class="value">{{resumoVendas.pedidosEmTransito}}</div>
+            </div>
+            <div class="icon-container" style="background-color: #e1bee7;">
+                <i class="pi pi-truck icon" style="color: #8e24aa;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="container-grafico">
+        <div class="base-grid">
+            <p-card header="Vendas Mensais">
+                <p-chart type="bar" [data]="vendasMensais" [options]="vendasDiariasOptions" />
+            </p-card>
+        </div>
+        <div class="base-grid">
+            <p-card header="Vendas por dia">
+                <p-chart type="bar" [data]="vendasDiarias" [options]="vendasDiariasOptions" />
+            </p-card>
+        </div>
+        <div class="base-grid">
+            <p-card header="Quantidade de vendas por dia">
+                <p-chart type="bar" [data]="qtdVendasDiaria" [options]="qtdVendasDiariaOptions" />
+            </p-card>
+        </div>
+        <div class="base-grid">
+            <p-card header="Tickect medio por dia">
+                <p-chart type="bar" [data]="ticketMedioDiario" [options]="ticketMedioDiarioOptions" />
+            </p-card>
+        </div>
+
+    </div>

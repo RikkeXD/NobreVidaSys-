@@ -1,0 +1,258 @@
+<p-dialog [header]="'Pedido ' + pedido_id()" [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '55vw' }" [draggable]="false" [resizable]="true" (onHide)="onHide()">
+    <div class="container">
+        <div class="card">
+            @if (!pedido) {
+            <p-progressSpinner ariaLabel="loading" />
+            }@else{
+            <div>
+                <div class="container-client">
+                    <div class="section-empresa">
+                        <h3 class="section-title-empresa ">
+                            <i class="pi pi-building margin-r-i"></i> <strong>Dados da Empresa</strong>
+                            <div class="container-empresa-logo">
+                                @if (pedido.empresa.image) {
+                                    <img [src]="pedido.empresa.image" alt="Logo da empresa" class="company-logo">
+                                }@else {
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1695/1695213.png"
+                                        alt="Logo não cadastrada" class="company-logo">
+                                }
+                            </div>
+                        </h3>
+
+                        <div class="info-grid">
+                            <div class="info-item-empresa">
+                                <i class="pi pi-briefcase margin-r-i"></i>
+                                <span class="list-text-empresa"><strong>Razão
+                                        Social:</strong> {{pedido.empresa.razao_social}}</span>
+                            </div>
+                            <div class="info-item-empresa">
+                                <i class="pi pi-id-card margin-r-i"></i>
+                                <span class="list-text-empresa"><strong>CNPJ:</strong> {{pedido.empresa.cnpj}}</span>
+                            </div>
+                            <div class="info-item-empresa">
+                                <i class="pi pi-phone margin-r-i"></i>
+                                <span
+                                    class="list-text-empresa"><strong>Telefone:</strong> {{pedido.empresa.telefone}}</span>
+                            </div>
+                            <div class="info-item-empresa">
+                                <i class="pi pi-envelope margin-r-i"></i>
+                                <span class="list-text-empresa"><strong>E-mail:</strong> {{pedido.empresa.email}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="cliente">
+                <div class="container-client">
+                    <div class="section">
+                        <h3 class="section-title">
+                            <i class="pi pi-user margin-r-i"></i> <strong>Dados do Cliente</strong>
+                        </h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i class="pi pi-id-card margin-r-i"></i>
+                                <span class="list-text"><strong>Nome:</strong> {{pedido.cliente.nome}}
+                                    {{pedido.cliente.sobrenome}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-envelope margin-r-i"></i>
+                                <span class="list-text"><strong>Email:</strong> {{pedido.cliente.email}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-credit-card margin-r-i"></i>
+                                <span class="list-text"><strong>CPF:</strong> {{pedido.cliente.cpf}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-phone margin-r-i"></i>
+                                <span class="list-text"><strong>Telefone:</strong> {{pedido.cliente.telefone}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">
+                            <i class="pi pi-map margin-r-i"></i> <strong>Endereço do Cliente</strong>
+                        </h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i class="pi pi-home margin-r-i"></i>
+                                <span class="list-text"><strong>Rua:</strong> {{pedido.cliente.endereco.endereco}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-map-marker margin-r-i"></i>
+                                <span class="list-text"><strong>CEP:</strong> {{pedido.cliente.endereco.cep}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-map-marker margin-r-i"></i>
+                                <span
+                                    class="list-text"><strong>Número:</strong> {{pedido.cliente.endereco.numero}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-building margin-r-i"></i>
+                                <span
+                                    class="list-text"><strong>Bairro:</strong> {{pedido.cliente.endereco.bairro}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-plus margin-r-i"></i>
+                                <span
+                                    class="list-text"><strong>Complemento:</strong> {{pedido.cliente.endereco.complemento}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-building-columns margin-r-i"></i>
+                                <span
+                                    class="list-text"><strong>Cidade:</strong> {{pedido.cliente.endereco.cidade}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pagamento">
+                <div class="container-client">
+
+                    <div class="section">
+                        <h3 class="section-title">
+                            <i class="pi pi-credit-card margin-r-i"></i> <strong>Pagamento</strong>
+                        </h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i class="pi pi-credit-card margin-r-i"></i>
+                                <span class="list-text"><strong>Método de
+                                        Pagamento:</strong> {{pedido.pagamento.nome}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-calendar margin-r-i"></i>
+                                <span class="list-text"><strong>Quantidade de
+                                        Parcelas:</strong> {{pedido.pagamento.qntd_parcela}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h3 class="section-title">
+                            <i class="pi pi-truck margin-r-i"></i> <strong>Envio</strong>
+                        </h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i class="pi pi-box margin-r-i"></i>
+                                <span class="list-text"><strong>Tipo de Embalagem:</strong> {{pedido.embalagem}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-send margin-r-i"></i>
+                                <span class="list-text"><strong>Modo de Envio:</strong> {{pedido.envio}}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="pi pi-dollar margin-r-i"></i>
+                                <span class="list-text"><strong>Valor do Envio:</strong> {{pedido.vlr_envio | currency: 'BRL'}}</span>
+                            </div>
+                            @if (pedido.cod_rastreio) {
+                                <div class="info-item">
+                                    <i class="pi pi-map-marker margin-r-i"></i>
+                                    <span class="list-text"><strong>Rastreio:</strong> {{pedido.cod_rastreio}}</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-client">
+                <p-table [value]="pedido.produtos" dataKey="id"
+                    [tableStyle]="{ 'min-width': '30rem', 'font-size': '0.8rem',}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:20%">
+                                Nome
+                            </th>
+                            <th style="width:15%">
+                                Qntd
+                            </th>
+                            <th style="width:15%">
+                                Vlr Uni
+                            </th>
+                            <th style="width:15%">
+                                Desc
+                            </th>
+                            <th style="width:15%">
+                                Total
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product let-editing="editing" let-i="rowIndex">
+                        <tr>
+                            <td>
+                                {{ product.nome }}
+                            </td>
+                            <td>
+                                {{product.qntd}}
+                            </td>
+                            <td>
+                                {{product.vlr_uni | currency: 'BRL'}}
+                            </td>
+                            <td>
+                                {{product.vlr_desc | currency: 'BRL'}}
+                            </td>
+                            <td>
+                                {{ product.vlr_uni*product.qntd-product.vlr_desc | currency: 'BRL'}}
+                            </td>
+                        </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <tr>
+                            <td colspan="3" class="text-right"></td>
+                            <td>Total</td>
+                            <td>{{vlrTotalProdutos() | currency : 'BRL'}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+
+            <div class="envio">
+
+            </div>
+            <div class="resumo">
+                <div class="payment-summary-row">
+                    <span>Valor dos Produtos:</span>
+                    <strong>{{vlrTotalProdutos() | currency : 'BRL'}}</strong>
+                </div>
+
+                <div class="payment-summary-row">
+                    <span>Valor do Envio:</span>
+                    <strong>{{pedido.vlr_envio | currency: 'BRL'}}</strong>
+                </div>
+
+                @if (pedido.pagamento.qntd_parcela! > 1) {
+                <div class="payment-summary-row">
+                    <span>Parcelas ({{pedido.pagamento.qntd_parcela}}x):</span>
+                    <strong>{{pedido.vlr_total /pedido.pagamento.qntd_parcela! | currency: 'BRL'}} / mês</strong>
+                </div>
+                }
+
+                @if (pedido.vlr_desc > 0) {
+                <div class="payment-summary-discount">
+                    <label>
+                    </label>
+                    <div class="discount-value">Desconto: {{pedido.vlr_desc | currency: 'BRL'}} </div>
+                </div>
+                }
+
+                <div class="payment-summary-row total">
+                    <span>Total a Pagar:</span>
+                    <strong>{{pedido.vlr_total | currency: 'BRL'}}</strong>
+                </div>
+            </div>
+            <div class="container-impressao">
+                <div class="modal-signature-option">
+                    <p-checkbox [(ngModel)]="comAssinatura" binary="true" inputId="binary"></p-checkbox>
+                    <label for="signatureCheckbox" class="checkbox-label">Imprimir com assinatura?</label>
+                </div>
+                <div>
+                    <p-button label="Imprimir" icon="pi pi-print" [text]="true" (onClick)="imprimirPedido()"/>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</p-dialog>

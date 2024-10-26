@@ -5,10 +5,6 @@
     margin-top: 10px;
   }
 
-  .container-inputs input{
-    width: 355%
-  }
-
   .container-inputs-tel{
     display: flex;
     flex-direction: row;
@@ -24,12 +20,12 @@
   }
 
   .input-margin-left-end{
-    margin-left: 16px;
+    margin-left: 12px;
   }
 
   .button-tel {
-    margin-left: 22%;
-    margin-right: 3%;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .width-input-small{
@@ -50,5 +46,17 @@
 
   .button-add{
     margin-top: 3%;
+  }
+
+  .title{
+    display: flex;
+  }
+  .title i{
+    margin-right: 10px;
+    font-size: 1.9rem;
+  }
+  .title h2{
+    font-size: 1.3rem;
+    font-family: "Inter", sans-serif;
   }
 

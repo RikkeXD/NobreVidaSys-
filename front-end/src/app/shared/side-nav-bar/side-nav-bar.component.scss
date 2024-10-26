@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+
 }
 
 .toolbar {
@@ -29,6 +30,49 @@
 .toolbar .user-name {
   font-size: 18px;
   font-weight: 500;
+  cursor: pointer;
+}
+
+.user-name:hover {
+  opacity: 0.8; /* Feedback visual ao passar o mouse */
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 200px;
+  background-color: #fff;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  font-size: 16px;
+}
+
+.menu-item i {
+  font-size: 20px;
+  color: #4CAF50;
+}
+
+.menu-item:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.02);
+}
+
+.logout {
+  color: #f44336;
+}
+
+.logout i {
+  color: #f44336;
 }
 
 .sidebar{
@@ -59,7 +103,7 @@
   line-height: 50px;
 }
 .sidebar .logo-details .logo_name{
-  font-size: 22px;
+  font-size: 18px;
   color: #333333;
   font-weight: 600;
   transition: 0.3s ease;

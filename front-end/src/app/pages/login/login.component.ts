@@ -4,15 +4,14 @@ import { LoginService } from '../../core/services/login.service';
 import { Router } from '@angular/router';
 import { TokenService } from '../../core/auth/services/token.service';
 import { MessageService } from 'primeng/api';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from "primeng/floatlabel";
+import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
+import { ModalResetSenhaComponent } from './modal-reset-senha/modal-reset-senha.component';
 
-//Angular Material
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatHint } from '@angular/material/form-field';
-import { MatSuffix } from '@angular/material/form-field';
-import { MatLabel } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-login',
@@ -20,19 +19,20 @@ import { MatLabel } from '@angular/material/form-field';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatHint,
-    MatSuffix,
-    MatLabel,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    FloatLabelModule,
+    PasswordModule,
+    ButtonModule,
+    ModalResetSenhaComponent
     ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   hide = true;
+  showModal: boolean = false
 
   private formBuilderService = inject(NonNullableFormBuilder)
   private messageService = inject(MessageService)
@@ -41,14 +41,20 @@ export class LoginComponent {
   private tokenService = inject(TokenService)
 
   protected form = this.formBuilderService.group({
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   })
+
+  abrirModal() {
+    this.showModal = true
+  }
+  fecharModal() {
+    this.showModal = false
+  }
 
   logout() {
     this.tokenService.removeToken()
   }
-
   onSubmit() {
     if (this.form.invalid) {
       this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "Preencha e-mail e senha!"})
@@ -61,13 +67,13 @@ export class LoginComponent {
       }
     ).subscribe({
       next: (response) => {
-        const { token, id, nome, sobrenome, permissao } = response as { token: string, id: number, nome: string, sobrenome: string, permissao: number };
-        this.tokenService.setToken(token, id.toString(), nome, sobrenome, permissao.toString())
+        const { token, id, nome, sobrenome, permissao,empresaPrincipal } = response as { token: string, id: number, nome: string, sobrenome: string, permissao: number, empresaPrincipal: string };
+        this.tokenService.setToken(token, id.toString(), nome, sobrenome, permissao.toString(), empresaPrincipal)
         window.location.reload()
       },
       error: (error) => {
         this.form.reset()
-        this.messageService.add({severity: 'error', summary: 'Erro', detail: "Ocorreu um erro ao logar"})
+        this.messageService.add({severity: 'error', summary: 'Erro', detail: error.error.message})
       }
     })
   }

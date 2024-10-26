@@ -16,12 +16,9 @@ import { EmpresasLista } from '../../../core/models/EnterpriseModel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { UsuarioService } from '../../../core/services/usuario.service';
 import { MessageService } from 'primeng/api';
-
-//AngularMaterial
-import { MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { FieldsetModule } from 'primeng/fieldset';
+import { AvatarModule } from 'primeng/avatar';
+import { PanelModule } from 'primeng/panel';
 
 
 @Component({
@@ -38,13 +35,11 @@ import {MatExpansionModule} from '@angular/material/expansion';
     KeyFilterModule,
     ButtonModule,
     MultiSelectModule,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle,
-    MatExpansionPanelDescription,
-    MatIconModule,
-    MatButtonModule,
-    MatExpansionModule
+    FieldsetModule,
+    AvatarModule,
+    PanelModule
   ],
+  providers: [],
   templateUrl: './cad-cliente.component.html',
   styleUrl: './cad-cliente.component.scss'
 })
@@ -52,13 +47,10 @@ export class CadClienteComponent {
 
   empresas!: EmpresasLista[]
   selectedEmpresas!: EmpresasLista[]
-
+  tableDadosPessoal: boolean = false
+  tableEndereco: boolean = true
   typeTel: boolean = false
   value: string | undefined;
-
-  style: { [klass: string]: any } = { 'width': '160%' };
-  styleTel: { [klass: string]: any } = { 'width': '130%' };
-  styleCep: {[klass: string]: any } = {"width": "120%"};
 
   private clientService = inject(ClientService)
   private apiEndereco = inject(ApiEnderecoService)
@@ -68,7 +60,7 @@ export class CadClienteComponent {
 
   ngOnInit(){
     this.usuarioService.listarEmpresa().subscribe(empresas => {
-      this.empresas = empresas.map(empresa => ({
+      this.empresas = empresas.empresas.map(empresa => ({
         name: empresa.razao_social,
         code: empresa.id,
       }))
@@ -95,6 +87,11 @@ export class CadClienteComponent {
 
   modifyTipeTel(): void{
     this.typeTel = !this.typeTel
+  }
+
+  actionTable(){
+    this.tableDadosPessoal =!this.tableDadosPessoal
+    this.tableEndereco =!this.tableEndereco
   }
 
   searchAddress(){

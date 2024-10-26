@@ -1,58 +1,39 @@
-.example-headers-align .mat-expansion-panel-header-description {
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
-    margin-left: 8px;
-  }
+.flex{
+  display: flex;
+}
 
-  .container-inputs{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 25px;
-    margin-top: 10px;
-  }
-  .container-inputs-tel{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 25px;
-    margin-top: 10px;
-  }
-  .button-tel{
-    margin-right: 10px;
-  }
+.m-l{
+    margin-left: 11px;
+}
 
-  .container-inputs input{
-    width: 160%
-  }
-  
-  .input-cpf-margin-left{
-    margin-left: 10.7%;
-  }
-  .input-margin-left{
-    margin-left: 20%;
-  }
+.m-t{
+  margin-top: 10px;
+}
 
-  .container-endereco{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 25px;
-    margin-top: 10px;
-  }
+.m-t2{
+  margin-top: 25px;
+}
 
-  .width-input-small{
-    width: 120%
-  }
+.m-r{
+  margin: 1px
+}
 
-  .width-input-large{
-    width: 190%
-  }
+.footer{
+text-align: end;
+}
 
-  .input-margin-left-end{
-    margin-left: 8%;
-  }
+.button-tel{
+  margin-right: 13.2px;
+}
 
-  .container-complemento input{
-    width: 95.5%;
-  }
+.title{
+  display: flex;
+}
+.title i{
+  margin-right: 10px;
+  font-size: 1.9rem;
+}
+.title h2{
+  font-size: 1.3rem;
+  font-family: "Inter", sans-serif;
+}

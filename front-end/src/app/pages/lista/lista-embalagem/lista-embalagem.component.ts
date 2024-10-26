@@ -44,7 +44,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     InputTextModule,
     KeyFilterModule,
   ],
-  providers: [MessageService, ConfirmationService],
+  providers: [ConfirmationService],
   templateUrl: './lista-embalagem.component.html',
   styleUrl: './lista-embalagem.component.scss'
 })
@@ -67,18 +67,22 @@ export class ListaEmbalagemComponent implements OnInit {
   private embalagemService = inject(PackingService)
 
   ngOnInit() {
-    this.usuarioService.listarEmpresa().subscribe((empresa) => {
-      this.empresas = empresa.map(empresa => ({
-        name: empresa.razao_social,
-        code: empresa.id
+    this.usuarioService.listarEmpresa().subscribe((empresas) => {
+      this.empresas = empresas.empresas.map(empresa => ({
+          name: empresa.razao_social,
+          code: empresa.id
       }))
 
-      if (this.empresas.length > 0) {
-        this.selectedEmpresa = this.empresas[0];
-        this.empresaIdSelected = this.selectedEmpresa.code
-        this.searchClient()
-      }
-    })
+      if (empresas.empresaPrincipalId) {
+          this.selectedEmpresa = this.empresas.find(
+            (empresa) => empresa.code === empresas.empresaPrincipalId
+          )!;
+          this.empresaIdSelected = this.selectedEmpresa.code
+        } else {
+          this.selectedEmpresa = this.empresas[0];
+        }
+        this.searchEmbalagem()
+  })
   }
 
   protected form = this.formBuilderService.group({
@@ -93,17 +97,16 @@ export class ListaEmbalagemComponent implements OnInit {
 
   empresaSelected(event: any) {
     this.empresaIdSelected = event.value.code
-    this.searchClient()
+    this.searchEmbalagem()
   }
 
-  searchClient() {
+  searchEmbalagem() {
     this.embalagemService.listar(this.empresaIdSelected).subscribe({
       next: (res) => {
         this.embalagens = res
       },
       error: (error) => {
         this.embalagens = []
-        this.messageService.add({severity: 'error', summary: 'Erro', detail: error.error.message})
       }
     })
   }

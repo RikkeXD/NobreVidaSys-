@@ -1,74 +1,53 @@
 <div class="container">
     <div class="row">
         <div class="title">
-            <div class="top">
-                <h1>CADASTRO DE EMBALAGENS</h1>
-            </div>
+            <i class="bx bxs-package"></i>
+            <h2>Cadastro de Embalagem</h2>
         </div>
     </div>
     <div class="card">
         <div class="card-body">
             <form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="con">
-                    <div class="t1">
-                        <mat-form-field class="input-name">
-                            <mat-label>Nome da embalagem</mat-label>
-                            <input matInput type="text" formControlName="nome" class="">
-                            @if (form.controls.nome.value) {
-                            <button type="button" matSuffix mat-icon-button aria-label="Limpar"
-                                (click)="form.patchValue({nome:''})">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            }
-                        </mat-form-field>
+                    <div class="container-nome">
+                        <p-floatLabel>
+                            <input pInputText id="nome" formControlName="nome" size="42" />
+                            <label for="nome">Nome</label>
+                        </p-floatLabel>
                     </div>
                     <div class="header">
                         <div class="container-inputs">
-                            <div>
-                                <mat-form-field>
-                                    <mat-label>Altura</mat-label>
-                                    <input matInput type="number" formControlName="altura" class="input-number">
-                                    @if (form.controls.altura.value) {
-                                    <button type="button" matSuffix mat-icon-button aria-label="Limpar"
-                                        (click)="form.patchValue({altura:''})">
-                                        <mat-icon>close</mat-icon>
-                                    </button>
-                                    }
-                                </mat-form-field>
-                                <mat-form-field class="input-name">
-                                    <mat-label>Largura</mat-label>
-                                    <input matInput type="number" formControlName="largura" class="input-number">
-                                    @if (form.controls.largura.value) {
-                                    <button type="button" matSuffix mat-icon-button aria-label="Limpar"
-                                        (click)="form.patchValue({largura:''})">
-                                        <mat-icon>close</mat-icon>
-                                    </button>
-                                    }
-                                </mat-form-field>
+                            <div class="column-left">
+                                <div class="mt">
+                                    <p-floatLabel>
+                                        <input pInputText pKeyFilter="num" id="altura" formControlName="altura" size="13" />
+                                        <label for="nome">Altura</label>
+                                    </p-floatLabel>
+                                </div>
+                                <div class="mt">
+                                    <p-floatLabel>
+                                        <input pInputText pKeyFilter="num" id="largura" formControlName="largura" size="13"/>
+                                        <label for="nome">Largura</label>
+                                    </p-floatLabel>
+                                </div>
                             </div>
                             <div>
-                                <mat-form-field class="input-margin-left">
-                                    <mat-label>Comprimento</mat-label>
-                                    <input matInput type="number" formControlName="comprimento" class="input-number">
-                                    @if (form.controls.comprimento.value) {
-                                    <button type="button" matSuffix mat-icon-button aria-label="Limpar"
-                                        (click)="form.patchValue({comprimento:''})">
-                                        <mat-icon>close</mat-icon>
-                                    </button>
-                                    }
-                                </mat-form-field>
+                                <div class="mt">
+                                    <p-floatLabel>
+                                        <input pInputText pKeyFilter="num" id="comprimento" formControlName="comprimento" size="13"/>
+                                        <label for="comprimento">Comprimento</label>
+                                    </p-floatLabel>
+                                </div>
 
-                                <mat-form-field class="input-margin-left">
-                                    <mat-label>Peso</mat-label>
-                                    <input matInput type="number" formControlName="peso" class="input-number">
-                                    @if (form.controls.peso.value) {
-                                    <button type="button" matSuffix mat-icon-button aria-label="Limpar"
-                                        (click)="form.patchValue({peso:''})">
-                                        <mat-icon>close</mat-icon>
-                                    </button>
-                                    }
-                                    <mat-hint>Em gramas</mat-hint>
-                                </mat-form-field>
+                                <div class="mt">
+                                    <p-floatLabel>
+                                        <input pInputText pKeyFilter="num" id="peso" formControlName="peso" size="13"/>
+                                        <label for="comprimento">Peso</label>
+                                    </p-floatLabel>
+                                    <small id="username-help">
+                                        Em gramas
+                                    </small>
+                                </div>
                             </div>
                             <div class="container-img">
                                 <img src="../../../../assets/image/img-embalagem.png" alt="">
@@ -83,7 +62,7 @@
                     </div>
 
                     <div class="button-add mt-3">
-                        <button mat-stroked-button color="primary" type="submit">Adicionar Embalagem</button>
+                        <p-button label="Adicionar Embalagem" [outlined]="true" severity="success" type="submit"/>
                     </div>
 
                 </div>

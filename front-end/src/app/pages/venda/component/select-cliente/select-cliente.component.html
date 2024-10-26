@@ -1,5 +1,5 @@
 <div class="card flex justify-content-center">
-    <p-panel header="Cliente" iconPos="end" collapseIcon="" [toggleable]="true" [collapsed]="true">
+    <p-panel header="Cliente" iconPos="end" [toggleable]="true" [collapsed]="true">
         <ng-template pTemplate="header">
             <i class="pi pi-user" [style]="{'font-size': '1.5rem', 'padding-right':'7px'}"></i>
         </ng-template>
@@ -13,60 +13,58 @@
                     <div class="container-client">
                         <div class="section">
                             <h3 class="section-title">
-                                <mat-icon>person</mat-icon> <strong>Dados do Cliente</strong>
+                                <i class="pi pi-user"></i> <strong>Dados do Cliente</strong>
                             </h3>
                             <div class="info-grid">
                                 <div class="info-item">
-                                    <mat-icon>badge</mat-icon>
+                                    <i class="pi pi-id-card"></i>
                                     <span class="list-text"><strong>Nome:</strong> {{client.nome + " " + client.sobrenome}}</span>
                                 </div>
                                 <div class="info-item">
-                                    <mat-icon>email</mat-icon>
+                                    <i class="pi pi-envelope"></i>
                                     <span class="list-text"><strong>Email:</strong> {{client.email}}</span>
                                 </div>
                                 <div class="info-item">
-                                    <mat-icon>credit_card</mat-icon>
+                                    <i class="pi pi-credit-card"></i>
                                     <span class="list-text"><strong>CPF:</strong> {{client.cpf}}</span>
                                 </div>
                                 <div class="info-item">
-                                    <mat-icon>phone</mat-icon>
+                                    <i class="pi pi-phone"></i>
                                     <span class="list-text"><strong>Telefone:</strong> {{client.telefone}}</span>
                                 </div>
                             </div>
                         </div>
-                        <mat-divider></mat-divider>
+                        
                         <div class="section">
                             <h3 class="section-title">
-                                <mat-icon>location_on</mat-icon> <strong>Endereço do Cliente</strong>
+                                <i class="pi pi-map"></i> <strong>Endereço do Cliente</strong>
                             </h3>
-                           
-                                <div class="info-grid">
-                                    <div class="info-item">
-                                        <mat-icon>home</mat-icon>
-                                        <span class="list-text"><strong>Rua:</strong> {{client.endereco.endereco}}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <mat-icon>location_searching</mat-icon>
-                                        <span class="list-text"><strong>CEP:</strong> {{client.endereco.cep}}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <mat-icon>pin_drop</mat-icon>
-                                        <span class="list-text"><strong>Número:</strong> {{client.endereco.numero}}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <mat-icon>apartment</mat-icon>
-                                        <span class="list-text"><strong>Bairro:</strong> {{client.endereco.bairro}}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <mat-icon>add_location</mat-icon>
-                                        <span class="list-text"><strong>Complemento:</strong> {{client.endereco.complemento}}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <mat-icon>location_city</mat-icon>
-                                        <span class="list-text"><strong>Cidade:</strong> {{client.endereco.cidade}}</span>
-                                    </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <i class="pi pi-home"></i>
+                                    <span class="list-text"><strong>Rua:</strong> {{client.endereco.endereco}}</span>
                                 </div>
-                            
+                                <div class="info-item">
+                                    <i class="pi pi-map-marker"></i>
+                                    <span class="list-text"><strong>CEP:</strong> {{client.endereco.cep}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="pi pi-map-marker"></i>
+                                    <span class="list-text"><strong>Número:</strong> {{client.endereco.numero}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="pi pi-building"></i>
+                                    <span class="list-text"><strong>Bairro:</strong> {{client.endereco.bairro}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="pi pi-plus"></i>
+                                    <span class="list-text"><strong>Complemento:</strong> {{client.endereco.complemento}}</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="pi pi-building-columns"></i>
+                                    <span class="list-text"><strong>Cidade:</strong> {{client.endereco.cidade}}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 }@else {

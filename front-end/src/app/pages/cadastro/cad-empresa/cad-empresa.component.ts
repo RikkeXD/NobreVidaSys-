@@ -9,7 +9,6 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { Address } from '../../../core/models/AddressModel';
 import { ApiEnderecoService } from '../../../core/services/api-endereco.service';
 import { EmpresaService } from '../../../core/services/empresa.service';
-import { Enterprise } from '../../../core/models/EnterpriseModel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { convertEmpresa } from '../../../utils/convertEmpresaModel';
@@ -42,7 +41,7 @@ export class CadEmpresaComponent {
   style: { [klass: string]: any } = { 'width': '355%' };
   styleEmail: { [klass: string]: any } = { 'width': '180%' };
   styleTel: { [klass: string]: any } = { 'width': '139%' };
-  styleCep: { [klass: string]: any } = { "width": "101%" };
+
 
   private apiEndereco = inject(ApiEnderecoService)
   private formBuilderService = inject(NonNullableFormBuilder)

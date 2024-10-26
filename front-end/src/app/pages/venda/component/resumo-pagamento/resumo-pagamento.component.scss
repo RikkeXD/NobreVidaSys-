@@ -77,23 +77,3 @@
     background-color: #218838;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .payment-summary {
-        padding: 15px;
-        max-width: 100%;
-    }
-
-    .payment-summary-row {
-        font-size: 14px;
-    }
-
-    .payment-summary-discount .discount-value {
-        font-size: 14px;
-    }
-
-    .btn-confirmar {
-        font-size: 14px;
-        padding: 10px;
-    }
-}

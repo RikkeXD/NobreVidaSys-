@@ -1,0 +1,647 @@
+<h1>Nova Venda</h1>
+
+<!--AREA PRINCIPAL-->
+
+<div class="card">
+    <div class="card-body">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalCliente">Buscar
+            cliente</button>
+
+
+        {{#if cliente}}
+        <div class="row">
+            <div class="col">
+                <label for="">Nome:</label>
+                <input type="text" class="form-control" aria-label="First name"
+                    value="{{cliente.nome}} {{cliente.sobrenome}}" disabled>
+                <input type="hidden" value="{{cliente.id}}" name="idCliente" id="idCliente">
+            </div>
+            <div class="col">
+                <label for="">Telefone:</label>
+                <input type="text" class="form-control" aria-label="Last name" value="{{cliente.telefone}}" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="">CPF:</label>
+                <input type="text" class="form-control" aria-label="First name" value="{{cliente.cpf}}" disabled>
+            </div>
+            <div class="col">
+                <label for="">E-mail:</label>
+                <input type="text" class="form-control" aria-label="Last name" value="{{cliente.email}}" disabled>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="">Endereço:</label>
+                    <input type="text" class="form-control" aria-label="First name" value="{{cliente.endereco}}"
+                        disabled>
+                </div>
+                <div class="col">
+                    <label for="">Nº</label>
+                    <input type="text" class="form-control" aria-label="Last name" value="{{cliente.numero}}" disabled>
+                </div>
+                <div class="col">
+                    <label for="">Bairro:</label>
+                    <input type="text" class="form-control" aria-label="Last name" value="{{cliente.bairro}}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="">Complemento:</label>
+                    <input type="text" class="form-control" aria-label="First name" value="{{cliente.complemento}}"
+                        disabled>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">CEP:</label>
+                        <input type="text" class="form-control" aria-label="First name" value="{{cliente.cep}}"
+                            disabled>
+                    </div>
+                    <div class="col">
+                        <label for="">Cidade:</label>
+                        <input type="text" class="form-control" aria-label="Last name" value="{{cliente.cidade}}"
+                            disabled>
+                    </div>
+                    <div class="col">
+                        <label for="">UF:</label>
+                        <input type="text" class="form-control" aria-label="Last name" value="{{cliente.uf}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ______________SELEÇÃO DE PRODUTOS_____________ -->
+        <!-- Formulário HTML para adicionar um novo produto -->
+        <div class="container">
+            <h2 class="my-4">Adicionar Produto</h2>
+            <div id="notification"></div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="produto">Produto:</label>
+                    <select class="selectpicker" data-live-search="true" id="nome">
+                        <!-- Opções da lista suspensa -->
+                        {{#each produtos}}
+                        <option value="{{id}}">{{nome}}</option>
+                        {{else}}
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="form-group col-md-3 ">
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" class="form-control" id="quantidade" min="1" value="1">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="valor">Valor:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">R$</span>
+                        </div>
+                        <input type="text" class="form-control" id="valor" value="0,00">
+                    </div>
+                </div>
+                <div class="form-group col-md-2 mt-2">
+                    <br>
+                    <button class="btn btn-primary btn-block bottom-0" id="adicionar">Adicionar</button>
+                </div>
+                <!-- FORMA DE PAGAMENTO -->
+                <h3>Forma de Pagamento e Envio</h3>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-select" aria-label="Forma de Pagamento" id="pagamento">
+                                <option disabled selected value="0">Selecione a forma de pagamento</option>
+                                <option value="1">Cartão de Credito</option>
+                                <option value="2">Boleto</option>
+                                <option value="3">Cartão de Crédito</option>
+                                <option value="4">Pix</option>
+                            </select>
+                        </div>
+                        <div class="col col-lg-2">
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" placeholder="Parcela"
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2" id="qntdParcela"
+                                    disabled>
+                                <span class="input-group-text" id="basic-addon2">x</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+
+                </script>
+
+
+                <!-- Forma de Envio -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-select" aria-label="Forma de envio" id="envio">
+                                <option disabled selected value="0">Selecione o modo do envio</option>
+                                <option value="1">SEDEX</option>
+                                <option value="2">PAC</option>
+                                <option value="3">Motoboy</option>
+                            </select>
+                        </div>
+
+                        <div class="col col-lg-4">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">R$</span>
+                                <input type="text" class="form-control" placeholder="Valor do envio"
+                                    aria-label="Valor Envio" aria-describedby="basic-addon1" id="VlrFrete">
+                            </div>
+                        </div>
+                        <div class="col col-lg-2">
+                            <button type="button" class="btn btn-secondary" id="add-frete">Adicionar Frete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--LISTA DE PRODUTOS-->
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Valor</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="produtos">
+                    </tbody>
+                    <tfoot id="LinhaTotal">
+                        <tr>
+                            <th colspan="3" class="text-right">Frete:</th>
+                            <th id="frete" data-frete="0">R$ 0,00</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" class="text-right">Total:</th>
+                            <th id="total" data-total="0">R$ 0,00</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+            <div>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#ConfirmarVenda">Finalizar Venda</button>
+            </div>
+            <!--MODAL CONFIRMAÇÃO DE FINALIZAÇÃO DE VENDA-->
+            <div class="modal fade" id="ConfirmarVenda" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação de venda</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Deseja Confirmar a venda ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" name="confirmarVenda"
+                                id="btnConfirmarVenda">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            {{else}}
+            {{/if}}
+
+            <!--Modal CLIENTES-->
+            <div class="modal fade" id="ModalCliente" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Pesquisar Clientes</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <!--Barra de Pesquisa-->
+
+                            <div class="grid text-center">
+                                <div class="g-col-4 input-group mb-3">
+                                    <input type="text" class="form-control ms-1"
+                                        aria-label="Text input with dropdown button" id="barra-pesquisa">
+
+                                    <button class="btn btn-outline-secondary" type="button"
+                                        id="btn-pesquisar">Pesquisar</button>
+                                </div>
+
+                                <!--Barra de Pesquisa-->
+
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Telefone</th>
+                                        <th scope="col">CPF</th>
+                                        <th scope="col">Endereço</th>
+                                        <th scope="col">Escolher</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tabela-clientes">
+                                    {{#each clientes}}
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <tr>
+                                            <th scope="row" name="id">{{id}}</th>
+                                            <td>{{nome}}</td>
+                                            <td>{{telefone}}</td>
+                                            <td>{{cpf}}</td>
+                                            <td>{{endereco}}</td>
+                                            <td><a href="/vendas/nova/cliente/{{id}}"
+                                                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                                    Selecionar
+                                                </a></td>
+                                        </tr>
+                                    </div>
+                                    </a>
+                                    {{else}}
+                                    {{/each}}
+                                </tbody>
+
+
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <style>
+                #LinhaTotal tr:first-child {
+                    order: -1;
+                }
+            </style>
+
+
+            <!-- IMPORTANDO BIBLIOTECAS -->
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+
+            <script>
+
+                /* Enviando a TAG de busca para o Back-End */
+                document.addEventListener('DOMContentLoaded', function () {
+                    document.getElementById("btn-pesquisar").addEventListener('click', function () {
+                        console.log("Botão Pesquisa Clicado")
+                        var valorPesquisa = document.getElementById('barra-pesquisa').value
+                        fetch('/clientes/venda?pesquisa=' + valorPesquisa)
+                            .then(response => response.json())
+                            .then(data => {
+                                atualizarTabelaClientes(data)
+                            })
+                    })
+                })
+
+                //Fechando MODAL
+                function fecharModal() {
+                    const modal = new bootstrap.Modal(document.getElementById('ConfirmarVenda'));
+                    modal.hide();
+                }
+                //Forma de pagamento
+
+                function AtualizarParcela() {
+                    if (pagamento.value == 1 || pagamento.value == 2) {
+                        var QntdParcela = document.getElementById('qntdParcela').value
+                        if (QntdParcela > 0) {
+                            var Elementototal = document.getElementById('total')
+                            var valorTotal = Elementototal.getAttribute('data-total')
+                            var VlrParcela = valorTotal / QntdParcela
+                            var Parcela = document.getElementById('totalParcela')
+                            Parcela.textContent = `R$ ${VlrParcela.toFixed(2).replace('.', ',')}`
+                        }
+
+                    }
+                }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    var total = document.getElementById('LinhaTotal');
+                    var pagamento = document.getElementById('pagamento')
+                    var qntdParcela = document.getElementById('qntdParcela')
+
+
+                    qntdParcela.addEventListener('blur', function () {
+                        AtualizarParcela()
+                    })
+                    pagamento.addEventListener('change', function () {
+                        var pagamento = parseInt(this.value);
+                        var LinhaParcela = total.querySelector('.parcela');
+
+                        if (pagamento <= 2 && !LinhaParcela) {
+
+                            qntdParcela.disabled = false
+                            criarParcela(total);
+                            AtualizarParcela()
+                            criarTotal(total)
+
+                        } else if (pagamento > 2 && LinhaParcela) {
+                            removerParcela(LinhaParcela);
+                            qntdParcela.disabled = true
+                        }
+                    });
+
+                    function criarParcela(total) {
+                        var LinhaParcela = document.createElement('tr');
+                        LinhaParcela.classList.add('parcela');
+
+                        var celulaParcela = document.createElement('th')
+                        celulaParcela.textContent = "Parcela:";
+                        celulaParcela.classList.add('text-right');
+                        celulaParcela.setAttribute('colspan', '3');
+
+                        var celulaParcela2 = document.createElement('th')
+                        celulaParcela2.textContent = 'R$ 0,00'
+                        celulaParcela2.setAttribute('id', 'totalParcela')
+                        celulaParcela2.setAttribute('data-total', '0')
+
+
+                        LinhaParcela.appendChild(celulaParcela);
+                        LinhaParcela.appendChild(celulaParcela2)
+                        total.insertBefore(LinhaParcela, total.lastElementChild);
+                    }
+
+                    function removerParcela(LinhaParcela) {
+                        LinhaParcela.remove();
+                    }
+                });
+
+                //Adicionando Produtos
+                const nome = document.querySelector("#nome");
+                const quantidade = document.querySelector("#quantidade");
+                const valor = document.querySelector("#valor");
+                const adicionarBtn = document.querySelector("#adicionar");
+                const produtosTbody = document.querySelector("#produtos");
+                const total = document.querySelector("#total");
+                const notification = document.getElementById('notification')
+                const frete = document.getElementById('frete')
+                let ProdutosSelecionados = []
+
+                function recalcular() {
+                    const valoresLinhas = produtosTbody.querySelectorAll("tr td:nth-child(4)");
+                    const freteElement = document.getElementById('frete')
+                    const valorFrete = freteElement.dataset.frete
+                    const FreteInteiro = parseFloat(valorFrete)
+                    let totalProdutos = 0;
+                    totalProdutos += FreteInteiro
+                    for (let i = 0; i < valoresLinhas.length; i++) {
+                        const valorProduto = parseFloat(valoresLinhas[i].textContent.replace(",", ".").replace("R$ ", ""));
+                        totalProdutos += valorProduto
+                    }
+                    total.dataset.total = totalProdutos.toFixed(2);
+                    total.textContent = `R$ ${totalProdutos.toFixed(2).replace(".", ",")}`;
+                }
+
+                // Adiciona evento de clique ao botão Adicionar
+                adicionarBtn.addEventListener("click", () => {
+
+                    if (!nome.value || typeof nome.value == undefined || nome.value == null) {
+                        notification.innerHTML = '<div class="alert alert-danger">O campo do produto está vazio!</div>'
+                    }
+                    else if (quantidade.value <= 0) {
+                        notification.innerHTML = '<div class="alert alert-danger">Quantidade Incorreta!</div>'
+                    } else if (valor.value < 0) {
+                        notification.innerHTML = '<div class="alert alert-danger">Valor Incorreta!</div>'
+                    } else {
+                        notification.innerHTML = ''
+
+                        //
+                        let ProdutosAdicionados = nome.value
+                        let nomeProduto = nome.options[nome.selectedIndex].text
+                        let idIndex = ProdutosAdicionados + '-' + Date.now()
+                        let vlr_uni = parseFloat(valor.value.replace(',','.'))
+                        ProdutosSelecionados.push({
+                            id: ProdutosAdicionados,
+                            nome: nomeProduto,
+                            vlr: vlr_uni,
+                            qntd: quantidade.value,
+                            idIndex: idIndex,
+                        })
+    
+
+                        console.log(ProdutosAdicionados)
+                        //Cria uma nova linha para a tabela
+
+                        //Atribuindo o ID em cada Produto
+                        const linha = document.createElement("tr");
+                        linha.setAttribute('data-id', idIndex)
+
+                        // Cria as células da linha com os valores dos inputs
+                        const nomeCelula = document.createElement("td");
+                        nomeCelula.textContent = nomeProduto;
+
+                        const quantidadeCelula = document.createElement("td");
+                        quantidadeCelula.textContent = quantidade.value;
+
+                        const valorCelula = document.createElement("td");
+                        valorCelula.textContent = `R$ ${valor.value}`;
+                        valorCelula.setAttribute('data-vlr', valor.value.replace(',','.'))
+
+                        const totalCelula = document.createElement("td");
+                        totalCelula.textContent = `R$ ${(quantidade.value * valor.value.replace(",", ".")).toFixed(2).replace(".", ",")}`;
+
+                        const excluirCelula = document.createElement("td");
+                        const excluirBtn = document.createElement("button");
+                        excluirBtn.classList.add("btn", "btn-danger");
+                        excluirBtn.textContent = "Excluir";
+                        excluirBtn.addEventListener("click", () => {
+                            // Remove a linha da tabela
+                            const id = linha.getAttribute("data-id")
+                            produtosTbody.removeChild(linha);
+
+                            //Removendo Produto do Array ProdutosSelecionados
+                            const index = ProdutosSelecionados.findIndex((produto) => produto.idIndex === idIndex)
+                            console.log(index)
+                            if (index !== -1) {
+                                ProdutosSelecionados.splice(index, 1)
+                            }
+
+                            // Recalcula o valor total
+                            recalcular()
+                            AtualizarParcela()
+
+                        });
+                        excluirCelula.appendChild(excluirBtn);
+
+                        // Adiciona as células na linha
+                        linha.appendChild(nomeCelula);
+                        linha.appendChild(quantidadeCelula);
+                        linha.appendChild(valorCelula);
+                        linha.appendChild(totalCelula);
+                        linha.appendChild(excluirCelula);
+
+                        // Adiciona a linha na tabela
+                        produtosTbody.appendChild(linha);
+
+                        // Limpa os campos de entrada de dados
+                        nome.value = "";
+                        quantidade.value = 1;
+                        valor.value = "0,00";
+
+                        // Recalcula o valor total
+                        recalcular()
+                        AtualizarParcela()
+
+
+                    }
+                });
+
+
+
+                //FRETE 
+                document.getElementById('add-frete').addEventListener('click', () => {
+                    AdicionarFrete()
+                })
+                function AdicionarFrete() {
+                    const vlrFreteInput = document.getElementById('VlrFrete')
+                    const vlrFrete = parseFloat(vlrFreteInput.value.replace(',', '.'))
+                    document.getElementById('frete').setAttribute('data-frete', vlrFrete);
+                    const frete = document.getElementById('frete')
+                    frete.textContent = `R$ ${vlrFrete.toFixed(2).replace('.', ',')}`
+                    recalcular()
+                    AtualizarParcela()
+                }
+
+                //Atualizando a tabela Clientes
+                function atualizarTabelaClientes(clientes) {
+                    var tabela = document.getElementById("tabela-clientes");
+
+                    // Limpa a tabela existente
+                    tabela.innerHTML = "";
+
+                    // Adiciona cada cliente como uma nova linha na tabela
+                    clientes.forEach(function (cliente) {
+                        var linha = document.createElement("tr");
+                        linha.innerHTML = "<td>" + cliente.id + "</td>" +
+                            "<td>" + cliente.nome + "</td>" +
+                            "<td>" + cliente.telefone + "</td>" +
+                            "<td>" + cliente.cpf + "</td>" +
+                            "<td>" + cliente.endereco + "</td>" +
+                            `<td><a href='/vendas/nova/cliente/${cliente.id}'>Selecionar</a></td>`;
+                        tabela.appendChild(linha);
+                    });
+                }
+
+                
+
+                //Verificando os dados do produto
+                function VerificarCamposPreenchidos(produtos) {
+                    if (produtos.length === 0) {
+                        return false;
+                    }
+                    for (const produto of produtos) {
+                        if (!produto.id || !produto.nome || !produto.vlr || !produto.qntd || !produto.idIndex) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+
+
+                const ValidarCampos = VerificarCamposPreenchidos(ProdutosSelecionados)
+                var erros = []
+
+                //Processando Venda
+                let btnConfirmarVenda = document.getElementById('btnConfirmarVenda')
+                btnConfirmarVenda.addEventListener('click', function () {
+                    const ValidarCampos = VerificarCamposPreenchidos(ProdutosSelecionados)
+                    const Clienteid = document.getElementById('idCliente').value
+                    const selectPagamento = document.getElementById('pagamento')
+                    const Pagamentoid = selectPagamento.value
+                    const QntdParcela = document.getElementById('qntdParcela').value
+                    const envio = document.getElementById('envio').value
+                    const freteElement = document.getElementById('frete')
+                    const VlrFrete = freteElement.dataset.frete
+                    const VlrTotal = total.dataset.total
+
+
+                    //Verificando dados antes de enviar para o Back
+                    if (!ValidarCampos) {
+                        erros.push({ texto: "Erro nos produtos" })
+                    }
+                    else if (envio <= 0) {
+                        erros.push({ texto: "Erro no modo de envio" })
+                    }
+                    else if (Pagamentoid <= 0) {
+                        erros.push({ texto: "Erro no modo de pagamento" })
+                    }
+                    else if (Pagamentoid == 1) {
+                        if (QntdParcela <= 0 || QntdParcela.length == 0) {
+                            erros.push({ texto: "Quantidade de parcelas incorretas" })
+                        }
+                    } else {
+                        notification.innerHTML = ''
+                    }
+                    if (erros.length > 0) {
+                        // Fechar o modal
+                        $('#ConfirmarVenda').modal('hide');
+                        //Criando div de erro e exibindo
+                        erros.forEach((erro) => {
+                            notification.innerHTML = ''
+                            const divAlerta = document.createElement('div')
+                            divAlerta.classList.add('alert', 'alert-danger')
+                            divAlerta.textContent = erro.texto
+                            notification.appendChild(divAlerta)
+                            erros = []
+
+                        })
+                        
+                    } else {
+                        console.log(Pagamentoid)
+                        const data = {
+                            Clienteid,
+                            Pagamentoid,
+                            QntdParcela,
+                            envio,
+                            VlrFrete,
+                            VlrTotal,
+                            ProdutosSelecionados
+                        }
+                        console.log(data)
+                        axios.post('/vendas/novopedido', data).then(response => {
+                            $('#ConfirmarVenda').modal('hide');
+                            window.location.href = '/home';
+                        }).catch(error => {
+                            console.log(error.response.data.erros)
+                            const erros = error.response.data.erros
+                            notification.innerHTML = ''
+                            $('#ConfirmarVenda').modal('hide');
+                            erros.forEach(erro => {
+                                const divAlerta = document.createElement('div')
+                                divAlerta.classList.add('alert', 'alert-danger')
+                                divAlerta.textContent = erro.texto
+                                notification.appendChild(divAlerta)
+                            })
+
+                        })
+                    }
+
+
+                })
+
+
+
+            </script>

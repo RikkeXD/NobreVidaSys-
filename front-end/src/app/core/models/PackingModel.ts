@@ -1,4 +1,4 @@
-import { EmpresasLista, Enterprise_RazaoSocial } from "./EnterpriseModel"
+import { EmpresasLista, EnterpriseRazaoSocial } from "./EnterpriseModel"
 
 export interface Packing{
     id: number,
@@ -7,7 +7,7 @@ export interface Packing{
     comprimento: number,
     largura: number,
     peso: number
-    empresas: Enterprise_RazaoSocial[]
+    empresas: EnterpriseRazaoSocial[]
 }
 
 export interface PackingSale{

@@ -120,7 +120,7 @@ export class CriarVendaComponent {
       return false;
     }
 
-    if (!this.produto || this.produto.length === 0 && !this.verificarProdutos()) {
+    if (!this.produto || this.produto.length === 0) {
       this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "Adicione produtos ao pedido"})
       return false;
     }

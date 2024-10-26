@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { payloadUsuario } from '../models/Payload.UsuarioModel';
 import { Usuario } from '../models/UsuarioModel';
-import { Enterprise_RazaoSocial } from '../models/EnterpriseModel';
+import { UsuarioEmpresas } from '../models/EnterpriseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +22,15 @@ export class UsuarioService {
   }
 
   listarEmpresa(){
-    return this.httpClient.get<Enterprise_RazaoSocial[]>(`${this.apiUrl}/usuario/listar/empresa`)
+    return this.httpClient.get<UsuarioEmpresas>(`${this.apiUrl}/usuario/listar/empresa`)
   }
 
   edit(usuario: Omit<Usuario, 'senha'>){
     return this.httpClient.put(`${this.apiUrl}/usuario/editar`, usuario)
+  }
+
+  atualizarEmpresa(empresa_id: {empresa_id: number}){
+    return this.httpClient.put(`${this.apiUrl}/usuario/empresa-principal`, empresa_id)
   }
 
   delete(usuario: Omit<Usuario, 'senha'>){

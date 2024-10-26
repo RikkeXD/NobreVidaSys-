@@ -1,10 +1,38 @@
 <div class="card">
-    <p-table #dt [value]="pedidos" [globalFilterFields]="['cliente']" selectionMode="single"
-        [(selection)]="empresaIdSelected" dataKey="id" [rowHover]="true" [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50]" [rows]="10" [paginator]="true" stateStorage="session"
-        stateKey="statedemo-session" [tableStyle]="{ 'min-width': '60rem' }"
+    <p-confirmDialog>
+        <ng-template pTemplate="message" let-message>
+            <div class="container-flex-column margin-l">
+                <div>
+                    {{message.message}}
+                </div>
+                @if(inputRastreio){
+                <div class="container-flex-column">
+                    <div [style]="{'margin-top': '10px', 'margin-bottom':'15px'}">
+                        <p-checkbox [(ngModel)]="checkedInputRastreio" [binary]="true" inputId="binary"
+                            [style]="{'margin-right': '10px'}" />
+                        <label for="">Atualizar rastreio</label>
+                    </div>
+                    <div>
+                        @if (checkedInputRastreio) {
+                        <input pInputText id="cod_rastreio" [(ngModel)]="cod_rastreio" [style]="{'height': '10px'}" />
+                        <div>
+                            <small id="username-help">
+                                Digite o codigo de rastreio
+                            </small>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+        </ng-template>
+    </p-confirmDialog>
+    <app-modal-visualizar [showModal]="showModal" (close)="fecharModal()" [pedido_id]="pedido_id" />
+    <p-table #dt [value]="pedidos" [globalFilterFields]="['id','cliente','data','vlr_total','status']"
+        selectionMode="single" dataKey="id" [rowHover]="true"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [rows]="10" [paginator]="true"
+        stateStorage="session" stateKey="statedemo-session" [tableStyle]="{ 'min-width': '60rem' }"
         currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} pedidos">
-        <!-- Cabeçalho da Tabela -->
         <ng-template pTemplate="caption">
             <div class="header-container">
                 <div class="search-bar">
@@ -15,14 +43,13 @@
                     </span>
                 </div>
 
-                <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" optionLabel="name"
+                <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" optionValue="code" optionLabel="name"
                     placeholder="Selecione a Empresa" [filter]="true" [style]="{ width: '300px' }"
                     emptyFilterMessage="Nenhuma empresa encontrada" (onChange)="empresaSelected($event)"
                     class="empresa-dropdown"></p-dropdown>
             </div>
         </ng-template>
 
-        <!-- Cabeçalho das Colunas -->
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
@@ -34,7 +61,6 @@
             </tr>
         </ng-template>
 
-        <!-- Corpo da Tabela -->
         <ng-template pTemplate="body" let-pedido>
             <tr [pSelectableRow]="pedido">
                 <td>{{ pedido.id }}</td>
@@ -47,28 +73,16 @@
                     </span>
                 </td>
                 <td>
-                    <!-- Example single danger button -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Action
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Separated link</a></li>
-                        </ul>
-                    </div>
+                    @if (pedido.status === 'Finalizado') {
+                    <p-button label="Visualizar" (onClick)="abrirModal(pedido.id)" [style]="{'width': '169px'}" />
+                    }@else {
+                    <p-splitButton label="Visualizar" (onClick)="abrirModal(pedido.id)" [model]="pedido.actions"
+                        appendTo="body" />
+                    }
                 </td>
-
             </tr>
         </ng-template>
 
-        <!-- Mensagem de Tabela Vazia -->
         <ng-template pTemplate="emptymessage">
             <tr>
                 <td colspan="6" class="empty-message">Nenhum pedido encontrado!</td>

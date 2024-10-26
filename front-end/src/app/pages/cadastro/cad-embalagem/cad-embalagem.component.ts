@@ -1,20 +1,15 @@
 import { Component, inject } from '@angular/core';
-
+import { FloatLabelModule } from 'primeng/floatlabel';
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { InputTextModule } from 'primeng/inputtext';
 import { PackingService } from '../../../core/services/packing.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { EmpresasLista } from '../../../core/models/EnterpriseModel';
 import { UsuarioService } from '../../../core/services/usuario.service';
 import { MessageService } from 'primeng/api';
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { ButtonModule } from 'primeng/button';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatHint } from '@angular/material/form-field';
-import { MatSuffix } from '@angular/material/form-field';
-import { MatLabel } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-cad-embalagem',
@@ -23,13 +18,10 @@ import { MatLabel } from '@angular/material/form-field';
     FormsModule,
     ReactiveFormsModule,
     MultiSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatHint,
-    MatSuffix,
-    MatLabel,
+    InputTextModule,
+    FloatLabelModule,
+    KeyFilterModule,
+    ButtonModule
   ],
   templateUrl: './cad-embalagem.component.html',
   styleUrl: './cad-embalagem.component.scss'
@@ -55,7 +47,7 @@ export class CadEmbalagemComponent {
 
   ngOnInit(){
     this.usuarioService.listarEmpresa().subscribe(empresas => {
-      this.empresas = empresas.map(empresa => ({
+      this.empresas = empresas.empresas.map(empresa => ({
         name: empresa.razao_social,
         code: empresa.id,
       }))
@@ -75,7 +67,7 @@ export class CadEmbalagemComponent {
   }
 
   onSubmit(){
-    if(this.validationForm()){
+    if(this.validationForm() && this.form.valid){
       this.embalagemService.postCreatePacking({
         nome: this.form.controls.nome.value,
         altura: Number(this.form.controls.altura.value),

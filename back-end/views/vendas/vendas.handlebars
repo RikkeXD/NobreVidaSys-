@@ -1,0 +1,33 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Pedido</th>
+      <th scope="col">Cliente</th>
+      <th scope="col">Valor Total</th>
+      <th scope="col">Pagamento</th>
+      <th scope="col">Data</th>
+      <th scope="col">Status</th>
+      <th scope="col">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each pedidos}}
+    <tr>
+      <th scope="row">{{id}}</th>
+      <td>{{nome}}</td>
+      <td id="vlr_total">{{vlr_total}}</td>
+      <td>{{pagamento}}</td>
+      <td>{{data}}</td>
+      <td>{{status}}</td>
+      <td> <a href="vendas/pedido/{{id}}"><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal"
+          data-bs-target="#modalConsulta">Consultar</button></td></a>
+    </tr>
+    {{else}}
+    {{/each}}
+  </tbody>
+</table>
+
+<script>
+  const token = sessionStorage.getItem('token');
+  console.log("TOKEN DE VENDAS"+token)
+</script>

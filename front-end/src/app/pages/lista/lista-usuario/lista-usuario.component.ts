@@ -13,13 +13,14 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { NonNullableFormBuilder, Validators,FormsModule,ReactiveFormsModule } from '@angular/forms';
-import { Usuario } from '../../../core/models/UsuarioModel';
+import { Permissao, Usuario } from '../../../core/models/UsuarioModel';
 import { UsuarioService } from '../../../core/services/usuario.service';
 import { ConvertEditUser } from '../../../utils/convertUserModel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { EmpresasLista } from '../../../core/models/EnterpriseModel';
 import { EmpresaService } from '../../../core/services/empresa.service';
-import {MatRadioModule} from '@angular/material/radio';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 @Component({
   selector: 'app-lista-usuario',
@@ -40,9 +41,9 @@ import {MatRadioModule} from '@angular/material/radio';
     ReactiveFormsModule,
     CommonModule,
     MultiSelectModule,
-    MatRadioModule
+    DropdownModule
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [ConfirmationService],
   templateUrl: './lista-usuario.component.html',
   styleUrl: './lista-usuario.component.scss'
 })
@@ -58,8 +59,20 @@ export class ListaUsuarioComponent {
   private confirmationService = inject(ConfirmationService)
   private messageService = inject(MessageService)
   private empresaService = inject(EmpresaService)
+  protected optionsPermissao: Permissao[] | undefined
 
   ngOnInit() {
+    this.optionsPermissao = [
+      {
+        name: 'Usuario Padrão',
+        code: '1'
+      },
+      {
+        name: 'Administrador',
+        code: '0'
+      }
+    ]
+
     this.usuarioService.list().subscribe((usuario)=> {
       this.usuarios = usuario
     })

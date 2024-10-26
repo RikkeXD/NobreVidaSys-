@@ -13,6 +13,11 @@ import { ListaPedidoComponent } from "./pages/venda/lista-pedido/lista-pedido.co
 
 const navegationMenu: MenuCategory[] = [
     {
+        title:'Dashboard',
+        icon: "bx bx-home-alt",
+        route: ""
+    },
+    {
     title: "Cliente",
     icon: "bx bxs-group",
     subMenu: [
@@ -39,7 +44,7 @@ const navegationMenu: MenuCategory[] = [
         title: "Pedido",
         icon: "bx bxs-cart",
         subMenu: [
-            { title: "Criar Pedido", route: "venda/criar-venda" },
+            { title: "Novo Pedido", route: "criar/venda" },
             { title: "Lista de Pedidos", route: "lista/pedido" },
         ]
     },

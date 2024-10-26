@@ -1,0 +1,21 @@
+.container-select-empresa{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    p-dropdown{
+        width: 100%;
+    }
+}
+
+.title{
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .title i{
+    margin-right: 10px;
+    font-size: 1.9rem;
+  }
+  .title h2{
+    font-size: 1.3rem;
+    font-family: "Inter", sans-serif;
+  }

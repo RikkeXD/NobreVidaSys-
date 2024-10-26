@@ -1,33 +1,116 @@
-
-@media(max-width: 767px){
-    .example-form-field {
-        width: 100%;
-      }
+@media(max-width: 767px) {
+  .example-form-field {
+    width: 100%;
+  }
 }
 
-.example-form-field{
+.example-form-field {
   width: 80%;
   margin-bottom: 15px;
 }
 
-.button-add{
+.button-add {
   margin-top: 10px;
   margin-bottom: 20px;
   text-align: center;
 }
 
-.input-nome {
-    margin-right: 10px;
-    width: 39%;
-}
-.input-sobrenome {
-    width: 39%;
+.select-permissao {
+  margin-bottom: 35px;
 }
 
 .header{
-  text-align: center;
+  justify-content: center;
 }
 
-.select-permissao{
-    margin-bottom: 35px;
+.container-nome{
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.ml-input{
+  margin-left: 30px;
+  margin-bottom: 30px;
+}
+
+.container-input{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.title{
+  display: flex;
+}
+.title i{
+  margin-right: 10px;
+  font-size: 1.9rem;
+}
+.title h2{
+  font-size: 1.3rem;
+  font-family: "Inter", sans-serif;
+}
+
+//Modal
+
+.modal-content {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.success-message {
+  color: #4caf50;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.instruction {
+  color: #757575;
+  margin-bottom: 1.5rem;
+}
+
+.recovery-code-box {
+  background-color: #f4f6f8;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.recovery-code {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.copy-button, .close-button {
+  background-color: #1976d2;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.copy-button:hover {
+  background-color: #1565c0;
+}
+
+.close-button {
+  background-color: #f44336;
+}
+
+.close-button:hover {
+  background-color: #d32f2f;
 }

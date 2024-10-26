@@ -10,10 +10,15 @@ export interface Enterprise {
     image: string | null
 }
 
-export interface Enterprise_RazaoSocial {
+export interface EnterpriseRazaoSocial {
     id: number,
     razao_social: string;
 }
+
+export interface UsuarioEmpresas {
+    empresas: EnterpriseRazaoSocial[];
+    empresaPrincipalId: number | null; 
+  }
 
 export interface EmpresasLista {
     name: string,

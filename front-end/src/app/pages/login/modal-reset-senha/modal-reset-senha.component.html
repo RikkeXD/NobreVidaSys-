@@ -1,0 +1,31 @@
+<p-dialog header="Recuperar Senha" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }"
+    (onHide)="onHide()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="container-input">
+            <label for="recoveryCode">Codigo de recuperação</label>
+            <input pInputText id="recovery_code" aria-describedby="recovery-code" formControlName="recovery_code"/>
+            <small id="recoveryCode-help">
+                Digite o codigo de recuperação da sua conta
+            </small>
+        </div>
+        <div class="container-input">
+            <label for="senha">Senha</label>
+            <p-password formControlName="senha" [toggleMask]="true" feedback="false"
+                [inputStyle]="{'width': '350px'}" />
+            <small id="senha-help">
+                Digite uma nova senha
+            </small>
+        </div>
+        <div class="container-input">
+            <label for="confirmarSenha">Confirme a senha</label>
+            <p-password formControlName="confirmarSenha" [toggleMask]="true" feedback="false"
+                [inputStyle]="{'width': '350px'}" />
+            <small id="confirmarSenha-help">
+                Confirme sua senha
+            </small>
+        </div>
+        <div>
+            <p-button label="Confirmar" [text]="true" type="submit"/>
+        </div>
+    </form>
+</p-dialog>

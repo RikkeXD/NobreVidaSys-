@@ -1,16 +1,20 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { TokenService } from '../services/token.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MessageService } from 'primeng/api';
+import { GlobalMessageService } from '../services/global-message.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const token = localStorage.getItem('token')
-  const matSnackBar = inject(MatSnackBar)
+  const messageService = inject(GlobalMessageService);
   
   if (!token) {
+    messageService.sendMessage({
+      severity: 'warn',
+      summary: 'Atenção',
+      detail: 'Você precisa estar logado para acessar essa página',
+    });
     router.navigate(["/"])
-    matSnackBar.open("Faça o login! ", "Fechar")
     return false;
   }
   return true;

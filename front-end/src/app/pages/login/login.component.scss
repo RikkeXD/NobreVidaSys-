@@ -81,9 +81,32 @@ h2{
     width: 120px;
 }
 
-a{
-    text-decoration: none;
-    color: black;
+.login, .password{
+    margin-bottom: 15px;
 }
 
+.link-senha {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.link-senha a {
+    text-decoration: none;
+    color: #0251a5;
+    transition: color 0.3s ease;
+}
+
+/* Efeito Hover */
+.link-senha:hover a {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Efeito de Click (Feedback Visual) */
+.link-senha:active {
+    transform: scale(0.98); /* Leve contração no click */
+    opacity: 0.8;
+}
 

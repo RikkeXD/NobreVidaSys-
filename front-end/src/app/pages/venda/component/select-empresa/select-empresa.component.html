@@ -1,54 +1,54 @@
 <div class="card flex justify-content-center">
-    <p-panel header="Empresa" iconPos="end" collapseIcon="" [toggleable]="true">
-        <ng-template pTemplate="header">
-            <i class="pi pi-building" [style]="{'font-size': '1.5rem', 'padding-right':'7px'}"></i>
-        </ng-template>
-        <div class="mb-4">
-            <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" optionLabel="name"
-                placeholder="Selecione a Empresa" [style]="{'width': '350px'}" [filter]="true"
-                emptyFilterMessage="Empresa não encontrada" emptyMessage="Nenhuma empresa vinculada a esse usuario"
-                appendTo="body" (onChange)="empresaSelected($event)" />
-        </div>
-        <div class="container-empresa">
-            @if(empresa) {
-              <div class="section">
-                <h3 class="section-title">
-                  <mat-icon>business</mat-icon> <strong>Dados da Empresa</strong>
-                </h3>
-                <div class="info-grid">
-                  <div class="info-item">
-                    <mat-icon>corporate_fare</mat-icon>
-                    <span class="list-text"><strong>Razão Social:</strong> {{empresa.razao_social}}</span>
-                  </div>
-                  <div class="info-item">
-                    <mat-icon>badge</mat-icon>
-                    <span class="list-text"><strong>CNPJ:</strong> {{empresa.cnpj}}</span>
-                  </div>
-                  <div class="info-item">
-                    <mat-icon>phone</mat-icon>
-                    <span class="list-text"><strong>Telefone:</strong> {{empresa.telefone}}</span>
-                  </div>
-                  <div class="info-item">
-                    <mat-icon>email</mat-icon>
-                    <span class="list-text"><strong>E-mail:</strong> {{empresa.email}}</span>
-                  </div>
+  <p-panel header="Empresa" iconPos="end" collapseIcon="" [toggleable]="true">
+      <ng-template pTemplate="header">
+          <i class="pi pi-building" [style]="{'font-size': '1.5rem', 'padding-right':'7px'}"></i>
+      </ng-template>
+      <div class="mb-4">
+          <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" optionLabel="name"
+              placeholder="Selecione a Empresa" [style]="{'width': '350px'}" [filter]="true"
+              emptyFilterMessage="Empresa não encontrada" emptyMessage="Nenhuma empresa vinculada a esse usuario"
+              appendTo="body" (onChange)="empresaSelected($event)" />
+      </div>
+      <div class="container-empresa">
+          @if(empresa) {
+            <div class="section">
+              <h3 class="section-title">
+                <i class="pi pi-building"></i> <strong>Dados da Empresa</strong>
+              </h3>
+              <div class="info-grid">
+                <div class="info-item">
+                  <i class="pi pi-briefcase"></i>
+                  <span class="list-text"><strong>Razão Social:</strong> {{empresa.razao_social}}</span>
+                </div>
+                <div class="info-item">
+                  <i class="pi pi-id-card"></i>
+                  <span class="list-text"><strong>CNPJ:</strong> {{empresa.cnpj}}</span>
+                </div>
+                <div class="info-item">
+                  <i class="pi pi-phone"></i>
+                  <span class="list-text"><strong>Telefone:</strong> {{empresa.telefone}}</span>
+                </div>
+                <div class="info-item">
+                  <i class="pi pi-envelope"></i>
+                  <span class="list-text"><strong>E-mail:</strong> {{empresa.email}}</span>
                 </div>
               </div>
-          
-              <!-- Logo da Empresa -->
-              <div class="container-empresa-logo">
-                @if (empresa.image) {
-                  <img [src]="empresa.image" alt="Logo da empresa" class="company-logo">
-                }@else{
-                    <img src="https://cdn-icons-png.flaticon.com/512/1695/1695213.png" alt="Logo não cadastrada"
-                      class="company-logo">
-                }
-              </div>
-            } @else {
-              <p>
-                Nenhuma empresa foi selecionada.
-              </p>
-            }
-          </div>
-    </p-panel>
+            </div>
+
+            <!-- Logo da Empresa -->
+            <div class="container-empresa-logo">
+              @if (empresa.image) {
+                <img [src]="empresa.image" alt="Logo da empresa" class="company-logo">
+              } @else {
+                <img src="https://cdn-icons-png.flaticon.com/512/1695/1695213.png" alt="Logo não cadastrada"
+                  class="company-logo">
+              }
+            </div>
+          } @else {
+            <p>
+              Nenhuma empresa foi selecionada.
+            </p>
+          }
+      </div>
+  </p-panel>
 </div>

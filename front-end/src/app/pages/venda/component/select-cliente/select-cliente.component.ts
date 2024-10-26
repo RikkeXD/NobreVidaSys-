@@ -8,11 +8,6 @@ import { ModalSelectClienteComponent } from '../modal-select-cliente/modal-selec
 import { DividerModule } from 'primeng/divider';
 import { Client } from '../../../../core/models/ClientModel';
 import { MessageService } from 'primeng/api';
-import {MatDividerModule} from '@angular/material/divider';
-
-
-//Angualar Material
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-select-cliente',
@@ -25,8 +20,6 @@ import { MatIconModule } from '@angular/material/icon';
     DialogModule,
     ModalSelectClienteComponent,
     DividerModule,
-    MatIconModule,
-    MatDividerModule
   ],
   templateUrl: './select-cliente.component.html',
   styleUrl: './select-cliente.component.scss',
@@ -52,6 +45,7 @@ export class SelectClienteComponent {
   fecharModal() {
     this.showModal = false
   }
+  
 
   abrirModal() {
     if(!this.empresaId()){

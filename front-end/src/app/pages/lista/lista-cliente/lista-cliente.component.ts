@@ -57,16 +57,16 @@ import { TreeSelectModule } from 'primeng/treeselect';
         MultiSelectModule,
         TreeSelectModule
     ],
-    providers: [MessageService, ConfirmationService],
+    providers: [ConfirmationService],
     templateUrl: './lista-cliente.component.html',
     styleUrl: './lista-cliente.component.scss'
 })
 export class ListaClienteComponent implements OnInit {
-    empresas! : EmpresasLista[]
+    empresas!: EmpresasLista[]
     selectedEmpresa!: EmpresasLista
     empresaIdSelected!: number
     editSelectEmpresa!: EmpresasLista[]
-    
+
     typeTel: boolean = false;
     productDialog: boolean = false;
     clientes!: Client[];
@@ -83,18 +83,22 @@ export class ListaClienteComponent implements OnInit {
     private usuarioService = inject(UsuarioService)
 
     ngOnInit() {
-        this.usuarioService.listarEmpresa().subscribe((empresa) => {
-            this.empresas = empresa.map(empresa => ({
-                    name: empresa.razao_social,
-                    code: empresa.id
+        this.usuarioService.listarEmpresa().subscribe((empresas) => {
+            this.empresas = empresas.empresas.map(empresa => ({
+                name: empresa.razao_social,
+                code: empresa.id
             }))
 
-            if (this.empresas.length > 0) {
-                this.selectedEmpresa = this.empresas[0];
+            if (empresas.empresaPrincipalId) {
+                this.selectedEmpresa = this.empresas.find(
+                  (empresa) => empresa.code === empresas.empresaPrincipalId
+                )!;
                 this.empresaIdSelected = this.selectedEmpresa.code
-                this.searchClient()
-            }
-    })
+              } else {
+                this.selectedEmpresa = this.empresas[0];
+              }
+              this.searchClient()
+        })
     }
 
     protected form = this.formBuilderService.group({
@@ -103,7 +107,7 @@ export class ListaClienteComponent implements OnInit {
         sobrenome: ['', Validators.required],
         telefone: ['', Validators.required],
         cpf: [''],
-        email: [''],
+        email: ['',Validators.email],
         endereco: ['', Validators.required],
         cep: ['', Validators.required],
         numero: ['', Validators.required],
@@ -114,19 +118,19 @@ export class ListaClienteComponent implements OnInit {
         complemento: [''],
     })
 
-    empresaSelected(event: any){
+    empresaSelected(event: any) {
         this.empresaIdSelected = event.value.code
         this.searchClient()
     }
 
-    searchClient(){
+    searchClient() {
         this.clientService.listar(this.empresaIdSelected).subscribe({
             next: (res) => {
-                this.clientes = res  
+                this.clientes = res
             },
             error: (error) => {
                 this.clientes = []
-                this.messageService.add({severity: 'error', summary: 'Erro', detail: error.error.message})
+                this.messageService.add({ severity: 'error', summary: 'Erro', detail: error.error.message })
             }
         })
     }
@@ -155,27 +159,27 @@ export class ListaClienteComponent implements OnInit {
         this.productDialog = true;
     }
 
-    deleteClient(event: Event, client: Client){
+    deleteClient(event: Event, client: Client) {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Deseja excluir este cliente?',
             header: 'Confirmação de exclusão',
             icon: 'pi pi-exclamation-triangle',
-            acceptButtonStyleClass:"p-button-danger p-button-text",
-            rejectButtonStyleClass:"p-button-text p-button-text",
-            acceptLabel:'Sim',
-            rejectLabel:'Não',
+            acceptButtonStyleClass: "p-button-danger p-button-text",
+            rejectButtonStyleClass: "p-button-text p-button-text",
+            acceptLabel: 'Sim',
+            rejectLabel: 'Não',
             accept: () => {
                 this.clientService.delete(client).subscribe({
                     next: (response) => {
-                        this.messageService.add({severity: 'success', summary: 'Sucesso', detail: 'Cliente excluido com sucesso!'})
-                            this.clientService.listar(this.empresaIdSelected).subscribe((data) => {
-                                this.clientes = data;
-                            });
+                        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cliente excluido com sucesso!' })
+                        this.clientService.listar(this.empresaIdSelected).subscribe((data) => {
+                            this.clientes = data;
+                        });
                     },
                     error: (error) => {
                         console.log("Ocorreu um erro: ", error)
-                        this.messageService.add({severity: 'error', summary: 'Erro', detail: error.error.message})
+                        this.messageService.add({ severity: 'error', summary: 'Erro', detail: error.error.message })
                     }
                 })
             }
@@ -189,6 +193,7 @@ export class ListaClienteComponent implements OnInit {
                 next: (response: Address) => {
                     this.form.patchValue({
                         endereco: response.endereco,
+                        numero: "",
                         bairro: response.bairro,
                         cep: response.cep,
                         uf: response.uf,
@@ -197,7 +202,7 @@ export class ListaClienteComponent implements OnInit {
                 },
                 error: (error) => {
                     this.form.controls.cep.reset()
-                    this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "CEP invalído"})
+                    this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: "CEP invalído" })
                 }
             })
         }
@@ -229,23 +234,23 @@ export class ListaClienteComponent implements OnInit {
         if (!this.form.invalid) {
             this.clientService.putEditClient(ConvertEditClient(this.form.value)).subscribe({
                 next: (response) => {
-                    this.messageService.add({severity: 'success', summary: 'Sucesso', detail: 'Cliente editado com sucesso!'})
                     this.clientService.listar(this.empresaIdSelected).subscribe((data) => {
                         this.clientes = data;
                     });
                     this.hideDialog()
+                    this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cliente editado com sucesso!' })
                 },
                 error: (error) => {
-                    if(error.status === 400){
-                        this.messageService.add({severity: 'error', summary: 'Erro', detail: error.error.message})
+                    if (error.status === 400) {
+                        this.messageService.add({ severity: 'error', summary: 'Erro', detail: error.error.message })
                         return
                     }
-                    this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "Verifique os campos e tente novamente!"})
+                    this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: "Verifique os campos e tente novamente!" })
                 }
             })
             return
         }
-        this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "Verifique os campos e tente novamente!"})
+        this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: "Verifique os campos e tente novamente!" })
         return
     }
 

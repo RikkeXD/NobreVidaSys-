@@ -12,12 +12,13 @@ import { ListaEmpresaComponent } from './pages/lista/lista-empresa/lista-empresa
 import { ListaEmbalagemComponent } from './pages/lista/lista-embalagem/lista-embalagem.component';
 import { CriarVendaComponent } from './pages/venda/criar-venda/criar-venda.component';
 import { ListaPedidoComponent } from './pages/venda/lista-pedido/lista-pedido.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { UsuarioConfigComponent } from './pages/usuario-config/usuario-config.component';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: '',
-        pathMatch: 'full'
+        component: DashboardComponent,
     },
     {
         path:"cadastro/usuario",
@@ -79,6 +80,12 @@ export const routes: Routes = [
         component: ListaPedidoComponent,
         canActivate: [authGuard]
     },
+    {
+        path:"usuario/config",
+        component: UsuarioConfigComponent,
+        canActivate: [authGuard]
+    },
+
     {
         path: '**',
         redirectTo: '',

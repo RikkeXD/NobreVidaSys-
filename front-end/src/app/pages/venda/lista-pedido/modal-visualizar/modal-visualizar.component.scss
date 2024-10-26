@@ -1,0 +1,235 @@
+/* Container principal */
+.container-client {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; 
+  }
+
+  .container-button-modal p-button{
+    border-radius: 50px;
+  }
+
+  .margin-r-i{
+    margin-right: 10px;
+  }
+  
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .section-title {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #3f51b5;
+    margin-bottom: 10px;
+  }
+  
+  .section-title mat-icon {
+    margin-right: 8px;
+
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .info-item mat-icon {
+    margin-right: 8px;
+    color: #3f51b5;
+  }
+  
+  .list-text {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  //EMPRESA
+
+  .container-empresa {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; 
+}
+
+.section-empresa{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 3;
+}
+
+.section-title-empresa {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #3f51b5;
+    margin-bottom: 10px;
+}
+
+.info-grid-empresa {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-item-empresa {
+    display: flex;
+    align-items: center;
+}
+
+.list-text-empresa {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+  .company-logo {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 8px;
+    opacity: 0.8;
+}
+  .container-empresa-logo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex: 1;
+    padding-right: 150px; 
+}
+
+
+//Resumo
+
+.resumo{
+    margin-left: 30px;
+    width: 87%;
+}
+.payment-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #444;
+}
+
+.payment-summary-row span {
+    color: #888;
+}
+
+.payment-summary-row strong {
+    color: #333;
+    font-weight: 500;
+}
+
+.payment-summary-discount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 20px;
+}
+
+.payment-summary-discount label {
+    display: flex;
+    align-items: center;
+}
+
+.payment-summary-discount input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.payment-summary-discount .discount-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #007bff;
+}
+
+.payment-summary-row.total {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 10px;
+}
+
+.btn-confirmar {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-confirmar:hover {
+    background-color: #218838;
+}
+
+.container-impressao{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-right: 45px;
+    margin-bottom: 20px;
+}
+
+.modal-signature-option{
+    margin-top: 15px;
+}
+
+p-checkbox{
+    margin-right: 8px;
+    margin-bottom: 1px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .payment-summary {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    .payment-summary-row {
+        font-size: 14px;
+    }
+
+    .payment-summary-discount .discount-value {
+        font-size: 14px;
+    }
+
+    .btn-confirmar {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+

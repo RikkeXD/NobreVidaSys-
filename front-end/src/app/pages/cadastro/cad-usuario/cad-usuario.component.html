@@ -1,86 +1,104 @@
 <div class="container">
-    <div class="row">
-        <div class="title">
-            <div class="top">
-                <h1>CADASTRO DE USUARIOS</h1>
-            </div>
-        </div>
+    <div class="title">
+        <i class="bx bxs-user"></i>
+        <h2>Cadastro de Usuario</h2>
     </div>
     <div class="card">
         <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="header">
                     <div class="container-nome">
-                        <mat-form-field class="input-nome">
-                            <mat-label>Nome</mat-label>
-                            <input matInput type="text" formControlName="nome" (keydown)="verificarTecla($event)">
-                            @if (form.controls.nome.value) {
-                            <button type="button" matSuffix mat-icon-button aria-label="Limpar" (click)="form.patchValue({nome:''})">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            }
-                        </mat-form-field>
-                        <mat-form-field class="input-sobrenome">
-                            <mat-label>Sobrenome</mat-label>
-                            <input matInput type="text" formControlName="sobrenome">
-                            @if (form.controls.sobrenome.value) {
-                            <button type="button" matSuffix mat-icon-button aria-label="Limpar"
-                                (click)="form.patchValue({sobrenome:''})">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            }
-                        </mat-form-field>
+                        <div>
+                            <p-floatLabel>
+                                <input pInputText id="nome" formControlName="nome" size="30" />
+                                <label for="nome">Nome</label>
+                            </p-floatLabel>
+                        </div>
+                        <div class="ml-input">
+                            <p-floatLabel>
+                                <input pInputText id="sobrenome" formControlName="sobrenome" size="30" />
+                                <label for="sobrenome">Sobrenome</label>
+                            </p-floatLabel>
+                        </div>
                     </div>
-                    <mat-form-field class="example-form-field">
-                        <mat-label>E-mail</mat-label>
-                        <input matInput type="email" formControlName="email">
-                        @if (form.controls.email.value) {
-                        <button type="button" matSuffix mat-icon-button aria-label="Limpar" (click)="form.patchValue({email:''})">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                        }
-                    </mat-form-field>
-                    <mat-form-field class="example-form-field">
-                        <mat-label>Senha</mat-label>
-                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="senha">
-                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
-                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
-                    </mat-form-field>
+                    <div class="container-input">
+                        <p-floatLabel>
+                            <input pInputText id="email" formControlName="email" size="63" />
+                            <label for="email">E-mail</label>
+                        </p-floatLabel>
+                    </div>
 
-                    <mat-form-field class="example-form-field">
-                        <mat-label>Confirme sua Senha</mat-label>
-                        <input matInput [type]="hide2 ? 'password' : 'text'" formControlName="senhaConfirm">
-                        <button type="button" mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'"
-                            [attr.aria-pressed]="hide2">
-                            <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
-                    </mat-form-field>
+                    <div class="container-input">
+                        <p-floatLabel>
+                            <p-password formControlName="senha" [toggleMask]="true" [inputStyle]="{'width': '573px'}"
+                                [feedback]="false" />
+                            <label for="senha">Senha</label>
+                        </p-floatLabel>
+                    </div>
 
-                    <div class="mb-3">
-                        <p-multiSelect 
-                            [options]="empresas" 
-                            [(ngModel)]="selectedEmpresas" 
-                            [ngModelOptions]="{standalone: true}"
-                            
-                            optionLabel="name" 
+                    <div class="container-input">
+                        <p-floatLabel>
+                            <p-password formControlName="confirmarSenha" [toggleMask]="true"
+                                [inputStyle]="{'width': '573px'}" [feedback]="false" />
+                            <label for="confirmarSenha">Confirmar senha</label>
+                        </p-floatLabel>
+                    </div>
+
+                    <div class="container-input">
+                        <p-multiSelect [options]="empresas" [(ngModel)]="selectedEmpresas"
+                            [ngModelOptions]="{standalone: true}" optionLabel="name"
                             placeholder="Vincule a(s) empresas" />
                     </div>
-                    
-                    <div class="select-permissao">
-                        <mat-radio-group aria-label="Selecione a opção de usuario" formControlName="permissao">
-                            <mat-radio-button value="1">Usuario Padrão</mat-radio-button>
-                            <mat-radio-button value="2">Administrador</mat-radio-button>
-                        </mat-radio-group>
+
+                    <div class="container-input">
+                        <p-dropdown formControlName="permissao" [options]="optionsPermissao" optionLabel="name"
+                            placeholder="Selecione a permissão do usuario" optionValue="code" />
                     </div>
-                    
                 </div>
                 <div class="button-add">
-                    <button mat-stroked-button color="primary" type="submit">Adicionar Usuario</button>
+                    <p-button label="Adicionar Usuario" [outlined]="true" severity="success" type="submit" />
                 </div>
             </form>
         </div>
 
     </div>
 </div>
+
+<p-dialog 
+    header="Cadastro Concluído!" 
+    [modal]="true" 
+    [(visible)]="visible" 
+    [style]="{ width: '30rem' }"
+    [closable]="false"
+    [draggable]="false"
+    [resizable]="false">
+
+    <div class="modal-content">
+        <h2 class="success-message">Seu código de recuperação foi gerado!</h2>
+        <p class="instruction">
+            Guarde este código com segurança. Ele será necessário para recuperar sua senha no futuro.
+        </p>
+
+        <div class="recovery-code-box">
+            <span class="recovery-code">{{ recoveryCode }}</span>
+        </div>
+
+        <div class="button-group">
+            <button 
+                pButton 
+                label="Copiar Código" 
+                class="copy-button" 
+                icon="pi pi-copy" 
+                (click)="copiarCodigo()">
+            </button>
+
+            <button 
+                pButton 
+                label="Fechar" 
+                icon="pi pi-times" 
+                class="close-button" 
+                (click)="fecharModal()">
+            </button>
+        </div>
+    </div>
+</p-dialog>

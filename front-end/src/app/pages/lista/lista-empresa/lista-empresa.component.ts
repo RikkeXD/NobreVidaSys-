@@ -41,7 +41,7 @@ import { convertEmpresa } from '../../../utils/convertEmpresaModel';
     ImageModule,
     FileUploadModule
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [ConfirmationService],
   templateUrl: './lista-empresa.component.html',
   styleUrl: './lista-empresa.component.scss'
 })
@@ -204,6 +204,7 @@ export class ListaEmpresaComponent {
           this.empresas = data
         })
         this.messageService.add({severity: 'success', summary: 'Sucesso', detail: 'Empresa alterada com sucesso!'})
+        this.imageUpload = false
         this.hideDialog()
       },
       error: (error) => {

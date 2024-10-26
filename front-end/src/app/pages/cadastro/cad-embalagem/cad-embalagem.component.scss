@@ -1,30 +1,22 @@
-.con{
+.con {
     display: flex;
     flex-direction: column;
 }
 
-.t1{width: 100px;
-    height: 100px;
-
+.container-nome {
+    margin-top: 9px;
 }
 
-.t1 mat-form-field{
-    width: 355px;
-    padding-top: 35px;
-}
-.container-inputs{
-    display: flex;
-    width: 300px;
- 
-}
-
-.container-inputs mat-form-field{
+.mt {
     margin-top: 30px;
-    width: 160px;
 }
 
-.input-margin-left{
-    margin-left: 35px;
+.container-inputs {
+    display: flex;
+}
+
+.column-left {
+    margin-right: 45px;
 }
 
 .container-inputs img {
@@ -35,11 +27,25 @@
 
 .input-number::-webkit-inner-spin-button,
 .input-number::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-.container-empresas{
+.container-empresas {
+    margin-top: -30px;
     display: inline-block;
 }
 
+.title {
+    display: flex;
+}
+
+.title i {
+    margin-right: 10px;
+    font-size: 1.9rem;
+}
+
+.title h2 {
+    font-size: 1.3rem;
+    font-family: "Inter", sans-serif;
+}

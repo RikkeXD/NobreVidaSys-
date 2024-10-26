@@ -7,7 +7,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { EmpresasLista, Enterprise } from '../../../../core/models/EnterpriseModel';
 import { UsuarioService } from '../../../../core/services/usuario.service';
 import { EmpresaService } from '../../../../core/services/empresa.service';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-select-empresa',
@@ -18,7 +17,6 @@ import { MatIconModule } from '@angular/material/icon';
     ButtonModule,
     DropdownModule,
     FormsModule,
-    MatIconModule
   ],
   templateUrl: './select-empresa.component.html',
   styleUrl: './select-empresa.component.scss'
@@ -34,7 +32,7 @@ export class SelectEmpresaComponent {
 
   ngOnInit(){
     this.usuarioService.listarEmpresa().subscribe((empresa) => {
-      this.empresas = empresa.map(empresa => ({
+      this.empresas = empresa.empresas.map(empresa => ({
               name: empresa.razao_social,
               code: empresa.id
       }))

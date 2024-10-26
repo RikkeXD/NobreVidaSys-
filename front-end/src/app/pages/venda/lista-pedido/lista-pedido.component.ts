@@ -6,13 +6,17 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { Order, OrderList } from '../../../core/models/OrderModel';
 import { UsuarioService } from '../../../core/services/usuario.service';
-import { EmpresasLista } from '../../../core/models/EnterpriseModel';
+import { EmpresasLista, UsuarioEmpresas } from '../../../core/models/EnterpriseModel';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { PedidoService } from '../../../core/services/pedido.service';
 import { CommonModule } from '@angular/common';
-import { ConfirmationService, MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { ConfirmationService, MenuItem, MenuItemCommandEvent, MessageService } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ModalVisualizarComponent } from './modal-visualizar/modal-visualizar.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-lista-pedido',
@@ -26,89 +30,96 @@ import { SplitButtonModule } from 'primeng/splitbutton';
     FormsModule,
     InputTextModule,
     CommonModule,
-    SplitButtonModule
+    SplitButtonModule,
+    ConfirmDialogModule,
+    ModalVisualizarComponent,
+    CheckboxModule,
+    FloatLabelModule
   ],
   providers: [ConfirmationService],
   templateUrl: './lista-pedido.component.html',
   styleUrl: './lista-pedido.component.scss',
-  encapsulation: ViewEncapsulation.None
-
 })
 export class ListaPedidoComponent {
   empresas!: EmpresasLista[]
   empresaIdSelected!: number
-  selectedEmpresa!: EmpresasLista
-  pedidos!: Order[]
+  selectedEmpresa: number = 0
+  pedidos!: OrderList[]
+  items!: MenuItem[];
+  showModal: boolean = false
+  pedido_id!: number
+  inputRastreio: boolean = true
+  cod_rastreio: string | null = null
+  checkedInputRastreio: boolean = false
 
   private usuarioService = inject(UsuarioService)
   private pedidoService = inject(PedidoService)
   private confirmationService = inject(ConfirmationService)
+  private messageService = inject(MessageService)
 
   ngOnInit() {
-    this.usuarioService.listarEmpresa().subscribe((empresa) => {
-      this.empresas = empresa.map(empresa => ({
-        name: empresa.razao_social,
-        code: empresa.id
+
+    this.usuarioService.listarEmpresa().subscribe((empresas) => {
+      this.empresas = empresas.empresas.map(empresa => ({
+          name: empresa.razao_social,
+          code: empresa.id
       }))
 
-      if (this.empresas.length > 0) {
-        this.selectedEmpresa = this.empresas[0];
-        this.empresaIdSelected = this.selectedEmpresa.code
+      if (empresas.empresaPrincipalId) {
+          this.selectedEmpresa = empresas.empresaPrincipalId
+        } else {
+          this.selectedEmpresa = this.empresas[0].code;
+        }
         this.searchOrder()
-      }
-    })
+  })
+    
+  }
+
+  fecharModal() {
+    this.showModal = false
+  }
+
+  abrirModal(pedido: number) {
+    this.pedido_id = pedido
+    this.showModal = true
   }
 
   searchOrder() {
-    console.log('BUSCOU PEDIDO')
-    this.pedidoService.listar(this.empresaIdSelected).subscribe({
+    this.pedidos = []
+    this.pedidoService.listar(this.selectedEmpresa).subscribe({
       next: (res) => {
-        this.pedidos = res
+        this.pedidos = res.map((pedido) => ({
+          ...pedido,
+          actions: this.getActionButtons(pedido.status!, pedido)
+        }));
       },
       error: (error) => {
-        console.error('Error ao listar pedidos:', error)
+        this.pedidos = []
       }
     })
   }
 
-  editPedido(pedido: Order) {
-
-  }
-
-  deletePedido(pedido: Order) {
-
-  }
-
   empresaSelected(event: any) {
-    this.empresaIdSelected = event.value.code
+    this.empresaIdSelected = +event.value.code
     this.searchOrder()
   }
-  
-  confirmarEntrega(pedido: any) {
-    console.log('Confirmar Entrega:', pedido);
-  }
-  
-  visualizarPedido(pedido: any) {
-    console.log('Visualizar Pedido:', pedido);
-  }
 
-  getActionButtons(status: string, pedido: any): any[] {
-    const actions: any[] = [];
+  getActionButtons(status: string, pedido: OrderList): MenuItem[] {
+    let actions: MenuItem[] = [];
 
     if (status === 'Criado') {
       actions.push(
-        { label: 'Editar', icon: 'pi pi-pencil', command: () => this.editPedido(pedido) },
-        { label: 'Excluir', icon: 'pi pi-trash', command: () => this.deletePedido(pedido) },
-        { label: 'Confirmar Envio', icon: 'pi pi-send', command: () => this.deletePedido(pedido) }
+        { label: 'Cancelar', icon: 'pi pi-trash', command: (event) => this.confirmarCancelamento(event,pedido.id) },
+        { label: 'Confirmar Envio', icon: 'pi pi-send', command: (event) => this.confirmarAtualizacao(event, pedido) }
       );
     } else if (status === 'Enviado') {
       actions.push(
-        { label: 'Confirmar Entrega', icon: 'pi pi-check', command: () => this.deletePedido(pedido) }
+        { label: 'Confirmar Entrega', icon: 'pi pi-check', command: (event) => this.confirmarAtualizacao(event,pedido) }
       );
     }
 
     return actions;
-}
+  }
 
   getStatusClass(status: string): string {
     switch (status) {
@@ -125,29 +136,71 @@ export class ListaPedidoComponent {
     }
   }
 
-private statusMessage(status: string): string{
-  switch(status){
-    case 'Enviado':
-      return 'Deseja finalizar o pedido?'
-    case 'Criado':
-      return 'Deseja confirmar o envio do pedido?'
-    default:
-      return 'Status desconhecido'
+  private statusMessage(status: string): string {
+    switch (status) {
+      case 'Enviado':
+        return 'Deseja finalizar o pedido?'
+      case 'Criado':
+        return 'Deseja confirmar o envio do pedido?'
+      default:
+        return 'Status desconhecido'
+    }
   }
-}
-  atualizarPedido(event: MenuItemCommandEvent, pedido: OrderList){
+  confirmarAtualizacao(event: MenuItemCommandEvent, pedido: OrderList) {
+    this.cod_rastreio = null
+    if(pedido.cod_rastreio || pedido.status == 'Finalizado' || pedido.status == 'Enviado'){
+      this.inputRastreio = false
+    }else{
+      this.inputRastreio = true
+    }
     this.confirmationService.confirm({
-        target: event.originalEvent?.target as EventTarget,
-        message: this.statusMessage(pedido.status),
-        header: 'Confirmação de atualização do pedido',
-        icon: 'pi pi-exclamation-triangle',
-        acceptButtonStyleClass:"p-button-text p-button-text",
-        rejectButtonStyleClass:"p-button-danger p-button-text",
-        acceptLabel:'Sim',
-        rejectLabel:'Não',
-        accept: () => {
-            
-        }
+      target: event.originalEvent?.target as EventTarget,
+      message:  this.statusMessage(pedido.status),
+      header: 'Confirmação de atualização do pedido',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: "p-button-text p-button-text",
+      rejectButtonStyleClass: "p-button-danger p-button-text",
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      accept: () => {
+        const pedidoPayload = {pedido_id: pedido.id, cod_rastreio: this.cod_rastreio}
+        this.pedidoService.atualizarPedido(pedidoPayload).subscribe({
+          next: () => {
+            this.searchOrder()
+            this.messageService.add({ severity:'success', summary: 'Sucesso', detail: 'Status do pedido alterado com sucesso.' });
+          },
+          error: (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail:error.error.message });
+            console.error('Error ao atualizar pedido:', error)
+          }
+        })
+      }
     })
-}
+  }
+
+  confirmarCancelamento(event: MenuItemCommandEvent, pedido_id: number) {
+    this.confirmationService.confirm({
+      target: event.originalEvent?.target as EventTarget,
+      message: 'Deseja confirmar o Cancelamento do pedido ?',
+      header: 'Confirmação de Cancelamento do pedido',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: "p-button-text p-button-text",
+      rejectButtonStyleClass: "p-button-danger p-button-text",
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      accept: () => {
+        this.pedidoService.cancelarPedido(pedido_id).subscribe({
+          next: () => {
+            this.searchOrder()
+            this.messageService.add({ severity:'success', summary: 'Sucesso', detail: 'Pedido cancelado com sucesso.' });
+          },
+          error: (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail:error.error.message });
+            console.error('Error ao atualizar pedido:', error)
+          }
+        })
+      }
+    })
+  }
+
 }

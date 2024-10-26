@@ -5,10 +5,11 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { ProductService } from '../../../core/services/product.service';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
-import { EmpresasLista, Enterprise_RazaoSocial } from '../../../core/models/EnterpriseModel';
+import { EmpresasLista } from '../../../core/models/EnterpriseModel';
 import { UsuarioService } from '../../../core/services/usuario.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-cad-produto',
@@ -20,7 +21,8 @@ import { MessageService } from 'primeng/api';
     KeyFilterModule,
     InputTextModule,
     InputMaskModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ButtonModule
   ],
   templateUrl: './cad-produto.component.html',
   styleUrl: './cad-produto.component.scss'
@@ -45,7 +47,7 @@ export class CadProdutoComponent {
 
   ngOnInit(){
     this.usuarioService.listarEmpresa().subscribe((empresas) => {
-      this.empresas = empresas.map(empresa => ({
+      this.empresas = empresas.empresas.map(empresa => ({
         name: empresa.razao_social,
         code: empresa.id
       }))

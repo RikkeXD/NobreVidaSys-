@@ -1,5 +1,8 @@
+import { Client } from "./ClientModel"
+import { Enterprise } from "./EnterpriseModel"
+import { PackingSale } from "./PackingModel"
 import { Payment } from "./PaymentModel"
-import { ProductSale } from "./ProductModel"
+import { Product, ProductSale } from "./ProductModel"
 
 export interface Order{
     id?: number
@@ -28,5 +31,20 @@ export interface OrderList{
     cliente: string,
     data: Date,
     vlr_total: number,
+    cod_rastreio: string | null,
     status: string
+}
+
+export interface FindOrder {
+    id: number,
+    empresa: Enterprise
+    cliente: Omit <Client, 'empresas'>
+    produtos: Omit<ProductSale[], 'peso'>
+    pagamento: Payment
+    embalagem: string,
+    envio: string,
+    vlr_envio: number,
+    vlr_total: number,
+    vlr_desc: number,
+    cod_rastreio: string | null
 }

@@ -1,132 +1,149 @@
 <form action="" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="container">
+        <div class="title">
+            <i class="bx bxs-user-detail"></i>
+            <h2>Cadastro de Cliente</h2>
+        </div>
         <div class="card">
             <div class="card-body">
-                <mat-accordion class="example-headers-align">
-                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Dados Pessoal
-                            </mat-panel-title>
-                            <mat-panel-description>
-                                Informe os dados pessoais do cliente
-                                <mat-icon>account_circle</mat-icon>
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
-
-                        <div class="container-inputs">
+                <p-panel [toggleable]="true" [collapsed]="tableDadosPessoal" [style]="{'margin-bottom': '15px'}">
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-user" style="
+                        font-size: 1.5rem;
+                        margin-right: 15px;
+                        "></i>
+                        <span>Dados Pessoais</span>
+                    </ng-template>
+                    <div class="flex m-t">
+                        <div>
                             <p-floatLabel>
-                                <input pInputText id="nome" pKeyFilter="alpha" formControlName="nome" />
+                                <input pInputText id="nome" pKeyFilter="alpha" formControlName="nome" size="27" />
                                 <label for="nome">Nome</label>
                             </p-floatLabel>
-
-                            <p-floatLabel class="input-margin-left">
-                                <input pInputText id="sobrenome" formControlName="sobrenome" />
+                        </div>
+                        <div class="m-l">
+                            <p-floatLabel>
+                                <input pInputText id="sobrenome" formControlName="sobrenome" size="27" />
                                 <label for="sobrenome">Sobrenome</label>
                             </p-floatLabel>
                         </div>
+                    </div>
 
-                        <div class="container-inputs-tel">
-                            <p-button icon="pi pi-sync" [text]="true" class="button-tel" (onClick)="modifyTipeTel()"/>
+                    <div class="flex m-t2">
+                        <div>
+                            <p-button icon="pi pi-sync" [text]="true" class="button-tel" (onClick)="modifyTipeTel()" />
+                        </div>
+                        <div>
                             <p-floatLabel>
                                 @if (typeTel) {
-                                    <p-inputMask mask="(99) 99999-9999" formControlName="telefone"
-                                    placeholder="(11) 91234-5678" [style]="styleTel" />
+                                <p-inputMask mask="(99) 99999-9999" formControlName="telefone"
+                                    placeholder="(11) 91234-5678" size="21" />
                                 <label for="telefone">Celular</label>
                                 }@else {
-                                    <p-inputMask mask="(99) 9999-9999" formControlName="telefone"
-                                    placeholder="(11) 5666-6666" [style]="styleTel" />
+                                <p-inputMask mask="(99) 9999-9999" formControlName="telefone"
+                                    placeholder="(11) 5666-6666" size="20" />
                                 <label for="telefone">Telefone</label>
                                 }
-                                
+
                             </p-floatLabel>
-                            
-                            <p-floatLabel class="input-cpf-margin-left">
+                        </div>
+                        <div class="m-l">
+                            <p-floatLabel>
                                 <p-inputMask mask="999.999.999-99" formControlName="cpf" placeholder="123.456.789-99"
-                                    [style]="style" />
+                                    size="27" />
                                 <label for="cpf">CPF</label>
                             </p-floatLabel>
                         </div>
+                    </div>
 
-                        <div class="container-inputs">
-                            <p-floatLabel>
-                                <input pInputText id="email" formControlName="email" />
-                                <label for="email">E-mail</label>
-                            </p-floatLabel>
+                    <div class="m-t2">
+                        <p-floatLabel>
+                            <input pInputText id="email" formControlName="email" size="63" />
+                            <label for="email">E-mail</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="m-t2">
+                        <p-multiSelect [options]="empresas" formControlName="empresa" [style]="{'width': '100%'}"
+                            optionLabel="name" placeholder="Vincule a(s) empresas a esse cliente" appendTo="body" />
+                    </div>
+
+                    <ng-template pTemplate="footer">
+                        <div class="footer">
+                            <p-button label="Proximo" [text]="true" severity="primary"
+                                (onClick)="actionTable()" />
                         </div>
-                        <div>
-                            <p-multiSelect 
-                            [options]="empresas" 
-                            formControlName="empresa"
-                            [style]="{'width': '100%'}"
-                            optionLabel="name" 
-                            placeholder="Vincule a(s) empresas a esse cliente" 
-                            appendTo="body"
-                            />
-                        </div>
-                        <mat-action-row>
-                            <button type="button" mat-button color="primary" (click)="nextStep()">Proximo</button>
-                        </mat-action-row>
-                    </mat-expansion-panel>
+                    </ng-template>
+                </p-panel>
 
-                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Endereço
-                            </mat-panel-title>
-                            <mat-panel-description>
-                                Informe os dados de endereço do cliente
-                                <mat-icon>map</mat-icon>
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
+                <p-panel [toggleable]="true" [collapsed]="tableEndereco">
+                    <ng-template pTemplate="header">
+                        <i class="pi pi-map" style="
+                        font-size: 1.5rem;
+                        margin-right: 15px;
+                        "></i>
+                        <span>Endereço</span>
+                    </ng-template>
 
-                        <div class="container-endereco">
-
+                    <div class="flex m-t">
+                        <div >
                             <p-floatLabel>
                                 <p-inputMask mask="99999-999" formControlName="cep" placeholder="01234-567"
-                                    [style]="styleCep" (onBlur)="searchAddress()" />
+                                     (onBlur)="searchAddress()" size="12"/>
                                 <label for="cep">CEP</label>
                             </p-floatLabel>
-                            <p-floatLabel class="input-margin-left-end">
-                                <input pInputText id="endereco" formControlName="endereco" class=" width-input-large" />
+                        </div>
+                        <div class="m-l">
+                            <p-floatLabel >
+                                <input pInputText id="endereco" formControlName="endereco" size="42"/>
                                 <label for="email">Endereço</label>
                             </p-floatLabel>
                         </div>
+                    </div>
 
-                        <div class="container-endereco">
+                    <div class="flex m-t2">
+                        <div>
                             <p-floatLabel>
-                                <input pInputText id="numero" formControlName="numero" class="width-input-small" />
+                                <input pInputText id="numero" formControlName="numero" size="12" />
                                 <label for="numero">Numero</label>
                             </p-floatLabel>
-
-                            <p-floatLabel class="input-margin-left-end">
-                                <input pInputText id="bairro" formControlName="bairro" class=" width-input-large" />
+                        </div>
+                        <div class="m-l">
+                            <p-floatLabel>
+                                <input pInputText id="bairro" formControlName="bairro" size="42"/>
                                 <label for="bairro">Bairro</label>
                             </p-floatLabel>
                         </div>
-                        <div class="container-endereco">
+                    </div>
+                    <div class="flex m-t2">
+                        <div>
                             <p-floatLabel>
-                                <input pInputText id="uf" formControlName="uf" class="width-input-small" />
+                                <input pInputText id="uf" formControlName="uf" size="12" />
                                 <label for="uf">UF</label>
                             </p-floatLabel>
-
-                            <p-floatLabel class="input-margin-left-end">
-                                <input pInputText id="cidade" formControlName="cidade" class=" width-input-large" />
+                        </div>
+                        <div class="m-l">
+                            <p-floatLabel>
+                                <input pInputText id="cidade" formControlName="cidade" size="42" />
                                 <label for="cidade">Cidade</label>
                             </p-floatLabel>
                         </div>
-                        <div class="container-complemento">
-                            <p-floatLabel>
-                                <input pInputText id="complemento" formControlName="complemento" />
-                                <label for="complemento">Complemento</label>
-                            </p-floatLabel>
+                    </div>
+                    <div class="container-complemento m-t2">
+                        <p-floatLabel>
+                            <input pInputText id="complemento" formControlName="complemento" size="63" />
+                            <label for="complemento">Complemento</label>
+                        </p-floatLabel>
+                    </div>
+
+                    <ng-template pTemplate="footer">
+                        <div class="footer">
+                            <p-button label="Voltar" [text]="true" severity="danger"
+                                (onClick)="actionTable()" />
+                            <p-button label="Cadastrar" [text]="true" severity="success"
+                                type="submit" />
                         </div>
-                        <mat-action-row>
-                            <button type="button" mat-button color="warn" (click)="prevStep()">Voltar</button>
-                            <button type="button" mat-button color="primary" (click)="onSubmit()">Cadastrar</button>
-                        </mat-action-row>
-                    </mat-expansion-panel>
-                </mat-accordion>
+                    </ng-template>
+                </p-panel>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Enterprise, Enterprise_RazaoSocial } from '../models/EnterpriseModel';
+import { Enterprise, EnterpriseRazaoSocial } from '../models/EnterpriseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class EmpresaService {
     return this.httpClient.get<Enterprise>(`${this.apiUrl}/empresa/localizar/${empresaId}`)
   }
   listRazaoSocial(){
-    return this.httpClient.get<Enterprise_RazaoSocial[]>(`${this.apiUrl}/empresa/listar/razao-social`)
+    return this.httpClient.get<EnterpriseRazaoSocial[]>(`${this.apiUrl}/empresa/listar/razao-social`)
   }
 
   edit(empresa: Enterprise){

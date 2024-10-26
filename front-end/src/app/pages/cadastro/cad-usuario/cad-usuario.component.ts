@@ -2,22 +2,19 @@ import { Component, inject } from '@angular/core';
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidadorPassword } from '../../../utils/validatorsCustom';
 import { UsuarioService } from '../../../core/services/usuario.service';
-import { EmpresasLista, Enterprise, Enterprise_RazaoSocial } from '../../../core/models/EnterpriseModel';
+import { EmpresasLista } from '../../../core/models/EnterpriseModel';
 import { EmpresaService } from '../../../core/services/empresa.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ConvertUsuario } from '../../../utils/convertUserModel';
 import { MessageService } from 'primeng/api';
-
-//Angular Material
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatHint } from '@angular/material/form-field';
-import { MatSuffix } from '@angular/material/form-field';
-import { MatLabel } from '@angular/material/form-field';
-import {MatRadioModule} from '@angular/material/radio';
-
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { PasswordModule } from 'primeng/password';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
+import { Permissao } from '../../../core/models/UsuarioModel';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-cad-usuario',
@@ -26,14 +23,13 @@ import {MatRadioModule} from '@angular/material/radio';
     FormsModule,
     ReactiveFormsModule,
     MultiSelectModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatHint,
-    MatSuffix,
-    MatLabel,
-    MatRadioModule
+    InputTextModule,
+    FloatLabelModule,
+    PasswordModule,
+    RadioButtonModule,
+    DropdownModule,
+    ButtonModule,
+    DialogModule
   ],
   templateUrl: './cad-usuario.component.html',
   styleUrl: './cad-usuario.component.scss'
@@ -43,16 +39,27 @@ export class CadUsuarioComponent {
   empresas!: EmpresasLista[]
   selectedEmpresas!: EmpresasLista[]
 
+  visible: boolean = false;
+
   private formBuilderService = inject(NonNullableFormBuilder)
   private messageService = inject(MessageService)
   private usuarioService = inject(UsuarioService)
   private empresaService = inject(EmpresaService)
-  colaborador?: any
-
-  hide = true;
-  hide2 = true;
+  protected optionsPermissao: Permissao[] | undefined
+  protected recoveryCode!: string
 
   ngOnInit() {
+    this.optionsPermissao = [
+      {
+        name: 'Usuario Padrão',
+        code: '1'
+      },
+      {
+        name: 'Administrador',
+        code: '0'
+      }
+    ]
+
     this.empresaService.listRazaoSocial().subscribe((empresas) => {
       this.empresas = empresas.map(empresa => ({
         name: empresa.razao_social,
@@ -66,21 +73,31 @@ export class CadUsuarioComponent {
     sobrenome: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     senha: ['', [Validators.required, Validators.minLength(5)]],
-    senhaConfirm: ['', Validators.required, Validators.minLength(5)],
+    confirmarSenha: ['', [Validators.required, Validators.minLength(5)]],
     permissao: ["1", Validators.required]
   }, {
     validators: [ValidadorPassword.ValidatePassword]
   })
 
-  verificarTecla(event: KeyboardEvent): void {
-    if (event.keyCode === 32) {
-      event.preventDefault();
-    }
+  showDialog() {
+    this.visible = true;
   }
-  
+
+  copiarCodigo() {
+    navigator.clipboard.writeText(this.recoveryCode).then(() => {
+      this.messageService.add({severity: 'contrast', summary: 'Copiado', detail: 'Codigo de segurança copiado com sucesso'})
+    }).catch(err => {
+      console.error('Erro ao copiar código: ', err);
+    });
+  }
+
+  fecharModal() {
+    this.visible = false;
+  }
+
   validationForm() {
-    if(!this.selectedEmpresas){
-      this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "Selecione pelo menos uma empresa!"})
+    if (!this.selectedEmpresas) {
+      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: "Selecione pelo menos uma empresa!" })
       return false;
     }
     const allFieldsFilled = Object.keys(this.form.controls).every(field => {
@@ -88,22 +105,22 @@ export class CadUsuarioComponent {
       return control && control.value !== '';
     });
     if (!allFieldsFilled) {
-      this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "Verifique os campos e tente novamente!"})
+      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: "Verifique os campos e tente novamente!" })
       return false;
     }
 
-    if(this.form.controls.email.errors){
-      this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "Email inválido"})
+    if (this.form.controls.email.errors) {
+      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: "Email inválido" })
       return false;
     }
 
     if (this.form.controls.senha.errors?.['minlength']) {
-      this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "A senha deve ter no mínimo 5 caracteres!"})
+      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: "A senha deve ter no mínimo 5 caracteres!" })
       return false
     }
 
-    if (this.form.controls.senha.value !== this.form.controls.senhaConfirm.value) {
-      this.messageService.add({severity: 'warn', summary: 'Atenção', detail: "As senhas não coincidem"})
+    if (this.form.controls.senha.value !== this.form.controls.confirmarSenha.value) {
+      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: "As senhas não coincidem" })
       return false;
     }
     return true
@@ -112,15 +129,18 @@ export class CadUsuarioComponent {
   onSubmit() {
     if (this.validationForm()) {
       this.usuarioService.create(ConvertUsuario(this.form.value, this.selectedEmpresas)).subscribe({
-        next: () => {
-          this.messageService.add({severity: 'success', summary: 'Sucesso', detail: 'Usuário cadastrado com sucesso!'})
+        next: (res: any) => {
+          this.recoveryCode = res.recovery_code
+          this.messageService.add({severity: 'success', summary: 'Sucesso', detail: 'Usuario criado com sucesso'})
+          this.showDialog()
+          this.selectedEmpresas = []
           this.form.reset()
           Object.keys(this.form.controls).forEach((key) => {
             this.form.get(key)?.setErrors(null)
           })
         },
         error: (error) => {
-          this.messageService.add({severity: 'error', summary: 'Erro', detail: error.error.message})
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: error.error.message })
         }
       })
     }

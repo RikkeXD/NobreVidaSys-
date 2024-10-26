@@ -1,4 +1,4 @@
-import { Enterprise_RazaoSocial } from "./EnterpriseModel";
+import { EnterpriseRazaoSocial } from "./EnterpriseModel";
 
 export interface Usuario {
     id: number;
@@ -6,6 +6,12 @@ export interface Usuario {
     sobrenome: string;
     email: string;
     senha: string;
+    confirmarSenha?:string;
     permissao: number;
-    empresas: Enterprise_RazaoSocial[]
+    empresas: EnterpriseRazaoSocial[]
 }
+
+export interface Permissao {
+    name: string,
+    code: string
+  }

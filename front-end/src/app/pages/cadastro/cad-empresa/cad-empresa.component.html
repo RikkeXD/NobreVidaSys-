@@ -1,10 +1,7 @@
 <div class="container">
-    <div class="row">
-        <div class="title">
-            <div class="top">
-                <h1>CADASTRO DE EMPRESA</h1>
-            </div>
-        </div>
+    <div class="title">
+        <i class="bx bxs-store-alt"></i>
+        <h2>Cadastro de Empresa</h2>
     </div>
     <div class="card">
         <div class="card-body">
@@ -12,20 +9,20 @@
                 <div class="header">
                     <div class="container-inputs">
                         <p-floatLabel>
-                            <input pInputText id="razao_social" formControlName="razao_social" />
+                            <input pInputText id="razao_social" formControlName="razao_social" size="74"/>
                             <label for="razao_social">Razão Social</label>
                         </p-floatLabel>
                     </div>
                     <div class="container-inputs">
                         <p-floatLabel>
-                            <p-inputMask mask="99.999.999.9999-99" formControlName="cnpj" [style]="style" />
+                            <p-inputMask mask="99.999.999.9999-99" formControlName="cnpj" size="74" />
                             <label for="cnpj">CNPJ</label>
                         </p-floatLabel>
                     </div>
                     <div class="container-inputs">
-                        <div class="input-email">
+                        <div class="">
                             <p-floatLabel>
-                                <input pInputText id="email" formControlName="email" [style]="styleEmail" />
+                                <input pInputText id="email" formControlName="email" size="34" />
                                 <label for="email">E-mail</label>
                             </p-floatLabel>
                         </div>
@@ -37,11 +34,11 @@
                             <p-floatLabel>
                                 @if (typeTel) {
                                 <p-inputMask mask="(99) 99999-9999" formControlName="telefone"
-                                    placeholder="(11) 91234-5678" [style]="styleTel" />
+                                    placeholder="(11) 91234-5678" size="23" />
                                 <label for="telefone">Celular</label>
                                 }@else {
                                 <p-inputMask mask="(99) 9999-9999" formControlName="telefone"
-                                    placeholder="(11) 5666-6666" [style]="styleTel" />
+                                    placeholder="(11) 5666-6666" size="23"/>
                                 <label for="telefone">Telefone</label>
                                 }
 
@@ -52,33 +49,33 @@
                     <div class="container-endereco">
                         <p-floatLabel>
                             <p-inputMask mask="99999-999" formControlName="cep" placeholder="01234-567"
-                                [style]="styleCep" (onBlur)="searchAddress()" />
+                                 (onBlur)="searchAddress()" size="15"/>
                             <label for="cep">CEP</label>
                         </p-floatLabel>
                         <p-floatLabel class="input-margin-left-end">
-                            <input pInputText id="endereco" formControlName="endereco" class=" width-input-large" />
+                            <input pInputText id="endereco" formControlName="endereco" size="49" />
                             <label for="email">Endereço</label>
                         </p-floatLabel>
                     </div>
 
                     <div class="container-endereco">
                             <p-floatLabel >
-                                <input pInputText pKeyFilter="int" formControlName="numero" class="width-input-small"/>
+                                <input pInputText pKeyFilter="int" formControlName="numero" size="15"/>
                                 <label for="numero">Numero</label>
                             </p-floatLabel>
                         <p-floatLabel class="input-margin-left-end">
-                            <input pInputText id="bairro" formControlName="bairro" class=" width-input-large" />
+                            <input pInputText id="bairro" formControlName="bairro" size="49" />
                             <label for="bairro">Bairro</label>
                         </p-floatLabel>
                     </div>
                     <div class="container-endereco">
                         <p-floatLabel>
-                            <input pInputText id="uf" formControlName="uf" class="width-input-small" />
+                            <input pInputText id="uf" formControlName="uf" size="15" />
                             <label for="uf">UF</label>
                         </p-floatLabel>
 
                         <p-floatLabel class="input-margin-left-end">
-                            <input pInputText id="cidade" formControlName="cidade" class=" width-input-large" />
+                            <input pInputText id="cidade" formControlName="cidade" size="49" />
                             <label for="cidade">Cidade</label>
                         </p-floatLabel>
                     </div>
@@ -99,7 +96,7 @@
 
                 </div>
                 <div class="button-add">
-                    <button mat-stroked-button color="primary" type="submit">Adicionar Empresa</button>
+                    <p-button label="Adicionar Empresa" [outlined]="true" severity="success" type="submit" />
                 </div>
             </form>
         </div>

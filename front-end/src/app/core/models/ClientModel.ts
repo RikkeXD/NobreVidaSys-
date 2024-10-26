@@ -1,5 +1,5 @@
 import { Address } from "./AddressModel";
-import { Enterprise_RazaoSocial } from "./EnterpriseModel";
+import { EnterpriseRazaoSocial } from "./EnterpriseModel";
 
 export interface Client {
     id: number;
@@ -9,6 +9,6 @@ export interface Client {
     telefone: string;
     cpf?: string | null;
     email?: string | null;
-    empresas: Enterprise_RazaoSocial[]
+    empresas: EnterpriseRazaoSocial[]
     endereco: Address
 }

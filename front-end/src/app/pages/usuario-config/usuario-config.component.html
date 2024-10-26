@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="title">
+        <i class="bx bxs-cog"></i>
+        <h2>Configurações</h2>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <label for="">Empresa principal</label>
+            <div class="container-select-empresa">
+                <p-dropdown [options]="empresas" [(ngModel)]="selectedEmpresa" 
+                optionLabel="name" placeholder="Selecione a empresa principal" [style]="{'width': '100%'}"/>
+            </div>
+            <div>
+                <p-button label="Salvar" [text]="true" (onClick)="atualizarEmpresa()"/>
+            </div>
+        </div>
+    </div>
+</div>

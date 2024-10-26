@@ -22,6 +22,7 @@ export function ConvertUsuario (usuario: any, empresa: any): Usuario{
         sobrenome: usuario.sobrenome,
         email: usuario.email,
         senha: usuario.senha,
+        confirmarSenha: usuario.confirmarSenha,
         permissao: usuario.permissao,
         empresas: empresa.map((empresa: any) => ({
             id: empresa.code,

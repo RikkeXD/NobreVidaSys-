@@ -2,9 +2,9 @@
     <div class="container-table">
         <p-table #dt [value]="usuarios" [globalFilterFields]="['nome', 'sobrenome', 'email', 'permissao']"
             selectionMode="single" [(selection)]="selectedCustomers" dataKey="id" [rowHover]="true"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
-            [tableStyle]="{ 'min-width': '50rem'}" [rows]="10" [paginator]="true"
-            stateStorage="session" currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} clientes"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [tableStyle]="{ 'min-width': '50rem'}"
+            [rows]="10" [paginator]="true" stateStorage="session"
+            currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} clientes"
             stateKey="statedemo-session">
             <ng-template pTemplate="caption">
                 <p-iconField iconPosition="left">
@@ -120,13 +120,17 @@
                     </div>
                 </div>
 
-                <div class="select-permissao">
-                    <mat-radio-group aria-label="Selecione a opção de usuario" formControlName="permissao">
-                        <mat-radio-button value="1">Usuario Padrão</mat-radio-button>
-                        <mat-radio-button value="0">Administrador</mat-radio-button>
-                    </mat-radio-group>
+                <div class="container-input">
+                    <div class="container-permissao">
+                        <div>
+                            <label for="permissao">Permissão</label>
+                        </div>
+                        <div [style]="{'width': '500px'}">
+                            <p-dropdown formControlName="permissao" [options]="optionsPermissao" optionLabel="name"
+                                placeholder="Selecione a permissão do usuario" optionValue="code" appendTo="body" />
+                        </div>
+                    </div>
                 </div>
-
             </ng-template>
 
             <ng-template pTemplate="footer">
