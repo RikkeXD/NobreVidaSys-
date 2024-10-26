@@ -11,8 +11,6 @@ export const ErrorTokenInterceptor: HttpInterceptorFn = (req, next) => {
         catchError((error) => {
             if ([401].includes(error.status)) {
                 tokenService.removeToken()
-                router.navigateByUrl('/')
-                window.location.reload()
             }
             return throwError(() => error)
         })
