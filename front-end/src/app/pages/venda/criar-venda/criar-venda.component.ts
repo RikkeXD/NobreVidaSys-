@@ -185,7 +185,6 @@ export class CriarVendaComponent {
             this.pedidoService.criar(this.pedido).subscribe({
               next: (res) => {
                 this.pedidoFinalizado = res
-                console.log(this.pedidoFinalizado)
                 this.modalImprimirPedido()
               },
               error: (error) => {

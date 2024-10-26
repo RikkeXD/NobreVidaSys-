@@ -178,7 +178,7 @@ export class ListaClienteComponent implements OnInit {
                         });
                     },
                     error: (error) => {
-                        console.log("Ocorreu um erro: ", error)
+                        console.erorr("Ocorreu um erro: ", error)
                         this.messageService.add({ severity: 'error', summary: 'Erro', detail: error.error.message })
                     }
                 })

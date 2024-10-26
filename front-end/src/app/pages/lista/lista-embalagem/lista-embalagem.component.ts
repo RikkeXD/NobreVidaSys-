@@ -146,7 +146,7 @@ export class ListaEmbalagemComponent implements OnInit {
             });
           },
           error: (error) => {
-            console.log("Ocorreu um erro: ", error)
+            console.error("Ocorreu um erro: ", error)
             this.messageService.add({severity: 'error', summary: 'Erro', detail: error.error.message})
           }
         })

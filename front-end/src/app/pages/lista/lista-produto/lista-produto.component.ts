@@ -83,7 +83,6 @@ export class ListaProdutoComponent {
     this.productService.listar(this.empresaIdSelected).subscribe({
       next: (res) => {
         this.products = res
-        console.log(res)
       },
 
       error: (error) => {

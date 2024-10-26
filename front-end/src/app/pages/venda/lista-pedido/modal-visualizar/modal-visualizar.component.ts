@@ -55,13 +55,11 @@ export class ModalVisualizarComponent {
     this.pedidoService.localizar(pedidoPayload).subscribe({
       next: (res) => {
         this.pedido = res
-        console.log(this.pedido)
       },
       error: (error) => {
-        console.log('ERRO AO BUSCAR PEDIDO >> ', error)
+        console.error('Ocorreu um erro: ', error.error.message)
       }
     })
-    console.log('PEDIDO BUSCAR >> ', this.pedido_id())
   }
 
   vlrTotalProdutos(){
