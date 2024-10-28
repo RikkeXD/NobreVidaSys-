@@ -6,7 +6,7 @@ const fs = require('fs');
 const dbConfig = {
     user: 'root',
     password: 'senha123',
-    database: 'bancosv',
+    database: 'nobrevidabd',
     host: 'localhost',
 };
 function backupDatabase() {
