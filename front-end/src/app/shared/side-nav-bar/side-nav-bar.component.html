@@ -24,7 +24,11 @@
 <div class="sidebar" [ngClass]="{'close': isSidebarClosed}">
     <div class="logo-details">
         <i class="bx bxs-business"></i>
-        <span class="logo_name">{{empresaPrincipal}}</span>
+        @if (empresaPrincipal === 'null' || empresaPrincipal === null) {
+            <span class="logo_name">Seja Bem-vindo</span>
+        }@else {
+            <span class="logo_name">{{empresaPrincipal}}</span>
+        }
     </div>
 
     <ul class="nav-links">
