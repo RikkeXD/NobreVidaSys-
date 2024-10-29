@@ -41,12 +41,12 @@ router.get('/listar/:empresaID', async (req, res) => {
             },
             include: [{
                 model: Cliente,
-                as:'clientes',
-                where: {ativo: true},
+                as: 'clientes',
+                where: { ativo: true },
                 through: { attributes: [] },
                 include: [{
                     model: Empresa,
-                    as:'empresa',
+                    as: 'empresa',
                     attributes: ['id', 'razao_social'],
                     through: { attributes: [] }
                 }]
@@ -100,42 +100,37 @@ router.get('/listar/:empresaID', async (req, res) => {
 router.post('/cadastro', validateClient, async (req, res) => {
     const { nome, sobrenome, telefone, email, cpf, endereco, empresas } = req.body;
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
         return res.status(400).json({ message: errors.array()[0].msg });
     }
 
-    if(empresas.length <= 0){
+    if (empresas.length <= 0) {
         return res.status(400).json({ message: 'Empresa não informada' });
     }
 
     try {
         const userId = coletarUsuarioID(req);
 
+        const searchConditions = [
+            { telefone }
+        ];
+
+        if (cpf) {
+            searchConditions.push({ cpf: { [Op.eq]: cpf } });
+        }
+
+        if (email) {
+            searchConditions.push({ email: { [Op.eq]: email.toLowerCase() } });
+        }
+
         let existingClient = await Cliente.findOne({
             where: {
-                [Op.or]: [
-                    { telefone: telefone },
-                    { cpf:  {
-                        [Op.and]: [
-                            {[Op.eq]: email},
-                            {[Op.ne]: ''}
-                        ]
-                    }
-                    }
-                ],
+                [Op.or]: searchConditions,
                 id_usuario: userId,
                 ativo: true
             }
         });
-
-        if (!existingClient && email) {
-            existingClient = await Cliente.findOne({
-                where: {
-                    email,
-                    id_usuario: userId
-                }
-            });
-        }
 
         if (existingClient) {
             if (existingClient.telefone === telefone) {
@@ -153,8 +148,8 @@ router.post('/cadastro', validateClient, async (req, res) => {
             nome: capitalizarTexto(nome),
             sobrenome: capitalizarTexto(sobrenome),
             telefone,
-            email: email.toLowerCase(),
-            cpf,
+            email: email ? email.toLowerCase() : null,
+            cpf: cpf || null,
             endereco: capitalizarTexto(endereco.endereco),
             numero: endereco.numero,
             bairro: capitalizarTexto(endereco.bairro),
@@ -166,8 +161,8 @@ router.post('/cadastro', validateClient, async (req, res) => {
         });
 
         if (empresas && empresas.length > 0) {
-            const empresaId = empresas.map(empresa => empresa.id)
-            await newClient.setEmpresa(empresaId)
+            const empresaIds = empresas.map(empresa => empresa.id);
+            await newClient.setEmpresa(empresaIds);
         }
 
         res.status(201).json({ message: 'Cliente criado com sucesso!' });
@@ -184,7 +179,7 @@ router.put('/editar', validateClient, async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ message: errors.array()[0].msg });
     }
-    const userId = coletarUsuarioID(req)
+    const userId = coletarUsuarioID(req);
 
     const { id, nome, sobrenome, telefone, email, cpf, endereco, empresas } = req.body;
 
@@ -200,24 +195,31 @@ router.put('/editar', validateClient, async (req, res) => {
 
         const empresaIds = empresasUsuario.map(empresa => empresa.id);
 
+        const searchConditions = [
+            { telefone }
+        ];
+
+        if (email) {
+            searchConditions.push({
+                email: { [Op.eq]: email.toLowerCase() }
+            });
+        }
+
+        if (cpf) {
+            searchConditions.push({
+                cpf: { [Op.eq]: cpf }
+            });
+        }
+
         let existingClient = await Cliente.findOne({
             where: {
                 id: { [Op.ne]: id },
-                [Op.or]: [
-                    { telefone: telefone },
-                    { email: {
-                        [Op.and]: [
-                            {[Op.eq]: email},
-                            {[Op.ne]: ''}
-                        ]
-                    }},
-                    { cpf: cpf }
-                ],
+                [Op.or]: searchConditions,
                 ativo: true
-            }, 
+            },
             include: [{
                 model: Empresa,
-                as:'empresa',
+                as: 'empresa',
                 where: { id: empresaIds }
             }]
         });
@@ -232,7 +234,9 @@ router.put('/editar', validateClient, async (req, res) => {
                 conflictField = "CPF";
             }
 
-            return res.status(400).json({ message: `${conflictField} já cadastrado para outro cliente em uma das suas empresas` });
+            return res.status(400).json({
+                message: `${conflictField} já cadastrado para outro cliente em uma das suas empresas`
+            });
         }
 
         await Cliente.update(
@@ -240,8 +244,8 @@ router.put('/editar', validateClient, async (req, res) => {
                 nome: capitalizarTexto(nome),
                 sobrenome: capitalizarTexto(sobrenome),
                 telefone,
-                email: email.toLowerCase(),
-                cpf,
+                email: email ? email.toLowerCase() : null,
+                cpf: cpf || null,
                 endereco: capitalizarTexto(endereco.endereco),
                 numero: endereco.numero,
                 bairro: capitalizarTexto(endereco.bairro),
@@ -253,22 +257,19 @@ router.put('/editar', validateClient, async (req, res) => {
             { where: { id } }
         );
 
-        const cliente = await Cliente.findByPk(id)
-        if(cliente){
-            await cliente.setEmpresa(empresas.map(empresa => empresa.id))
+        const cliente = await Cliente.findByPk(id);
+        if (cliente) {
+            await cliente.setEmpresa(empresas.map(empresa => empresa.id));
             return res.status(200).json({ message: "Cliente atualizado com sucesso" });
         }
 
-        if(!cliente){
-            return res.status(404).json({ message: "Erro ao atualizar o cliente" });
-        }
+        return res.status(404).json({ message: "Erro ao atualizar o cliente" });
 
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Ocorreu um erro ao editar o cliente", error: err.message });
     }
-
-})
+});
 
 router.post('/deletar', async (req, res) => {
     try {
