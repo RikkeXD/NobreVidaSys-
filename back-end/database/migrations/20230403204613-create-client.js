@@ -23,10 +23,12 @@ module.exports = {
           type: Sequelize.STRING(16)
         },
         cpf: {
+          allowNull: true,
           type: Sequelize.STRING(15)
         },
         email: {
-          type: Sequelize.STRING(45)
+          allowNull: true,
+          type: Sequelize.STRING(254)
         },
         endereco: {
           allowNull: false,
