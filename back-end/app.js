@@ -38,6 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ limit: '950mb', extended: true }))
 app.use(bodyParser.json({ limit: '950mb' }))
 
+
+
 //Sessão 
 app.use(session({
     secret: 'SaudeVida',
@@ -55,7 +57,7 @@ app.use((req, res, next) => {
     next()
 })
 //Rotas
-app.post('/', async (req, res) => {
+app.post('/api/', async (req, res) => {
 
     const { email, password } = req.body
 
@@ -75,7 +77,7 @@ app.post('/', async (req, res) => {
 
 })
 
-app.post("/auth", async (req, res) => {
+app.post("/api/auth", async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -137,7 +139,7 @@ app.post("/auth", async (req, res) => {
 
 })
 
-app.put('/redefinir-senha', async (req, res) => {
+app.put('/api/redefinir-senha', async (req, res) => {
     try {
         const { recovery_code, senha, confirmarSenha } = req.body;
 
@@ -201,20 +203,28 @@ app.options('*', (req, res) => {
 
 //Importando Rotas
 //app.use('/usuarios', checkToken,usuarios)
-app.use('/usuario', checkToken, usuarios)
-app.use('/home', checkToken, home)
-app.use('/clientes', checkToken, clientes)
-app.use('/produtos', checkToken, produtos)
-app.use('/embalagem', checkToken, embalagem)
-app.use('/vendas', checkToken, vendas)
-app.use('/estoque', checkToken, estoque)
-app.use('/empresa', checkToken, empresa)
-app.use('/pedido', checkToken, pedido)
-app.use('/pagamento', checkToken, pagamento)
-app.use('/dashboard', checkToken, dashboard)
+app.use('/api/usuario', checkToken, usuarios)
+app.use('/api/home', checkToken, home)
+app.use('/api/clientes', checkToken, clientes)
+app.use('/api/produtos', checkToken, produtos)
+app.use('/api/embalagem', checkToken, embalagem)
+app.use('/api/vendas', checkToken, vendas)
+app.use('/api/estoque', checkToken, estoque)
+app.use('/api/empresa', checkToken, empresa)
+app.use('/api/pedido', checkToken, pedido)
+app.use('/api/pagamento', checkToken, pagamento)
+app.use('/api/dashboard', checkToken, dashboard)
 
 app.use(pass);
 //app.use();
+
+// Servindo os arquivos estáticos do Angular
+app.use(express.static(path.join(__dirname, 'dist/front-sv/browser')));
+
+// Configuração para redirecionar todas as rotas que não sejam da API para o Angular
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/front-sv/browser/index.html'));
+});
 
 //Servidor
 
